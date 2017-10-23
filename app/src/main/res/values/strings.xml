@@ -1,0 +1,9 @@
+<resources>
+    <string name="appname">Gym app</string>
+
+
+    <!-- empty layout -->
+    <string name="retry">Retry</string>
+    <string name="no_events_found">No events found :(</string>
+
+</resources>
