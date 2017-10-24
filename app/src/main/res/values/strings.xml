@@ -6,4 +6,7 @@
     <string name="retry">Retry</string>
     <string name="no_events_found">No events found :(</string>
 
+    <!-- login -->
+    <string name="terms_and_condition">Terms and condition</string>
+
 </resources>
