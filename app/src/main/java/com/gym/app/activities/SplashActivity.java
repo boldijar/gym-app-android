@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+import com.gym.app.parts.authentication.AuthenticationActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -122,7 +123,7 @@ public class SplashActivity extends BaseActivity {
         if (Prefs.Token.get() != null) {
             startActivity(HomeActivity.createIntent(this));
         } else {
-            startActivity(LoginActivity.createIntent(this));
+            startActivity(AuthenticationActivity.createIntent(this));
         }
         finish();
     }

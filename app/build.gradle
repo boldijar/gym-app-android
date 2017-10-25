@@ -23,7 +23,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.gym.app"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 3
         versionName "3.0"
