@@ -34,6 +34,9 @@ public class SplashActivity extends BaseActivity {
     @BindAnim(R.anim.down_to_up) Animation mDownToUp;
     @BindAnim(R.anim.up_to_down) Animation mUpToDown;
 
+    private boolean mUtDFinished = false;
+    private boolean mDtUFinished = false;
+
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SplashActivity.class);
@@ -45,15 +48,19 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         setUIElements();
         setAnimation();
+        isFinishedDownToUp();
+        isFinishedUpToDown();
+    }
 
 
+
+    private void timer(){
         Observable.timer(2, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
@@ -71,6 +78,49 @@ public class SplashActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+
+    private void isFinishedDownToUp(){
+        mDownToUp.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mDtUFinished = true;
+                if (mUtDFinished){
+                    timer();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+    }
+
+    private void isFinishedUpToDown(){
+        mUpToDown.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mUtDFinished = true;
+                if (mUtDFinished){
+                    timer();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     private void doneWaiting() {
