@@ -11,6 +11,7 @@ import com.gym.app.di.DaggerApplicationComponent;
 import com.gym.app.di.InjectionHelper;
 
 import timber.log.Timber;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class Shaorma extends Application {
 
@@ -24,6 +25,14 @@ public class Shaorma extends Application {
         InjectionHelper.init(this);
         initTimber();
         initStetho();
+        initCalligraphy();
+    }
+
+    private void initCalligraphy() {
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Lato-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
     }
 
     private void initStetho() {
