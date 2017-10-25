@@ -14,4 +14,6 @@ public interface HomeNavigator {
     void goToShop();
 
     void goToProfile();
+
+    void logout();
 }
