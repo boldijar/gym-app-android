@@ -15,6 +15,14 @@
         android:layout_margin="40dp"
         android:src="@drawable/logo_login"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="doLogin"
+        android:text="LOGIN"
+        android:textSize="30sp"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
