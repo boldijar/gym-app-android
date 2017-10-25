@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +13,9 @@ import com.gym.app.data.Prefs;
 
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindAnim;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,9 +29,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SplashActivity extends BaseActivity {
 
-    private ImageView imageViewSplash;
-    private TextView textViewSplash;
-    private Animation upToDown, downToUp;
+    @BindView(R.id.imageViewSplash) ImageView mImageViewSplash;
+    @BindView(R.id.textViewSplash) TextView mTextViewSplash;
+    @BindAnim(R.anim.down_to_up) Animation mDownToUp;
+    @BindAnim(R.anim.up_to_down) Animation mUpToDown;
+
 
     public static Intent createIntent(Context context) {
         return new Intent(context, SplashActivity.class);
@@ -41,6 +45,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         setUIElements();
         setAnimation();
+
 
         Observable.timer(2, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
@@ -78,14 +83,11 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void setUIElements(){
-        imageViewSplash = findViewById(R.id.imageViewSplash);
-        textViewSplash = findViewById(R.id.textViewSplash);
+        ButterKnife.bind(this);
     }
 
     private void setAnimation(){
-        upToDown = AnimationUtils.loadAnimation(this, R.anim.up_to_down);
-        downToUp = AnimationUtils.loadAnimation(this, R.anim.down_to_up);
-        imageViewSplash.setAnimation(downToUp);
-        textViewSplash.setAnimation(upToDown);
+        mImageViewSplash.setAnimation(mDownToUp);
+        mTextViewSplash.setAnimation(mUpToDown);
     }
 }
