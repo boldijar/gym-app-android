@@ -9,4 +9,10 @@
     <!-- login -->
     <string name="terms_and_condition">Terms and condition</string>
 
+    <!-- home -->
+    <string name="my_courses">My courses</string>
+    <string name="profile">Profile</string>
+    <string name="shop">Shop</string>
+    <string name="find_courses">Find courses</string>
+
 </resources>
