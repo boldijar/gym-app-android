@@ -17,7 +17,7 @@ class AuthenticationPagerAdapter extends FragmentPagerAdapter {
     static final int REGISTER_FRAGMENT = 1;
     private static final int FRAGMENT_COUNT = 2;
 
-    public AuthenticationPagerAdapter(FragmentManager fm) {
+    AuthenticationPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

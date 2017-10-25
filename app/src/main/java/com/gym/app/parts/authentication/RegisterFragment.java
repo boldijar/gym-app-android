@@ -41,11 +41,7 @@ public class RegisterFragment extends BaseFragment {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    ((AuthenticationNavigation) getActivity()).goBack();
-                } catch (ClassCastException e) {
-
-                }
+                ((AuthenticationNavigation) getActivity()).goBack();
             }
         });
     }

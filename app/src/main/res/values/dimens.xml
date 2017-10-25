@@ -3,7 +3,7 @@
     <!-- Authentication activity -->
 
     <dimen name="logo_authentication_margin">40dp</dimen>
-    <dimen name="second_key_line">72dp</dimen>
+    <dimen name="second_key_line">54dp</dimen>
     <dimen name="primary_margin">16dp</dimen>
     <dimen name="authentication_pager_height">280dp</dimen>
     <dimen name="authentication_button_text_size">16sp</dimen>

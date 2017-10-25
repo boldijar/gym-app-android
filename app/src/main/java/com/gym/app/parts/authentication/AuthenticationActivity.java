@@ -3,7 +3,6 @@ package com.gym.app.parts.authentication;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -21,7 +20,6 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     ViewPager mAuthenticationViewPager;
 
     private AuthenticationPagerAdapter mAuthenticationPagerAdapter;
-
 
     public static Intent createIntent(Context context) {
         return new Intent(context, AuthenticationActivity.class);
