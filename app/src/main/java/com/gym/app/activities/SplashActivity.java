@@ -1,4 +1,5 @@
 package com.gym.app.activities;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+
 import java.util.concurrent.TimeUnit;
+
 import butterknife.BindAnim;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,10 +29,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SplashActivity extends BaseActivity {
 
-    @BindView(R.id.imageViewSplash) ImageView mImageViewSplash;
-    @BindView(R.id.textViewSplash) TextView mTextViewSplash;
-    @BindAnim(R.anim.down_to_up) Animation mLogoAnimation;
-    @BindAnim(R.anim.up_to_down) Animation mTextAnimation;
+    @BindView(R.id.imageViewSplash)
+    ImageView mImageViewSplash;
+    @BindView(R.id.textViewSplash)
+    TextView mTextViewSplash;
+    @BindAnim(R.anim.down_to_up)
+    Animation mLogoAnimation;
+    @BindAnim(R.anim.up_to_down)
+    Animation mTextAnimation;
     private boolean mTextAnimationIsFinished = false;
     private boolean mLogoAnimationIsFinished = false;
 
@@ -46,53 +54,67 @@ public class SplashActivity extends BaseActivity {
         isFinishedUpToDown();
     }
 
-    private void timer(){
+    private void timer() {
         Observable.timer(2, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
                     @Override
-                    public void onSubscribe(Disposable d) {}
+                    public void onSubscribe(Disposable d) {
+                    }
+
                     @Override
                     public void onNext(Long value) {
                         doneWaiting();
                     }
+
                     @Override
-                    public void onError(Throwable e) {}
+                    public void onError(Throwable e) {
+                    }
+
                     @Override
-                    public void onComplete() {}
+                    public void onComplete() {
+                    }
                 });
     }
 
-    private void isFinishedDownToUp(){
+    private void isFinishedDownToUp() {
         mLogoAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 mLogoAnimationIsFinished = true;
-                if (mTextAnimationIsFinished){
+                if (mTextAnimationIsFinished) {
                     timer();
                 }
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
     }
 
-    private void isFinishedUpToDown(){
+    private void isFinishedUpToDown() {
         mTextAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 mTextAnimationIsFinished = true;
-                if (mLogoAnimationIsFinished){
+                if (mLogoAnimationIsFinished) {
                     timer();
                 }
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
     }
 
@@ -105,11 +127,11 @@ public class SplashActivity extends BaseActivity {
         finish();
     }
 
-    private void setUIElements(){
+    private void setUIElements() {
         ButterKnife.bind(this);
     }
 
-    private void setAnimation(){
+    private void setAnimation() {
         mImageViewSplash.setAnimation(mLogoAnimation);
         mTextViewSplash.setAnimation(mTextAnimation);
     }
