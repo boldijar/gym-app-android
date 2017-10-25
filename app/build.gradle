@@ -49,6 +49,7 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:1.0.0-beta1'
     compile 'android.arch.persistence.room:rxjava2:1.0.0-beta1'
     compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-beta1"

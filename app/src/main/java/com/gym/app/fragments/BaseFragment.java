@@ -38,7 +38,7 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    abstract
+    protected abstract
     @LayoutRes
     int getLayoutId();
 
