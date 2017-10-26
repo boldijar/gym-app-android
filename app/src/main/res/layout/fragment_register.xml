@@ -58,6 +58,13 @@
         android:textSize="@dimen/authentication_input_size"
         app:backgroundTint="@color/white" />
 
+    <View
+        android:id="@+id/register_centered_view"
+        android:layout_width="@dimen/no_dimension"
+        android:layout_height="@dimen/no_dimension"
+        android:layout_below="@id/register_password_input"
+        android:layout_centerHorizontal="true" />
+
     <Button
         android:id="@+id/register_back_button"
         fontPath="fonts/Lato-Light.ttf"
@@ -65,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/register_password_input"
         android:layout_marginTop="@dimen/primary_margin"
+        android:layout_toStartOf="@id/register_centered_view"
         android:background="?attr/selectableItemBackground"
         android:text="@string/back"
         android:textColor="@color/white"
@@ -77,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/register_password_input"
         android:layout_marginTop="@dimen/primary_margin"
-        android:layout_toEndOf="@id/register_back_button"
+        android:layout_toEndOf="@id/register_centered_view"
         android:background="?attr/selectableItemBackground"
         android:text="@string/register"
         android:textColor="@color/white"

@@ -44,6 +44,13 @@
         android:textSize="@dimen/authentication_input_size"
         app:backgroundTint="@color/white" />
 
+    <View
+        android:id="@+id/login_centered_view"
+        android:layout_width="@dimen/no_dimension"
+        android:layout_height="@dimen/no_dimension"
+        android:layout_below="@id/login_password_input"
+        android:layout_centerHorizontal="true" />
+
     <Button
         android:id="@+id/login_button"
         fontPath="fonts/Lato-Light.ttf"
@@ -51,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_password_input"
         android:layout_marginTop="@dimen/primary_margin"
+        android:layout_toStartOf="@id/login_centered_view"
         android:background="?attr/selectableItemBackground"
         android:text="@string/login"
         android:textColor="@color/white"
@@ -63,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_password_input"
         android:layout_marginTop="@dimen/primary_margin"
-        android:layout_toEndOf="@id/login_button"
+        android:layout_toEndOf="@id/login_centered_view"
         android:background="?attr/selectableItemBackground"
         android:text="@string/register"
         android:textColor="@color/white"

@@ -11,6 +11,7 @@ import com.gym.app.fragments.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author catalinradoiu
@@ -35,18 +36,16 @@ public class LoginFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((AuthenticationNavigation) getActivity()).goToRegister();
-            }
-        });
-        mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((AuthenticationActivity) getActivity()).doLogin(mLoginButton);
-            }
-        });
+    }
+
+    @OnClick(R.id.register_new_button)
+    void onRegisterNewButtonClick(){
+        ((AuthenticationNavigation) getActivity()).goToRegister();
+    }
+
+    @OnClick(R.id.login_button)
+    void onLoginButtonClick(){
+        ((AuthenticationActivity) getActivity()).doLogin(mLoginButton);
     }
 
     @Override

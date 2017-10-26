@@ -11,6 +11,7 @@ import com.gym.app.fragments.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author catalinradoiu
@@ -38,12 +39,11 @@ public class RegisterFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((AuthenticationNavigation) getActivity()).goBack();
-            }
-        });
+    }
+
+    @OnClick(R.id.register_back_button)
+    void onBackButtonClick(){
+        ((AuthenticationNavigation) getActivity()).goBack();
     }
 
     @Override
