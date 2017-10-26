@@ -5,19 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:gravity="center"
     android:orientation="vertical"
     android:paddingEnd="@dimen/second_key_line"
-    android:gravity="center"
-    android:paddingStart="@dimen/second_key_line">
+    android:paddingStart="@dimen/second_key_line"
+    tools:ignore="MissingPrefix">
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/login_email_input"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/edit_text_height"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_mail"
-        fontPath="fonts/Lato-Light.ttf"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
@@ -27,15 +28,15 @@
         app:backgroundTint="@color/white" />
 
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/login_password_input"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_email_input"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_key"
         android:hint="@string/password"
-        fontPath="fonts/Lato-Light.ttf"
         android:inputType="textPassword"
         android:maxLines="1"
         android:textColor="@color/white"
@@ -45,29 +46,27 @@
 
     <Button
         android:id="@+id/login_button"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_password_input"
         android:layout_marginTop="@dimen/primary_margin"
         android:background="?attr/selectableItemBackground"
         android:text="@string/login"
-        fontPath="fonts/Lato-Light.ttf"
         android:textColor="@color/white"
-        android:textSize="@dimen/authentication_button_text_size"
-        tools:ignore="MissingPrefix" />
+        android:textSize="@dimen/authentication_button_text_size" />
 
     <Button
         android:id="@+id/register_new_button"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_password_input"
         android:layout_marginTop="@dimen/primary_margin"
-        fontPath="fonts/Lato-Light.ttf"
         android:layout_toEndOf="@id/login_button"
         android:background="?attr/selectableItemBackground"
         android:text="@string/register"
         android:textColor="@color/white"
-        android:textSize="@dimen/authentication_button_text_size"
-        tools:ignore="MissingPrefix" />
+        android:textSize="@dimen/authentication_button_text_size" />
 
 </RelativeLayout>

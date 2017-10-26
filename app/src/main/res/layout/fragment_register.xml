@@ -8,9 +8,10 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingEnd="@dimen/second_key_line"
-    android:paddingStart="@dimen/second_key_line">
+    android:paddingStart="@dimen/second_key_line"
+    tools:ignore="MissingPrefix">
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/register_name_input"
         fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
         android:textSize="@dimen/authentication_input_size"
         app:backgroundTint="@color/white" />
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/register_email_input"
         fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
@@ -41,7 +42,7 @@
         android:textSize="@dimen/authentication_input_size"
         app:backgroundTint="@color/white" />
 
-    <android.support.v7.widget.AppCompatEditText
+    <EditText
         android:id="@+id/register_password_input"
         fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
@@ -67,8 +68,7 @@
         android:background="?attr/selectableItemBackground"
         android:text="@string/back"
         android:textColor="@color/white"
-        android:textSize="@dimen/authentication_button_text_size"
-        tools:ignore="MissingPrefix" />
+        android:textSize="@dimen/authentication_button_text_size" />
 
     <Button
         android:id="@+id/register_button"
@@ -81,7 +81,6 @@
         android:background="?attr/selectableItemBackground"
         android:text="@string/register"
         android:textColor="@color/white"
-        android:textSize="@dimen/authentication_button_text_size"
-        tools:ignore="MissingPrefix" />
+        android:textSize="@dimen/authentication_button_text_size" />
 
 </RelativeLayout>
