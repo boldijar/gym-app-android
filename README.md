@@ -8,6 +8,7 @@ ex: mNameTextView instead of nameTextView. You can set in Android Studio that yo
 * Always extend BaseActivity & BaseFragment
 * When adding strings into strings.xml, if you add them for a new screen, please add some commend before them, to have them sorted (same for colors.xml, pls set them ordered)
 * If you see a style of a view that should be in 2 places or more, please create custom style in style.xml, to avoid redundancy.
+* Do not use hardcoded dimens, string, colors etc. Declare resources for that and use them for easier maintainability.
 
 # Contributing
 Please choose some intuitive commit names, and try to only add your own changes to the project. If you accidentally add new lines or change something that is not related to the ticket, don't commit that code.
