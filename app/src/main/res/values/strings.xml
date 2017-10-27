@@ -22,5 +22,6 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="save_changes">SAVE CHANGES</string>
 
 </resources>
