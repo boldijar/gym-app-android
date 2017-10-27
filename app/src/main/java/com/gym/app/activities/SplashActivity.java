@@ -56,7 +56,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void timer() {
-        Observable.timer(2, TimeUnit.SECONDS)
+        Observable.timer(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Long>() {
