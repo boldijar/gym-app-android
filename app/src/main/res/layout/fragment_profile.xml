@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingLeft="60dp"
-    android:paddingRight="60dp">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingLeft="60dp"
+              android:paddingRight="60dp">
 
-    
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="@dimen/profile_picture_size"
@@ -19,57 +19,59 @@
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/profile_name_input"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        app:backgroundTint="@color/colorPrimary"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_name_green"
         android:hint="@string/username"
         android:inputType="text"
         android:maxLines="1"
-        fontPath="fonts/Lato-Light.ttf"
         android:textColor="@color/black"
         android:textColorHint="@color/light_gray"
-        android:textSize="@dimen/authentication_input_size"/>
+        android:textSize="@dimen/authentication_input_size"
+        app:backgroundTint="@color/colorPrimary"/>
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/profile_email_input"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/colorPrimary"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_mail_green"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
-        fontPath="fonts/Lato-Light.ttf"
         android:textColor="@color/black"
         android:textColorHint="@color/light_gray"
-        android:textSize="@dimen/authentication_input_size"/>
+        android:textSize="@dimen/authentication_input_size"
+        app:backgroundTint="@color/colorPrimary"/>
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/profile_password_input"
+        fontPath="fonts/Lato-Light.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/colorPrimary"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_key_green"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:maxLines="1"
-        fontPath="fonts/Lato-Light.ttf"
         android:textColor="@color/black"
         android:textColorHint="@color/light_gray"
-        android:textSize="@dimen/authentication_input_size" />
+        android:textSize="@dimen/authentication_input_size"
+        app:backgroundTint="@color/colorPrimary"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/profile_save_changes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/save_changes"
         android:background="?attr/selectableItemBackground"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/save_changes"
         android:textSize="@dimen/save_changes_button_text_size"
         tools:ignore="MissingPrefix"/>
 

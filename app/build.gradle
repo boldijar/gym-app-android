@@ -59,6 +59,7 @@ dependencies {
     compile "android.arch.persistence.room:rxjava2:$roomVersion"
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
