@@ -18,7 +18,7 @@
             android:label="Home"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".parts.authentication.AuthenticationActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.SplashActivity"

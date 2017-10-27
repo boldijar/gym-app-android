@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/second_key_line"
+    android:paddingStart="@dimen/second_key_line"
+    tools:ignore="MissingPrefix">
+
+    <EditText
+        android:id="@+id/register_name_input"
+        fontPath="fonts/Lato-Light.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/small_margin"
+        android:drawableStart="@drawable/ic_name"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="@dimen/authentication_input_size"
+        app:backgroundTint="@color/white" />
+
+    <EditText
+        android:id="@+id/register_email_input"
+        fontPath="fonts/Lato-Light.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_name_input"
+        android:drawablePadding="@dimen/small_margin"
+        android:drawableStart="@drawable/ic_mail"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="@dimen/authentication_input_size"
+        app:backgroundTint="@color/white" />
+
+    <EditText
+        android:id="@+id/register_password_input"
+        fontPath="fonts/Lato-Light.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_email_input"
+        android:drawablePadding="@dimen/small_margin"
+        android:drawableStart="@drawable/ic_key"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_gray"
+        android:textSize="@dimen/authentication_input_size"
+        app:backgroundTint="@color/white" />
+
+    <View
+        android:id="@+id/register_centered_view"
+        android:layout_width="@dimen/no_dimension"
+        android:layout_height="@dimen/no_dimension"
+        android:layout_below="@id/register_password_input"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/register_back_button"
+        fontPath="fonts/Lato-Light.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_password_input"
+        android:layout_marginTop="@dimen/primary_margin"
+        android:layout_toStartOf="@id/register_centered_view"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/back"
+        android:textColor="@color/white"
+        android:textSize="@dimen/authentication_button_text_size" />
+
+    <Button
+        android:id="@+id/register_button"
+        fontPath="fonts/Lato-Light.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_password_input"
+        android:layout_marginTop="@dimen/primary_margin"
+        android:layout_toEndOf="@id/register_centered_view"
+        android:background="?attr/selectableItemBackground"
+        android:text="@string/register"
+        android:textColor="@color/white"
+        android:textSize="@dimen/authentication_button_text_size" />
+
+</RelativeLayout>

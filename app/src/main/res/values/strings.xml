@@ -7,12 +7,20 @@
     <string name="no_events_found">No events found :(</string>
 
     <!-- login -->
-    <string name="terms_and_condition">Terms and condition</string>
+    <string name="terms_and_condition">Terms and conditions</string>
 
     <!-- home -->
     <string name="my_courses">My courses</string>
     <string name="profile">Profile</string>
     <string name="shop">Shop</string>
     <string name="find_courses">Find courses</string>
+
+    <!-- authentication -->
+    <string name="back">Back</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 
 </resources>
