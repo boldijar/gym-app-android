@@ -1,4 +1,4 @@
-package com.gym.app.mvp.presenter;
+package com.gym.app.presenter;
 
 import java.util.ArrayList;
 import java.util.List;

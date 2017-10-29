@@ -4,18 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gym.app.R;
 import com.gym.app.activities.BaseActivity;
 import com.gym.app.activities.HomeActivity;
+import com.gym.app.data.Prefs;
+import com.gym.app.data.model.LoginResponse;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class AuthenticationActivity extends BaseActivity implements AuthenticationNavigation {
+public class AuthenticationActivity extends BaseActivity implements AuthenticationNavigation, AuthenticationView {
 
     private static final int REGISTER_FRAGMENT_POSITION = 1;
 
@@ -26,6 +28,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     ImageView applicationLogo;
 
     private AuthenticationPagerAdapter mAuthenticationPagerAdapter;
+    private AuthenticationPresenter mAuthenticationPresenter;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, AuthenticationActivity.class);
@@ -36,6 +39,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
         ButterKnife.bind(this);
+        mAuthenticationPresenter = new AuthenticationPresenter(this);
         mAuthenticationPagerAdapter = new AuthenticationPagerAdapter(getSupportFragmentManager());
         mAuthenticationViewPager.setAdapter(mAuthenticationPagerAdapter);
 
@@ -68,9 +72,8 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
         });
     }
 
-    public void doLogin(View view) {
-        startActivity(HomeActivity.createIntent(this));
-        finish();
+    public void doLogin(String email, String password) {
+        mAuthenticationPresenter.login(email, password);
     }
 
     @Override
@@ -81,5 +84,17 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     @Override
     public void goBack() {
         mAuthenticationViewPager.setCurrentItem(AuthenticationPagerAdapter.LOGIN_FRAGMENT);
+    }
+
+    @Override
+    public void showLoginResponse(LoginResponse loginResponse) {
+        Prefs.Token.put(loginResponse.mToken);
+        startActivity(HomeActivity.createIntent(this));
+        finish();
+    }
+
+    @Override
+    public void showError(Throwable throwable) {
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

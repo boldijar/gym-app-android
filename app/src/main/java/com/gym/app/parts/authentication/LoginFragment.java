@@ -39,13 +39,14 @@ public class LoginFragment extends BaseFragment {
     }
 
     @OnClick(R.id.register_new_button)
-    void onRegisterNewButtonClick(){
+    void onRegisterNewButtonClick() {
         ((AuthenticationNavigation) getActivity()).goToRegister();
     }
 
     @OnClick(R.id.login_button)
-    void onLoginButtonClick(){
-        ((AuthenticationActivity) getActivity()).doLogin(mLoginButton);
+    void onLoginButtonClick() {
+        ((AuthenticationActivity) getActivity()).doLogin(mEmailInput.getText().toString(),
+                mPasswordInput.getText().toString());
     }
 
     @Override
