@@ -1,11 +1,15 @@
 package com.gym.app.data.room;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.gym.app.data.model.Event;
+import com.gym.app.data.model.Product;
 
 import java.util.List;
+
+import io.reactivex.Single;
 
 /**
  * @author Paul
@@ -13,8 +17,12 @@ import java.util.List;
  */
 
 @Dao
-interface AppDao {
+public interface AppDao {
 
-    @Query("select * from event")
-    List<Event> getEvents();
+    @Query("select * from product")
+    Single<List<Product>> getProducts();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertProducts(List<Product> products);
+
 }

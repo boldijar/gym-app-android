@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.gym.app.R;
 import com.gym.app.data.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,7 +24,12 @@ import butterknife.ButterKnife;
 
 class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
 
-    private List<Product> mItems = Product.getProducts();
+    private List<Product> mItems = new ArrayList<>();
+
+    public void setItems(List<Product> items) {
+        mItems = items;
+        notifyDataSetChanged();
+    }
 
     @Override
     public ShopViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
