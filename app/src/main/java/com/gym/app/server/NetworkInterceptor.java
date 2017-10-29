@@ -20,8 +20,11 @@ public class NetworkInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         final Request original = chain.request();
 
-        final Request.Builder builder = original.newBuilder()
-                .header("Authorization", "Bearer " + Prefs.Token.get());
+        Request.Builder builder = original.newBuilder();
+        String token = Prefs.Token.get();
+        if (token != null) {
+            builder = builder.header("Authorization", "Bearer " + Prefs.Token.get());
+        }
 
         Response response = chain.proceed(builder.build());
         if (!response.isSuccessful()) {
