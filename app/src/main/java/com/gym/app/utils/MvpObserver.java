@@ -1,6 +1,7 @@
 package com.gym.app.utils;
 
-import com.gym.app.mvp.presenter.Presenter;
+
+import com.gym.app.presenter.Presenter;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
