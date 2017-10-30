@@ -97,4 +97,10 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     public void showError(Throwable throwable) {
         Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuthenticationPresenter.destroySubscriptions();
+    }
 }

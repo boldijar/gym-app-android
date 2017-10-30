@@ -12,10 +12,10 @@ import timber.log.Timber;
  * @since 2017.08.30
  */
 
-public abstract class MvpObserver<T> implements Observer<T> {
+public class MvpObserver<T> implements Observer<T> {
     private final Presenter mPresenter;
 
-    protected MvpObserver(Presenter presenter) {
+    public MvpObserver(Presenter presenter) {
         mPresenter = presenter;
     }
 
