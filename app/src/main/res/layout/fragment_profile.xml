@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:paddingLeft="60dp"
-              android:paddingRight="60dp">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="60dp"
+    android:paddingRight="60dp">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -74,6 +75,7 @@
         android:text="@string/save_changes"
         android:textSize="@dimen/save_changes_button_text_size"
         tools:ignore="MissingPrefix"/>
+
 
 
 </LinearLayout>
