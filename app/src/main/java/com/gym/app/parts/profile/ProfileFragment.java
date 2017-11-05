@@ -45,7 +45,6 @@ public class ProfileFragment extends BaseHomeFragment {
     private static final int MY_REQUEST_WRITE_GALLERY = 14;
     private static final int MY_REQUEST_GALLERY = 15;
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -74,10 +73,8 @@ public class ProfileFragment extends BaseHomeFragment {
 
     @OnClick(R.id.profile_image)
     void clickedImage(){
-        Toast.makeText(getContext(), "to be edit", Toast.LENGTH_SHORT).show();
         mUploadPhotoMenu.show();
     }
-
 
     private void checkPermissionReadExternalStorage(){
         int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -120,33 +117,32 @@ public class ProfileFragment extends BaseHomeFragment {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     catchPhoto();
                 } else {
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case MY_REQUEST_WRITE_CAMERA:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkPermissionCamera();
                 } else {
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case MY_REQUEST_READ_GALLERY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     checkPermissionWriteExternalStorage();
                 } else {
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case MY_REQUEST_WRITE_GALLERY:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getPhotos();
                 } else {
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
-
 
     private void catchPhoto() {
         mPhotoFile = getFile();
@@ -160,7 +156,7 @@ public class ProfileFragment extends BaseHomeFragment {
             } catch (ActivityNotFoundException e) {
             }
         } else {
-            Toast.makeText(getActivity(), "please check your sdcard status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.check_sdcard_status, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -187,13 +183,12 @@ public class ProfileFragment extends BaseHomeFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK){
-            Log.e("msg", "Photo not get");
             return;
         }
 
         switch (requestCode) {
             case CAPTURE_CAMERA:
-                mProfileImage.setImageURI(Uri.parse("file:///" + mPhotoFile));
+                mProfileImage.setImageURI(Uri.parse(getString(R.string.file_path) + mPhotoFile));
                 mPhotoFile = null;
                 break;
             case MY_REQUEST_GALLERY:
@@ -208,10 +203,9 @@ public class ProfileFragment extends BaseHomeFragment {
                     }
                     fileOutputStream.close();
                     inputStream.close();
-                    mProfileImage.setImageURI(Uri.parse("file:///" + mPhotoFile));
+                    mProfileImage.setImageURI(Uri.parse(getString(R.string.file_path) + mPhotoFile));
 
                 } catch (Exception e) {
-                    Log.e("", "Error while creating temp file", e);
                 }
                 break;
         }
