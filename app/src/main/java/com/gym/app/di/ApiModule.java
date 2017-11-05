@@ -6,6 +6,7 @@ import com.gym.app.BuildConfig;
 import com.gym.app.Shaorma;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.server.ApiService;
+import com.gym.app.server.CoursesService;
 import com.gym.app.server.NetworkInterceptor;
 import com.gym.app.utils.Constants;
 import com.google.gson.Gson;
@@ -100,5 +101,10 @@ public class ApiModule {
     @Provides
     ApiService provideApiService(final Retrofit retrofit) {
         return retrofit.create(ApiService.class);
+    }
+
+    @Provides
+    static CoursesService provideCoursesService(final Retrofit retrofit){
+        return retrofit.create(CoursesService.class);
     }
 }
