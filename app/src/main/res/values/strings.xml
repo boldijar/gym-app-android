@@ -24,4 +24,10 @@
     <string name="login">Login</string>
     <string name="save_changes">Save changes</string>
 
+    <!-- profile -->
+    <string name="open_gallery">Open gallery</string>
+    <string name="take_photo">Take photo</string>
+    <string name="file_path">file:///</string>
+    <string name="check_sdcard_status">please check your sdcard status</string>
+
 </resources>
