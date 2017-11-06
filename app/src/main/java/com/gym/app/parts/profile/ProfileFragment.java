@@ -112,35 +112,21 @@ public class ProfileFragment extends BaseHomeFragment {
 
     public void onRequestPermissionsResult (int requestCode, String[] permissions,  int[] grantResults)
     {
-        switch (requestCode) {
-            case MY_REQUEST_CAMERA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case MY_REQUEST_CAMERA:
                     catchPhoto();
-                } else {
-                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case MY_REQUEST_WRITE_CAMERA:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    break;
+                case MY_REQUEST_WRITE_CAMERA:
                     checkPermissionCamera();
-                } else {
-                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case MY_REQUEST_READ_GALLERY:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    break;
+                case MY_REQUEST_READ_GALLERY:
                     checkPermissionWriteExternalStorage();
-                } else {
-                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case MY_REQUEST_WRITE_GALLERY:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    break;
+                case MY_REQUEST_WRITE_GALLERY:
                     getPhotos();
-                } else {
-                    Toast.makeText(getActivity(), R.string.perimission_denied, Toast.LENGTH_SHORT).show();
-                }
-                break;
+                    break;
+            }
         }
     }
 
