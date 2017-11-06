@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_take_photo"
-        android:title="Take photo"
+        android:title="@string/take_photo"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/item_open_gallery"
-        android:title="Open gallery"
+        android:title="@string/open_gallery"
         app:showAsAction="never"/>
 
 </menu>
