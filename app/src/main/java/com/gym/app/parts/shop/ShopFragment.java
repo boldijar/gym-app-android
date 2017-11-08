@@ -5,12 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.gym.app.R;
 import com.gym.app.data.model.Product;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.utils.SpaceItemDecoration;
+import com.gym.app.view.EmptyLayout;
 
 import java.util.List;
 
@@ -26,6 +26,9 @@ public class ShopFragment extends BaseHomeFragment implements ShopView {
 
     @BindView(R.id.shop_recycler)
     RecyclerView mRecyclerView;
+    @BindView(R.id.shop_empty_layout)
+    EmptyLayout mEmptyLayout;
+
     private ShopAdapter mShopAdapter = new ShopAdapter();
     private ShopPresenter mShopPresenter;
 
@@ -36,6 +39,12 @@ public class ShopFragment extends BaseHomeFragment implements ShopView {
         loadRecycler();
         mShopPresenter = new ShopPresenter(this);
         mShopPresenter.loadProducts();
+        mEmptyLayout.setOnRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mShopPresenter.loadProducts();
+            }
+        });
     }
 
     private void loadRecycler() {
@@ -57,12 +66,18 @@ public class ShopFragment extends BaseHomeFragment implements ShopView {
 
     @Override
     public void showProducts(List<Product> productList) {
+        mEmptyLayout.setState(EmptyLayout.State.CLEAR);
         mShopAdapter.setItems(productList);
     }
 
     @Override
     public void showError(Throwable throwable) {
-        Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        mEmptyLayout.setState(EmptyLayout.State.ERROR, R.string.products_error);
+    }
+
+    @Override
+    public void showLoading() {
+        mEmptyLayout.setState(EmptyLayout.State.LOADING);
     }
 
     @Override

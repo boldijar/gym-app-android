@@ -47,7 +47,11 @@ public class ShopPresenter extends Presenter<ShopView> {
                 .subscribe(new Consumer<List<Product>>() {
                     @Override
                     public void accept(@NonNull List<Product> products) throws Exception {
-                        getView().showProducts(products);
+                        if (products.isEmpty()) {
+                            getView().showError(new Exception("No products found in database!"));
+                        } else {
+                            getView().showProducts(products);
+                        }
                     }
                 });
     }
@@ -57,6 +61,7 @@ public class ShopPresenter extends Presenter<ShopView> {
             loadProductsOffline();
             return;
         }
+        getView().showLoading();
         mApiService.getProducts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
