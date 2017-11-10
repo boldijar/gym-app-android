@@ -10,5 +10,6 @@
     <color name="black">#000000</color>
     <color name="light_blue">#1c6fce</color>
     <color name="transparent_white">#b4ffffff</color>
+    <color name="transparent_blue">#801c6fce</color>
 
 </resources>

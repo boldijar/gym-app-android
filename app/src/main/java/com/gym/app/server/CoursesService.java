@@ -4,8 +4,11 @@ import com.gym.app.data.model.Course;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -18,6 +21,9 @@ import retrofit2.http.Query;
 public interface CoursesService {
 
     @GET("api/courses")
-    Observable<List<Course>> getCoursesForPeriod(@Query("interval_start") long intervalStart,
-                                                 @Query("interval_end") long intervalEnd);
+    Observable<List<Course>> getCoursesForPeriod(@Query("intervalStart") long intervalStart,
+                                                 @Query("intervalStop") long intervalStop);
+
+    @POST("api/course/{id}/subscription")
+    Completable registerToCourse(@Path("id") int courseId);
 }

@@ -39,8 +39,8 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     private static final String SATURDAY = "saturday";
     private static final String SUNDAY = "sunday";
 
-    private static final long FIVE_DAYS_TIMESTAMP = 5 * 24 * 3600 * 1000;
-    private static final long ONE_DAY_TIMESTAMP = 24 * 3600 * 1000;
+    private static final long FIVE_DAYS_TIMESTAMP = 5 * 24 * 3600;
+    private static final long ONE_DAY_TIMESTAMP = 24 * 3600;
 
     private List<Course> coursesList;
 
@@ -63,9 +63,8 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
 
         //Initialize the days 
 
-        long currentTime = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis() / 1000;
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(currentTime));
         int today = calendar.get(Calendar.DAY_OF_WEEK);
         daysList = generateDaysList(today, calendar);
         getView().initDays(daysList);
@@ -90,51 +89,22 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
         if (systemUtils.isNetworkUnavailable()) {
             loadCoursesOffline();
         } else {
-           /* mCoursesService.getCoursesForPeriod(periodStart, periodEnd)
+            mCoursesService.getCoursesForPeriod(periodStart, periodEnd)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MvpObserver<List<Course>>(this) {
                         @Override
                         public void onNext(List<Course> value) {
+                            getView().setLoaded();
                             coursesList.addAll(value);
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
+                            getView().setError();
                         }
-                    });*/
-            String imageUrl = "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg";
-            coursesList.add(new Course(1, System.currentTimeMillis() + 100000, 30, 14,
-                    new Trainer(1, "Popescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(3, System.currentTimeMillis() + 1000000, 30, 14,
-                    new Trainer(2, "Ionescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(1, System.currentTimeMillis() + 100000, 30, 14,
-                    new Trainer(1, "Popescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(3, System.currentTimeMillis() + 1000000, 30, 14,
-                    new Trainer(2, "Ionescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(1, System.currentTimeMillis() + 100000, 30, 14,
-                    new Trainer(1, "Popescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(3, System.currentTimeMillis() + 1000000, 30, 14,
-                    new Trainer(2, "Ionescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(1, System.currentTimeMillis() + 100000, 30, 14,
-                    new Trainer(1, "Popescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(3, System.currentTimeMillis() + 1000000, 30, 14,
-                    new Trainer(2, "Ionescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(1, System.currentTimeMillis() + ONE_DAY_TIMESTAMP + 30000, 30, 14,
-                    new Trainer(3, "Popescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
-            coursesList.add(new Course(1, System.currentTimeMillis() + ONE_DAY_TIMESTAMP * 3 + 30000, 30, 14,
-                    new Trainer(3, "Popescu", "popescu@yahoo.com",
-                            "http://alexedmans.com/wp-content/uploads/2017/03/Sports.jpg")));
+                    });
         }
     }
 
@@ -169,12 +139,12 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
         }
 
         List<Day> days = new ArrayList<>();
-        long currentDayStartTime = currentCalendar.getTimeInMillis();
+        long currentDayStartTime = currentCalendar.getTimeInMillis() / 1000;
         currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
         currentCalendar.set(Calendar.MINUTE, 0);
         currentCalendar.set(Calendar.SECOND, 0);
         currentCalendar.set(Calendar.MILLISECOND, 0);
-        long currentDayEndTime = currentCalendar.getTimeInMillis() + ONE_DAY_TIMESTAMP - 1;
+        long currentDayEndTime = currentCalendar.getTimeInMillis() / 1000 + ONE_DAY_TIMESTAMP - 1;
         for (String name : daysNames) {
             days.add(new Day(name, currentDayStartTime, currentDayEndTime));
             currentDayStartTime = currentDayEndTime;

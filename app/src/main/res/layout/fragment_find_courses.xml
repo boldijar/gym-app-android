@@ -12,12 +12,20 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:tabIndicatorColor="@color/white"
+        android:visibility="gone"
         app:tabTextColor="@color/transparent_white"
         app:tabSelectedTextColor="@color/white" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/find_courses_view_pager"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent" />
+    
+    <com.gym.app.view.EmptyLayout
+        android:id="@+id/find_courses_empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center" />
 
 </LinearLayout>

@@ -16,5 +16,9 @@ public interface FindCoursesView {
 
     void initDays(List<Day> days);
 
+    void setLoaded();
+
+    void setError();
+
     List<Course> getCoursesForDay(long dayStartTime, long dayEndTime);
 }

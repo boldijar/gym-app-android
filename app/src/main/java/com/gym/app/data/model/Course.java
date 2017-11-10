@@ -69,4 +69,8 @@ public class Course {
     public Trainer getTrainer(){
         return mTrainer;
     }
+
+    public void setmCapacity(int mCapacity) {
+        this.mCapacity = mCapacity;
+    }
 }

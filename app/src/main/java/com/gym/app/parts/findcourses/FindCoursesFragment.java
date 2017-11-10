@@ -3,7 +3,6 @@ package com.gym.app.parts.findcourses;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -11,9 +10,8 @@ import android.view.View;
 import com.gym.app.R;
 import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
-import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
-import com.gym.app.parts.findcourses.day_courses.DayCoursesView;
 import com.gym.app.parts.home.BaseHomeFragment;
+import com.gym.app.view.EmptyLayout;
 
 import java.util.List;
 
@@ -33,6 +31,9 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
     @BindView(R.id.find_courses_tab_layout)
     TabLayout mFindCoursesTabLayout;
 
+    @BindView(R.id.find_courses_empty_layout)
+    EmptyLayout mEmptyLayout;
+
     private FindCoursesPresenter mFindCoursesPresenter;
 
     private DayPagerAdapter mDayPagerAdapter;
@@ -41,6 +42,7 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        mEmptyLayout.setState(EmptyLayout.State.LOADING);
         mFindCoursesPresenter = new FindCoursesPresenter(this);
         mDayPagerAdapter = new DayPagerAdapter(getChildFragmentManager());
         mFindCoursesViewPager.setAdapter(mDayPagerAdapter);
@@ -70,6 +72,18 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
     @Override
     public void initDays(List<Day> days) {
         mDayPagerAdapter.setmDaysList(days);
+    }
+
+    @Override
+    public void setLoaded() {
+        mFindCoursesTabLayout.setVisibility(View.VISIBLE);
+        mFindCoursesViewPager.setVisibility(View.VISIBLE);
+        mEmptyLayout.setState(EmptyLayout.State.CLEAR);
+    }
+
+    @Override
+    public void setError() {
+        mEmptyLayout.setState(EmptyLayout.State.EMPTY, R.string.could_not_find_courses);
     }
 
     @Override

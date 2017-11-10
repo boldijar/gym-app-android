@@ -24,5 +24,10 @@
     <string name="login">Login</string>
     <string name="save_changes">Save changes</string>
     <string name="reserve_course">Reserve</string>
+    <string name="could_not_find_courses">No courses found</string>
+    <string name="already_registered_error">You are already registered to this course</string>
+    <string name="network_error">No internet connection</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="registration_successful">Registration successful</string>
 
 </resources>
