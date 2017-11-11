@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.facebook.stetho.common.ArrayListAccumulator;
-import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesFragment;
 
@@ -19,16 +17,16 @@ import java.util.List;
  * @since 02.01.2017
  */
 
-public class DayPagerAdapter extends FragmentStatePagerAdapter {
+class DayPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Day> mDaysList;
 
-    public DayPagerAdapter(FragmentManager fm) {
+    DayPagerAdapter(FragmentManager fm) {
         super(fm);
         mDaysList = new ArrayList<>();
     }
 
-    public void setmDaysList(List<Day> mDaysList) {
+    void setmDaysList(List<Day> mDaysList) {
         this.mDaysList = mDaysList;
         notifyDataSetChanged();
     }

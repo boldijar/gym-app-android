@@ -26,29 +26,42 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
     @Inject
     SystemUtils systemUtils;
 
-    public DayCoursesPresenter(DayCoursesView view) {
+    DayCoursesPresenter(DayCoursesView view) {
         super(view);
         InjectionHelper.getApplicationComponent().inject(this);
     }
 
-    public void registerToCourse(int courseId) {
-        if (!systemUtils.isNetworkUnavailable()) {
-            mCoursesService.registerToCourse(courseId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action() {
-                        @Override
-                        public void run() throws Exception {
-                            getView().displayRegisterSuccessful();
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(@NonNull Throwable throwable) throws Exception {
-                            getView().displayError(DayCoursesView.RegisterError.REGISTRATION_FAILURE);
-                        }
-                    });
-        } else {
-            getView().displayError(DayCoursesView.RegisterError.UNAVAILABLE_NETWORK);
-        }
+    void registerToCourse(int courseId) {
+        mCoursesService.registerToCourse(courseId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        getView().displayOperationSuccessful(DayCoursesView.OperationType.REGISTER_TO_COURSE);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getView().displayError(DayCoursesView.OperationType.REGISTER_TO_COURSE);
+                    }
+                });
+    }
+
+    void unregisterFromCourse(int courseId) {
+        mCoursesService.unregisterFromCourse(courseId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        getView().displayOperationSuccessful(DayCoursesView.OperationType.REMOVE_COURSE);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getView().displayError(DayCoursesView.OperationType.REMOVE_COURSE);
+                    }
+                });
     }
 }

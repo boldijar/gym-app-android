@@ -37,9 +37,13 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
 
     private DayCoursesAdapter mTodayCoursesAdapter = new DayCoursesAdapter();
 
-    private int mRegisteredCourseId;
+    private int mCurrentCourseId;
+
+    private int mOperationType;
 
     private Snackbar mRetrySnackbar;
+
+    private Toast mOperationStatus;
 
     public static Fragment newFragment(Day day) {
         Bundle bundle = new Bundle();
@@ -62,8 +66,15 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         mTodayCoursesAdapter.setOnRegisterClickListener(new DayCoursesAdapter.OnRegisterClickListener() {
             @Override
             public void onClick(int position) {
-                mRegisteredCourseId = mTodayCoursesAdapter.getCourse(position).getmId();
-                mDayCoursesPresenter.registerToCourse(mRegisteredCourseId);
+                mCurrentCourseId = mTodayCoursesAdapter.getCourse(position).getId();
+                mDayCoursesPresenter.registerToCourse(mCurrentCourseId);
+            }
+        });
+        mTodayCoursesAdapter.setOnRemoveClickListener(new DayCoursesAdapter.OnRemoveClickListener() {
+            @Override
+            public void onClick(int position) {
+                mCurrentCourseId = mTodayCoursesAdapter.getCourse(position).getId();
+                mDayCoursesPresenter.unregisterFromCourse(mCurrentCourseId);
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -85,35 +96,48 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
     }
 
     @Override
-    public void displayRegisterSuccessful() {
-        mTodayCoursesAdapter.decreaseCourseCapacity(mRegisteredCourseId);
-        Toast.makeText(getContext(), getString(R.string.registration_successful), Toast.LENGTH_SHORT).show();
+    public void displayOperationSuccessful(@OperationType int operationType) {
+        String toastMessage = "";
+        int courseStatus = 0;
+        switch (operationType) {
+
+            case OperationType.REGISTER_TO_COURSE:
+                toastMessage = getString(R.string.registration_successful);
+                courseStatus = 1;
+                break;
+            case OperationType.REMOVE_COURSE:
+                toastMessage = getString(R.string.unregister_successful);
+                courseStatus = -1;
+                break;
+        }
+        if (mOperationStatus != null) {
+            mOperationStatus.cancel();
+        }
+        mOperationStatus = Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT);
+        mOperationStatus.show();
+        mTodayCoursesAdapter.changeCourseStatus(mCurrentCourseId, courseStatus);
     }
 
     @Override
-    public void displayError(@RegisterError int errorType) {
-        switch (errorType) {
-            case RegisterError.REGISTRATION_FAILURE:
-                Toast.makeText(getContext(), getString(R.string.already_registered_error)
-                        , Toast.LENGTH_SHORT).show();
-                break;
-            case RegisterError.UNAVAILABLE_NETWORK:
-                displayRetrySnackbar();
-                break;
-        }
-    }
-
-    private void displayRetrySnackbar(){
+    public void displayError(@OperationType final int operationType) {
         if (getView() != null) {
             mRetrySnackbar = Snackbar.make(getView(),
                     getString(R.string.network_error), Snackbar.LENGTH_LONG);
             mRetrySnackbar.setAction(getString(R.string.retry), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDayCoursesPresenter.registerToCourse(mRegisteredCourseId);
+                    switch (operationType) {
+                        case OperationType.REGISTER_TO_COURSE:
+                            mDayCoursesPresenter.unregisterFromCourse(mCurrentCourseId);
+                            break;
+                        case OperationType.REMOVE_COURSE:
+                            mDayCoursesPresenter.registerToCourse(mCurrentCourseId);
+                            break;
+                    }
                 }
             });
             mRetrySnackbar.show();
         }
     }
+
 }

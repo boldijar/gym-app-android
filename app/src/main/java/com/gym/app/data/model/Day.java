@@ -1,7 +1,8 @@
 package com.gym.app.data.model;
 
 /**
- * Created by catalinradoiu on 03/11/2017.
+ * @author catalinradoiu
+ * @since 2017.11.05
  */
 
 public class Day {

@@ -3,7 +3,8 @@ package com.gym.app.parts.findcourses;
 import com.gym.app.data.SystemUtils;
 import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
-import com.gym.app.data.model.Trainer;
+import com.gym.app.data.observables.SaveCoursesObservable;
+import com.gym.app.data.room.AppDatabase;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.presenter.Presenter;
 import com.gym.app.server.CoursesService;
@@ -12,12 +13,14 @@ import com.gym.app.utils.MvpObserver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -42,32 +45,35 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     private static final long FIVE_DAYS_TIMESTAMP = 5 * 24 * 3600;
     private static final long ONE_DAY_TIMESTAMP = 24 * 3600;
 
-    private List<Course> coursesList;
+    private List<Course> mCoursesList;
 
-    private List<Day> daysList;
+    private List<Day> mDaysList;
 
     @Inject
     CoursesService mCoursesService;
 
     @Inject
-    SystemUtils systemUtils;
+    SystemUtils mSystemUtils;
 
-    public FindCoursesPresenter(FindCoursesView view) {
+    @Inject
+    AppDatabase mAppDatabase;
+
+    FindCoursesPresenter(FindCoursesView view) {
         super(view);
         InjectionHelper.getApplicationComponent().inject(this);
-        coursesList = new ArrayList<>();
-        daysList = new ArrayList<>();
+        mCoursesList = new ArrayList<>();
+        mDaysList = new ArrayList<>();
     }
 
-    public void initData() {
+    void initData() {
 
         //Initialize the days 
 
         long currentTime = System.currentTimeMillis() / 1000;
         Calendar calendar = Calendar.getInstance();
         int today = calendar.get(Calendar.DAY_OF_WEEK);
-        daysList = generateDaysList(today, calendar);
-        getView().initDays(daysList);
+        mDaysList = generateDaysList(today, calendar);
+        getView().initDays(mDaysList);
 
         //Initialize the courses
 
@@ -75,9 +81,9 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
         loadCourses(currentTime, endPeriod);
     }
 
-    public List<Course> getCoursesForDay(long dayStartTime, long dayEndTime) {
+    List<Course> getCoursesForDay(long dayStartTime, long dayEndTime) {
         List<Course> result = new ArrayList<>();
-        for (Course course : coursesList) {
+        for (Course course : mCoursesList) {
             if (course.getCourseDate() >= dayStartTime && course.getCourseDate() <= dayEndTime) {
                 result.add(course);
             }
@@ -86,17 +92,32 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     }
 
     private void loadCourses(long periodStart, long periodEnd) {
-        if (systemUtils.isNetworkUnavailable()) {
+        if (mSystemUtils.isNetworkUnavailable()) {
             loadCoursesOffline();
         } else {
             mCoursesService.getCoursesForPeriod(periodStart, periodEnd)
+                    .zipWith(mCoursesService.getCoursesForCurrentUser(true),
+                            new BiFunction<List<Course>, List<Course>, List<Course>>() {
+
+                                @Override
+                                public List<Course> apply(@NonNull List<Course> firstList,
+                                                          @NonNull List<Course> secondList) throws Exception {
+                                    for (Course value : firstList) {
+                                        if (secondList.contains(value)) {
+                                            value.setIsRegistered(true);
+                                        }
+                                    }
+                                    return firstList;
+                                }
+                            })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MvpObserver<List<Course>>(this) {
                         @Override
                         public void onNext(List<Course> value) {
+                            SaveCoursesObservable.newInstance(value).subscribe();
                             getView().setLoaded();
-                            coursesList.addAll(value);
+                            mCoursesList.addAll(value);
                         }
 
                         @Override
@@ -109,7 +130,21 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     }
 
     private void loadCoursesOffline() {
-
+        mAppDatabase.getCoursesDao().getAllCourses()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Course>>() {
+                    @Override
+                    public void accept(@NonNull List<Course> courseList) throws Exception {
+                        getView().setLoaded();
+                        mCoursesList.addAll(courseList);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        getView().setError();
+                    }
+                });
     }
 
     private List<Day> generateDaysList(int firstDay, Calendar currentCalendar) {

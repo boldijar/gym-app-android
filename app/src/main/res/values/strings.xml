@@ -29,5 +29,7 @@
     <string name="network_error">No internet connection</string>
     <string name="unexpected_error">Unexpected error</string>
     <string name="registration_successful">Registration successful</string>
+    <string name="remove_course">Remove</string>
+    <string name="unregister_successful">Course removed</string>
 
 </resources>

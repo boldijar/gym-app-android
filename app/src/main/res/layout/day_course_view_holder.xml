@@ -43,12 +43,11 @@
         tools:text="23 places left!" />
 
     <Button
-        android:id="@+id/reserve_course_button"
+        android:id="@+id/handle_course_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="?attr/selectableItemBackground"
-        android:text="@string/reserve_course"
         android:textColor="@color/light_blue" />
 </RelativeLayout>

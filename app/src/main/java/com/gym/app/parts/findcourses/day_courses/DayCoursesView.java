@@ -2,10 +2,6 @@ package com.gym.app.parts.findcourses.day_courses;
 
 import android.support.annotation.IntDef;
 
-import com.gym.app.data.model.Course;
-
-import java.util.List;
-
 /**
  * @author catalinradoiu
  * @since 2017.11.05
@@ -13,14 +9,13 @@ import java.util.List;
 
 public interface DayCoursesView {
 
-    @IntDef({RegisterError.UNAVAILABLE_NETWORK, RegisterError.REGISTRATION_FAILURE})
-    @interface RegisterError{
-        int UNAVAILABLE_NETWORK = 1;
-        int REGISTRATION_FAILURE = 2;
+    @IntDef({OperationType.REGISTER_TO_COURSE, OperationType.REMOVE_COURSE})
+    @interface OperationType {
+        int REMOVE_COURSE = 1;
+        int REGISTER_TO_COURSE = 2;
     }
 
-    void displayRegisterSuccessful();
+    void displayOperationSuccessful(@OperationType int operationType);
 
-    void displayError(@RegisterError int errorType);
-
+    void displayError(@OperationType int operationType);
 }

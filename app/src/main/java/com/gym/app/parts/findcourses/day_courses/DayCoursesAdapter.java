@@ -1,6 +1,5 @@
 package com.gym.app.parts.findcourses.day_courses;
 
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,30 +29,51 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
  * @since 2017.01.01
  */
 
-public class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCoursesViewHolder> {
+class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCoursesViewHolder> {
+
+    private static final int RESERVE_COURSE_VIEW = 1;
+    private static final int REMOVE_COURSE_VIEW = 2;
 
     private List<Course> mTodayCourses;
 
     private OnRegisterClickListener mOnRegisterClickListener;
 
+    private OnRemoveClickListener mOnRemoveClickListener;
+
     interface OnRegisterClickListener {
         void onClick(int position);
     }
 
-    public DayCoursesAdapter() {
+    interface OnRemoveClickListener {
+        void onClick(int position);
+    }
+
+    DayCoursesAdapter() {
         this.mTodayCourses = new ArrayList<>();
     }
 
-    public void setCourses(List<Course> courses) {
+    void setCourses(List<Course> courses) {
         this.mTodayCourses = courses;
         notifyDataSetChanged();
     }
 
-    public void decreaseCourseCapacity(int courseId){
+    /**
+     * Changes the course status for the current user
+     *
+     * @param courseId the id of the course to be changed
+     * @param status   the new status of the course ( has to be 1 if the user subscribed to the course,
+     *                 or -1 if the user removed the course)
+     */
+    void changeCourseStatus(int courseId, int status) {
         int position = 0;
-        for (Course course : mTodayCourses){
-            if (course.getmId() == courseId){
-                course.setmCapacity(course.getCapacity() - 1);
+        for (Course course : mTodayCourses) {
+            if (course.getId() == courseId) {
+                if (status < 0) {
+                    course.setIsRegistered(false);
+                } else {
+                    course.setIsRegistered(true);
+                }
+                course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() + status);
                 notifyItemChanged(position);
                 break;
             }
@@ -61,18 +81,36 @@ public class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.Da
         }
     }
 
-    public Course getCourse(int position){
+    Course getCourse(int position) {
         return mTodayCourses.get(position);
     }
 
-    public void setOnRegisterClickListener(OnRegisterClickListener mOnRegisterClickListener) {
+    void setOnRegisterClickListener(OnRegisterClickListener mOnRegisterClickListener) {
         this.mOnRegisterClickListener = mOnRegisterClickListener;
+    }
+
+    public void setOnRemoveClickListener(OnRemoveClickListener mOnRemoveClickListener) {
+        this.mOnRemoveClickListener = mOnRemoveClickListener;
     }
 
     @Override
     public DayCoursesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        OnRegisterClickListener onRegisterClickListener = null;
+        OnRemoveClickListener onRemoveClickListener = null;
+        if (viewType == REMOVE_COURSE_VIEW) {
+            onRemoveClickListener = mOnRemoveClickListener;
+        } else if (viewType == RESERVE_COURSE_VIEW) {
+            onRegisterClickListener = mOnRegisterClickListener;
+        }
         return new DayCoursesViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.day_course_view_holder, parent, false), mOnRegisterClickListener);
+                .inflate(R.layout.day_course_view_holder, parent, false),
+                onRegisterClickListener,
+                onRemoveClickListener);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (mTodayCourses.get(position).isRegistered()) ? REMOVE_COURSE_VIEW : RESERVE_COURSE_VIEW;
     }
 
     @Override
@@ -88,48 +126,63 @@ public class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.Da
     static class DayCoursesViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.course_image)
-        ImageView courseImage;
+        ImageView mCourseImage;
 
         @BindView(R.id.course_name)
-        TextView courseName;
+        TextView mCourseName;
 
         @BindView(R.id.course_schedule)
-        TextView courseSchedule;
+        TextView mCourseSchedule;
 
         @BindView(R.id.course_remaining_places)
-        TextView courseRemainingPlaces;
+        TextView mCourseRemainingPlaces;
 
-        @BindView(R.id.reserve_course_button)
-        Button reserveCourseButton;
+        @BindView(R.id.handle_course_button)
+        Button mHandleCourseButton;
 
-        private OnRegisterClickListener onRegisterClickListener;
+        private OnRegisterClickListener mOnRegisterClickListener;
 
-        public DayCoursesViewHolder(View itemView, OnRegisterClickListener onRegisterClickListener) {
+        private OnRemoveClickListener mOnRemoveClickListener;
+
+        DayCoursesViewHolder(View itemView, OnRegisterClickListener onRegisterClickListener,
+                             OnRemoveClickListener onRemoveClickListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.onRegisterClickListener = onRegisterClickListener;
+            this.mOnRegisterClickListener = onRegisterClickListener;
+            this.mOnRemoveClickListener = onRemoveClickListener;
         }
 
         public void bind(Course course) {
-            Glide.with(courseImage.getContext()).load(course.getImage()).into(courseImage);
-            courseName.setText(course.getName());
-            courseSchedule.setText("12:00-13:00");
-            courseRemainingPlaces.setText(
+            Glide.with(mCourseImage.getContext()).load(course.getImage()).into(mCourseImage);
+            mCourseName.setText(course.getName());
+            mCourseSchedule.setText("12:00-13:00");
+            mCourseRemainingPlaces.setText(
                     String.valueOf(course.getCapacity() - course.getRegisteredUsersNumber()));
-            if (course.getCapacity() - course.getRegisteredUsersNumber() == 0){
-                reserveCourseButton.setClickable(false);
-                reserveCourseButton.setTextColor(ContextCompat.getColor(
-                        reserveCourseButton.getContext(),
-                        R.color.transparent_blue
-                ));
+            if (!course.isRegistered()) {
+                mHandleCourseButton.setText(mHandleCourseButton.getContext()
+                        .getString(R.string.reserve_course));
+                if (course.getCapacity() - course.getRegisteredUsersNumber() == 0) {
+                    mHandleCourseButton.setClickable(false);
+                    mHandleCourseButton.setTextColor(ContextCompat.getColor(
+                            mHandleCourseButton.getContext(),
+                            R.color.transparent_blue
+                    ));
+                }
+            } else {
+                mHandleCourseButton.setText(mHandleCourseButton.getContext()
+                        .getString(R.string.remove_course));
             }
         }
 
-        @OnClick(R.id.reserve_course_button)
-        public void handleRegisterClick() {
+        @OnClick(R.id.handle_course_button)
+        void handleRegisterClick() {
             int position = getAdapterPosition();
-            if (position != NO_POSITION && onRegisterClickListener != null) {
-                onRegisterClickListener.onClick(position);
+            if (position != NO_POSITION) {
+                if (mOnRemoveClickListener != null) {
+                    mOnRemoveClickListener.onClick(position);
+                } else if (mOnRegisterClickListener != null) {
+                    mOnRegisterClickListener.onClick(position);
+                }
             }
         }
     }
