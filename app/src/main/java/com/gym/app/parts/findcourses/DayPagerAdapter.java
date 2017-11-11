@@ -45,5 +45,4 @@ class DayPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mDaysList.get(position).getDayName();
     }
-
 }

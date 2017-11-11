@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
  * @author catalinradoiu
  * @since 2017.01.01
  */
-
 public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
 
     private static final String DAY_START = "dayStart";
@@ -37,11 +36,9 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
 
     private DayCoursesAdapter mTodayCoursesAdapter = new DayCoursesAdapter();
 
-    private int mCurrentCourseId;
+    private int mCurrentCoursePosition;
 
-    private int mOperationType;
-
-    private Snackbar mRetrySnackbar;
+    private Snackbar mRetrySnackBar;
 
     private Toast mOperationStatus;
 
@@ -66,15 +63,15 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         mTodayCoursesAdapter.setOnRegisterClickListener(new DayCoursesAdapter.OnRegisterClickListener() {
             @Override
             public void onClick(int position) {
-                mCurrentCourseId = mTodayCoursesAdapter.getCourse(position).getId();
-                mDayCoursesPresenter.registerToCourse(mCurrentCourseId);
+                mCurrentCoursePosition = position;
+                mDayCoursesPresenter.registerToCourse(mTodayCoursesAdapter.getCourse(position));
             }
         });
         mTodayCoursesAdapter.setOnRemoveClickListener(new DayCoursesAdapter.OnRemoveClickListener() {
             @Override
             public void onClick(int position) {
-                mCurrentCourseId = mTodayCoursesAdapter.getCourse(position).getId();
-                mDayCoursesPresenter.unregisterFromCourse(mCurrentCourseId);
+                mCurrentCoursePosition = position;
+                mDayCoursesPresenter.unregisterFromCourse(mTodayCoursesAdapter.getCourse(position));
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -83,6 +80,14 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         mTodayCoursesRecycler.setAdapter(mTodayCoursesAdapter);
         mTodayCoursesRecycler.setLayoutManager(linearLayoutManager);
         mTodayCoursesRecycler.addItemDecoration(itemDecoration);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (mRetrySnackBar != null) {
+            mRetrySnackBar.dismiss();
+        }
     }
 
     @Override
@@ -98,16 +103,13 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
     @Override
     public void displayOperationSuccessful(@OperationType int operationType) {
         String toastMessage = "";
-        int courseStatus = 0;
         switch (operationType) {
 
             case OperationType.REGISTER_TO_COURSE:
                 toastMessage = getString(R.string.registration_successful);
-                courseStatus = 1;
                 break;
             case OperationType.REMOVE_COURSE:
                 toastMessage = getString(R.string.unregister_successful);
-                courseStatus = -1;
                 break;
         }
         if (mOperationStatus != null) {
@@ -115,29 +117,30 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         }
         mOperationStatus = Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT);
         mOperationStatus.show();
-        mTodayCoursesAdapter.changeCourseStatus(mCurrentCourseId, courseStatus);
+        mTodayCoursesAdapter.updateCourse(mCurrentCoursePosition);
     }
 
     @Override
     public void displayError(@OperationType final int operationType) {
         if (getView() != null) {
-            mRetrySnackbar = Snackbar.make(getView(),
+            mRetrySnackBar = Snackbar.make(getView(),
                     getString(R.string.network_error), Snackbar.LENGTH_LONG);
-            mRetrySnackbar.setAction(getString(R.string.retry), new View.OnClickListener() {
+            mRetrySnackBar.setAction(getString(R.string.retry), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch (operationType) {
                         case OperationType.REGISTER_TO_COURSE:
-                            mDayCoursesPresenter.unregisterFromCourse(mCurrentCourseId);
+                            mDayCoursesPresenter.unregisterFromCourse(mTodayCoursesAdapter
+                                    .getCourse(mCurrentCoursePosition));
                             break;
                         case OperationType.REMOVE_COURSE:
-                            mDayCoursesPresenter.registerToCourse(mCurrentCourseId);
+                            mDayCoursesPresenter.registerToCourse(mTodayCoursesAdapter
+                                    .getCourse(mCurrentCoursePosition));
                             break;
                     }
                 }
             });
-            mRetrySnackbar.show();
+            mRetrySnackBar.show();
         }
     }
-
 }

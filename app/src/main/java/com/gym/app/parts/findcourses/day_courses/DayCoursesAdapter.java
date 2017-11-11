@@ -1,5 +1,6 @@
 package com.gym.app.parts.findcourses.day_courses;
 
+import android.annotation.SuppressLint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,10 @@ import com.bumptech.glide.Glide;
 import com.gym.app.R;
 import com.gym.app.data.model.Course;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -58,27 +62,12 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
     }
 
     /**
-     * Changes the course status for the current user
+     * Update the course from the given position
      *
-     * @param courseId the id of the course to be changed
-     * @param status   the new status of the course ( has to be 1 if the user subscribed to the course,
-     *                 or -1 if the user removed the course)
+     * @param position the position of the course that was changed
      */
-    void changeCourseStatus(int courseId, int status) {
-        int position = 0;
-        for (Course course : mTodayCourses) {
-            if (course.getId() == courseId) {
-                if (status < 0) {
-                    course.setIsRegistered(false);
-                } else {
-                    course.setIsRegistered(true);
-                }
-                course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() + status);
-                notifyItemChanged(position);
-                break;
-            }
-            position++;
-        }
+    void updateCourse(int position) {
+        notifyItemChanged(position);
     }
 
     Course getCourse(int position) {
@@ -89,7 +78,7 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
         this.mOnRegisterClickListener = mOnRegisterClickListener;
     }
 
-    public void setOnRemoveClickListener(OnRemoveClickListener mOnRemoveClickListener) {
+    void setOnRemoveClickListener(OnRemoveClickListener mOnRemoveClickListener) {
         this.mOnRemoveClickListener = mOnRemoveClickListener;
     }
 
@@ -125,6 +114,8 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
 
     static class DayCoursesViewHolder extends RecyclerView.ViewHolder {
 
+        private static final long ONE_HOUR_TIME_STAMP = 3600 * 1000;
+
         @BindView(R.id.course_image)
         ImageView mCourseImage;
 
@@ -155,7 +146,8 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
         public void bind(Course course) {
             Glide.with(mCourseImage.getContext()).load(course.getImage()).into(mCourseImage);
             mCourseName.setText(course.getName());
-            mCourseSchedule.setText("12:00-13:00");
+            mCourseSchedule.setText(getFormattedTime(course.getCourseDate() * 1000,
+                    course.getCapacity() * 1000 + ONE_HOUR_TIME_STAMP));
             mCourseRemainingPlaces.setText(
                     String.valueOf(course.getCapacity() - course.getRegisteredUsersNumber()));
             if (!course.isRegistered()) {
@@ -171,6 +163,10 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
             } else {
                 mHandleCourseButton.setText(mHandleCourseButton.getContext()
                         .getString(R.string.remove_course));
+                mHandleCourseButton.setTextColor(ContextCompat.getColor(
+                        mHandleCourseButton.getContext(),
+                        R.color.light_red
+                ));
             }
         }
 
@@ -184,6 +180,15 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
                     mOnRegisterClickListener.onClick(position);
                 }
             }
+        }
+
+        private String getFormattedTime(long timestamp, long duration) {
+            @SuppressLint("SimpleDateFormat") DateFormat format = new SimpleDateFormat("HH:mm");
+            Date startTime = new Date(timestamp);
+            Date endTime = new Date(timestamp + duration);
+            return format.format(startTime) + "-" +
+                    format.format(endTime);
+
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.gym.app.parts.findcourses.day_courses;
 
 import com.gym.app.data.SystemUtils;
+import com.gym.app.data.model.Course;
+import com.gym.app.data.observables.UpdateCourseObservable;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.presenter.Presenter;
 import com.gym.app.server.CoursesService;
@@ -24,20 +26,23 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
     CoursesService mCoursesService;
 
     @Inject
-    SystemUtils systemUtils;
+    SystemUtils mSystemUtils;
 
     DayCoursesPresenter(DayCoursesView view) {
         super(view);
         InjectionHelper.getApplicationComponent().inject(this);
     }
 
-    void registerToCourse(int courseId) {
-        mCoursesService.registerToCourse(courseId)
+    void registerToCourse(final Course course) {
+        mCoursesService.registerToCourse(course.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
+                        course.setIsRegistered(true);
+                        course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() + 1);
+                        UpdateCourseObservable.newInstance(course).subscribe();
                         getView().displayOperationSuccessful(DayCoursesView.OperationType.REGISTER_TO_COURSE);
                     }
                 }, new Consumer<Throwable>() {
@@ -48,13 +53,16 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
                 });
     }
 
-    void unregisterFromCourse(int courseId) {
-        mCoursesService.unregisterFromCourse(courseId)
+    void unregisterFromCourse(final Course course) {
+        mCoursesService.unregisterFromCourse(course.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
+                        course.setIsRegistered(false);
+                        course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() - 1);
+                        UpdateCourseObservable.newInstance(course).subscribe();
                         getView().displayOperationSuccessful(DayCoursesView.OperationType.REMOVE_COURSE);
                     }
                 }, new Consumer<Throwable>() {
