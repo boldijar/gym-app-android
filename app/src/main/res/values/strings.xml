@@ -23,13 +23,15 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="save_changes">Save changes</string>
+    <string name="registration_successful">Registration successful</string>
+
+    <!-- find courses -->
     <string name="reserve_course">Reserve</string>
     <string name="could_not_find_courses">No courses found</string>
-    <string name="already_registered_error">You are already registered to this course</string>
     <string name="network_error">No internet connection</string>
-    <string name="unexpected_error">Unexpected error</string>
-    <string name="registration_successful">Registration successful</string>
     <string name="remove_course">Remove</string>
-    <string name="unregister_successful">Course removed</string>
+    <string name="unregister_successful">Course removed successfully</string>
+    <string name="course_places_left">%1$d places left</string>
+    <string name="course_no_places_left">No places left</string>
 
 </resources>

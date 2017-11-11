@@ -55,7 +55,7 @@ public class Course {
 
     @Override
     public boolean equals(Object obj) {
-        return ((Course) obj).getId() == mId;
+        return obj instanceof Course && ((Course) obj).getId() == mId;
     }
 
     public Course() {
@@ -89,39 +89,39 @@ public class Course {
         return mTrainer;
     }
 
-    public void setCapacity(int mCapacity) {
-        this.mCapacity = mCapacity;
+    public void setCapacity(int capacity) {
+        this.mCapacity = capacity;
     }
 
     public boolean isRegistered() {
         return mIsRegistered;
     }
 
-    public void setId(int mId) {
-        this.mId = mId;
+    public void setId(int id) {
+        this.mId = id;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setName(String name) {
+        this.mName = name;
     }
 
-    public void setImage(String mImage) {
-        this.mImage = mImage;
+    public void setImage(String image) {
+        this.mImage = image;
     }
 
-    public void setCourseDate(long mCourseDate) {
-        this.mCourseDate = mCourseDate;
+    public void setCourseDate(long courseDate) {
+        this.mCourseDate = courseDate;
     }
 
     public void setRegisteredUsersNumber(int mRegisteredUsersNumber) {
         this.mRegisteredUsersNumber = mRegisteredUsersNumber;
     }
 
-    public void setTrainer(Trainer mTrainer) {
-        this.mTrainer = mTrainer;
+    public void setTrainer(Trainer trainer) {
+        this.mTrainer = trainer;
     }
 
-    public void setIsRegistered(boolean mIsRegistered) {
-        this.mIsRegistered = mIsRegistered;
+    public void setIsRegistered(boolean isRegistered) {
+        this.mIsRegistered = isRegistered;
     }
 }

@@ -144,12 +144,16 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
         }
 
         public void bind(Course course) {
+            String remainingPlaces = (course.getCapacity() - course.getRegisteredUsersNumber() == 0) ?
+                    mCourseRemainingPlaces.getContext().getString(R.string.course_no_places_left) :
+                    mCourseRemainingPlaces.getContext()
+                            .getString(R.string.course_places_left,
+                                    course.getCapacity() - course.getRegisteredUsersNumber());
+            mCourseRemainingPlaces.setText(remainingPlaces);
             Glide.with(mCourseImage.getContext()).load(course.getImage()).into(mCourseImage);
             mCourseName.setText(course.getName());
             mCourseSchedule.setText(getFormattedTime(course.getCourseDate() * 1000,
                     course.getCapacity() * 1000 + ONE_HOUR_TIME_STAMP));
-            mCourseRemainingPlaces.setText(
-                    String.valueOf(course.getCapacity() - course.getRegisteredUsersNumber()));
             if (!course.isRegistered()) {
                 mHandleCourseButton.setText(mHandleCourseButton.getContext()
                         .getString(R.string.reserve_course));
@@ -159,6 +163,7 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
                             mHandleCourseButton.getContext(),
                             R.color.transparent_blue
                     ));
+
                 }
             } else {
                 mHandleCourseButton.setText(mHandleCourseButton.getContext()
