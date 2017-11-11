@@ -50,6 +50,13 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
         mFindCoursesTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         ViewCompat.setElevation(mFindCoursesTabLayout, getResources().getDimension(R.dimen.standard_elevation));
         mFindCoursesPresenter.initData();
+        mEmptyLayout.setOnRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEmptyLayout.setState(EmptyLayout.State.LOADING);
+                mFindCoursesPresenter.initData();
+            }
+        });
     }
 
     @Override
