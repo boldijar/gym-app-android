@@ -14,4 +14,6 @@ public interface ShopView {
     void showProducts(List<Product> productList);
 
     void showError(Throwable throwable);
+
+    void showLoading();
 }

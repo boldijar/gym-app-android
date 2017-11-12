@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class AuthenticationActivity extends BaseActivity implements AuthenticationNavigation, AuthenticationView {
 
     private static final int REGISTER_FRAGMENT_POSITION = 1;
+    private static final String ARG_INVALID_TOKEN = "arginvalidtoken";
 
     @BindView(R.id.authentication_view_pager)
     ViewPager mAuthenticationViewPager;
@@ -32,6 +33,13 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
 
     public static Intent createIntent(Context context) {
         return new Intent(context, AuthenticationActivity.class);
+    }
+
+    public static Intent createExpiredTokenIntent(Context context) {
+        Intent intent = new Intent(context, AuthenticationActivity.class);
+        intent.putExtra(ARG_INVALID_TOKEN, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return intent;
     }
 
     @Override
@@ -70,6 +78,9 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
 
             }
         });
+        if (getIntent().getBooleanExtra(ARG_INVALID_TOKEN, false)) {
+            Toast.makeText(this, R.string.token_expired, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void doLogin(String email, String password) {

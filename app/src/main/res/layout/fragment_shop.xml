@@ -9,4 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_shop"/>
+
+    <com.gym.app.view.EmptyLayout
+        android:id="@+id/shop_empty_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 </FrameLayout>

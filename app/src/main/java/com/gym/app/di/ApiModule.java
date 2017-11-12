@@ -2,14 +2,14 @@ package com.gym.app.di;
 
 import android.arch.persistence.room.Room;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.gym.app.BuildConfig;
 import com.gym.app.Shaorma;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.server.ApiService;
 import com.gym.app.server.NetworkInterceptor;
 import com.gym.app.utils.Constants;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.File;
 
@@ -71,7 +71,7 @@ public class ApiModule {
         return new OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(loggingInterceptor)
-                .addInterceptor(new NetworkInterceptor())
+                .addInterceptor(new NetworkInterceptor(mShaorma))
                 .build();
     }
 
