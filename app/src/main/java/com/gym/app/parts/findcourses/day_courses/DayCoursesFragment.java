@@ -15,7 +15,9 @@ import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
 import com.gym.app.fragments.BaseFragment;
 import com.gym.app.parts.findcourses.FindCoursesView;
+import com.gym.app.view.EmptyLayout;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -39,6 +41,9 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
 
     @BindView(R.id.today_courses_recycler)
     RecyclerView mTodayCoursesRecycler;
+
+    @BindView(R.id.day_courses_empty_layout)
+    EmptyLayout emptyLayout;
 
     private DayCoursesPresenter mDayCoursesPresenter;
 
@@ -159,16 +164,22 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
     }
 
     private void initRecycler() {
-        mTodayCoursesAdapter.setCourses(((FindCoursesView) getParentFragment()).getCoursesForDay(
+        List<Course> courseList = ((FindCoursesView) getParentFragment()).getCoursesForDay(
                 getArguments().getLong(DAY_START),
-                getArguments().getLong(DAY_END)
-        ));
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),
-                linearLayoutManager.getOrientation());
-        mTodayCoursesRecycler.setAdapter(mTodayCoursesAdapter);
-        mTodayCoursesRecycler.setLayoutManager(linearLayoutManager);
-        mTodayCoursesRecycler.addItemDecoration(itemDecoration);
+                getArguments().getLong(DAY_END));
+        if (!courseList.isEmpty()) {
+            mTodayCoursesRecycler.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
+            mTodayCoursesAdapter.setCourses(courseList);
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),
+                    linearLayoutManager.getOrientation());
+            mTodayCoursesRecycler.setAdapter(mTodayCoursesAdapter);
+            mTodayCoursesRecycler.setLayoutManager(linearLayoutManager);
+            mTodayCoursesRecycler.addItemDecoration(itemDecoration);
+        } else {
+            emptyLayout.setState(EmptyLayout.State.EMPTY_NO_BUTTON, R.string.no_courses_for_day);
+        }
     }
 
     private void initPresenter() {
