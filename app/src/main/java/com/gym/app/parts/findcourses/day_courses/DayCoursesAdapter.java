@@ -35,20 +35,11 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 
 class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCoursesViewHolder> {
 
-    private static final int RESERVE_COURSE_VIEW = 1;
-    private static final int REMOVE_COURSE_VIEW = 2;
-
     private List<Course> mTodayCourses;
 
-    private OnRegisterClickListener mOnRegisterClickListener;
+    private DayCourseClickListener mDayCourseClickListener;
 
-    private OnRemoveClickListener mOnRemoveClickListener;
-
-    interface OnRegisterClickListener {
-        void onClick(int position);
-    }
-
-    interface OnRemoveClickListener {
+    interface DayCourseClickListener {
         void onClick(int position);
     }
 
@@ -59,6 +50,10 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
     void setCourses(List<Course> courses) {
         this.mTodayCourses = courses;
         notifyDataSetChanged();
+    }
+
+    void setDayCourseClickListener(DayCourseClickListener dayCourseClickListener) {
+        this.mDayCourseClickListener = dayCourseClickListener;
     }
 
     /**
@@ -74,32 +69,12 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
         return mTodayCourses.get(position);
     }
 
-    void setOnRegisterClickListener(OnRegisterClickListener mOnRegisterClickListener) {
-        this.mOnRegisterClickListener = mOnRegisterClickListener;
-    }
-
-    void setOnRemoveClickListener(OnRemoveClickListener mOnRemoveClickListener) {
-        this.mOnRemoveClickListener = mOnRemoveClickListener;
-    }
 
     @Override
     public DayCoursesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        OnRegisterClickListener onRegisterClickListener = null;
-        OnRemoveClickListener onRemoveClickListener = null;
-        if (viewType == REMOVE_COURSE_VIEW) {
-            onRemoveClickListener = mOnRemoveClickListener;
-        } else if (viewType == RESERVE_COURSE_VIEW) {
-            onRegisterClickListener = mOnRegisterClickListener;
-        }
         return new DayCoursesViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.day_course_view_holder, parent, false),
-                onRegisterClickListener,
-                onRemoveClickListener);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (mTodayCourses.get(position).isRegistered()) ? REMOVE_COURSE_VIEW : RESERVE_COURSE_VIEW;
+                mDayCourseClickListener);
     }
 
     @Override
@@ -116,6 +91,10 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
 
         private static final long ONE_HOUR_TIME_STAMP = 3600 * 1000;
 
+        private static final int CLICK_INTERVAL = 800;
+
+        private long lastClickTime;
+
         @BindView(R.id.course_image)
         ImageView mCourseImage;
 
@@ -131,19 +110,17 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
         @BindView(R.id.handle_course_button)
         Button mHandleCourseButton;
 
-        private OnRegisterClickListener mOnRegisterClickListener;
+        private DayCourseClickListener mDayCourseClickListener;
 
-        private OnRemoveClickListener mOnRemoveClickListener;
-
-        DayCoursesViewHolder(View itemView, OnRegisterClickListener onRegisterClickListener,
-                             OnRemoveClickListener onRemoveClickListener) {
+        DayCoursesViewHolder(View itemView, DayCourseClickListener dayCourseClickListener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.mOnRegisterClickListener = onRegisterClickListener;
-            this.mOnRemoveClickListener = onRemoveClickListener;
+            this.mDayCourseClickListener = dayCourseClickListener;
         }
 
         public void bind(Course course) {
+            int buttonColor;
+            String buttonText;
             String remainingPlaces = (course.getCapacity() - course.getRegisteredUsersNumber() == 0) ?
                     mCourseRemainingPlaces.getContext().getString(R.string.course_no_places_left) :
                     mCourseRemainingPlaces.getContext()
@@ -155,34 +132,31 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
             mCourseSchedule.setText(getFormattedTime(course.getCourseDate() * 1000,
                     course.getCapacity() * 1000 + ONE_HOUR_TIME_STAMP));
             if (!course.isRegistered()) {
-                mHandleCourseButton.setText(mHandleCourseButton.getContext()
-                        .getString(R.string.reserve_course));
+                buttonText = mHandleCourseButton.getContext().getString(R.string.reserve_course);
                 if (course.getCapacity() - course.getRegisteredUsersNumber() == 0) {
                     mHandleCourseButton.setClickable(false);
-                    mHandleCourseButton.setTextColor(ContextCompat.getColor(
-                            mHandleCourseButton.getContext(),
-                            R.color.transparent_blue
-                    ));
-
+                    buttonColor = ContextCompat.getColor(mHandleCourseButton.getContext(),
+                            R.color.transparent_blue);
+                } else {
+                    buttonColor = ContextCompat.getColor(mHandleCourseButton.getContext(),
+                            R.color.light_blue);
                 }
             } else {
-                mHandleCourseButton.setText(mHandleCourseButton.getContext()
-                        .getString(R.string.remove_course));
-                mHandleCourseButton.setTextColor(ContextCompat.getColor(
-                        mHandleCourseButton.getContext(),
-                        R.color.light_red
-                ));
+                buttonText = mHandleCourseButton.getContext().getString(R.string.remove_course);
+                buttonColor = ContextCompat.getColor(mHandleCourseButton.getContext(),
+                        R.color.light_red);
             }
+            mHandleCourseButton.setTextColor(buttonColor);
+            mHandleCourseButton.setText(buttonText);
         }
 
         @OnClick(R.id.handle_course_button)
         void handleRegisterClick() {
-            int position = getAdapterPosition();
-            if (position != NO_POSITION) {
-                if (mOnRemoveClickListener != null) {
-                    mOnRemoveClickListener.onClick(position);
-                } else if (mOnRegisterClickListener != null) {
-                    mOnRegisterClickListener.onClick(position);
+            if (System.currentTimeMillis() - lastClickTime > CLICK_INTERVAL) {
+                int position = getAdapterPosition();
+                if (position != NO_POSITION && mDayCourseClickListener != null) {
+                    lastClickTime = System.currentTimeMillis();
+                    mDayCourseClickListener.onClick(position);
                 }
             }
         }

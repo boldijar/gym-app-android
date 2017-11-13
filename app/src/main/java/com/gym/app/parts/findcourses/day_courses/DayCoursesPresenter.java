@@ -9,6 +9,7 @@ import com.gym.app.server.CoursesService;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Action;
@@ -33,42 +34,32 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
         InjectionHelper.getApplicationComponent().inject(this);
     }
 
-    void registerToCourse(final Course course) {
-        mCoursesService.registerToCourse(course.getId())
-                .subscribeOn(Schedulers.io())
+    void handleCourseClick(final Course course, final int position, final boolean isRegistered) {
+        Completable operation;
+        final DayCoursesView.OperationType type;
+        if (isRegistered) {
+            operation = mCoursesService.unregisterFromCourse(course.getId());
+            type = DayCoursesView.OperationType.REMOVE_COURSE;
+        } else {
+            operation = mCoursesService.registerToCourse(course.getId());
+            type = DayCoursesView.OperationType.REGISTER_TO_COURSE;
+        }
+        operation.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
-                        course.setIsRegistered(true);
-                        course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() + 1);
+                        course.setIsRegistered(!isRegistered);
+                        course.setRegisteredUsersNumber((!isRegistered) ?
+                                course.getRegisteredUsersNumber() + 1 :
+                                course.getRegisteredUsersNumber() - 1);
                         UpdateCourseObservable.newInstance(course).subscribe();
-                        getView().displayOperationSuccessful(DayCoursesView.OperationType.REGISTER_TO_COURSE);
+                        getView().displayOperationSuccessful(type, position);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        getView().displayError(DayCoursesView.OperationType.REGISTER_TO_COURSE);
-                    }
-                });
-    }
-
-    void unregisterFromCourse(final Course course) {
-        mCoursesService.unregisterFromCourse(course.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        course.setIsRegistered(false);
-                        course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() - 1);
-                        UpdateCourseObservable.newInstance(course).subscribe();
-                        getView().displayOperationSuccessful(DayCoursesView.OperationType.REMOVE_COURSE);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        getView().displayError(DayCoursesView.OperationType.REMOVE_COURSE);
+                        getView().displayError(DayCoursesView.OperationType.REGISTER_TO_COURSE, position);
                     }
                 });
     }

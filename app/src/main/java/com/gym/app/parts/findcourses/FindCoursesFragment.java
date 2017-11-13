@@ -43,20 +43,10 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         mEmptyLayout.setState(EmptyLayout.State.LOADING);
-        mFindCoursesPresenter = new FindCoursesPresenter(this);
-        mDayPagerAdapter = new DayPagerAdapter(getChildFragmentManager());
-        mFindCoursesViewPager.setAdapter(mDayPagerAdapter);
-        mFindCoursesTabLayout.setupWithViewPager(mFindCoursesViewPager);
-        mFindCoursesTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        ViewCompat.setElevation(mFindCoursesTabLayout, getResources().getDimension(R.dimen.standard_elevation));
+        initPager();
+        initPresenters();
+        setListeners();
         mFindCoursesPresenter.initData();
-        mEmptyLayout.setOnRetryListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEmptyLayout.setState(EmptyLayout.State.LOADING);
-                mFindCoursesPresenter.initData();
-            }
-        });
     }
 
     @Override
@@ -78,7 +68,7 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
 
     @Override
     public void initDays(List<Day> days) {
-        mDayPagerAdapter.setmDaysList(days);
+        mDayPagerAdapter.setDaysList(days);
     }
 
     @Override
@@ -96,5 +86,29 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
     @Override
     public List<Course> getCoursesForDay(long dayStartTime, long dayEndTime) {
         return mFindCoursesPresenter.getCoursesForDay(dayStartTime, dayEndTime);
+    }
+
+    private void initPager() {
+        mDayPagerAdapter = new DayPagerAdapter(getChildFragmentManager());
+        mFindCoursesViewPager.setAdapter(mDayPagerAdapter);
+        mFindCoursesTabLayout.setupWithViewPager(mFindCoursesViewPager);
+        mFindCoursesTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        ViewCompat.setElevation(mFindCoursesTabLayout, getResources().getDimension(R.dimen.standard_elevation));
+    }
+
+    private void initPresenters() {
+        mFindCoursesPresenter = new FindCoursesPresenter(this);
+        mFindCoursesPresenter.setTodayTomorrow(getString(R.string.today),
+                getString(R.string.tomorrow));
+    }
+
+    private void setListeners() {
+        mEmptyLayout.setOnRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEmptyLayout.setState(EmptyLayout.State.LOADING);
+                mFindCoursesPresenter.initData();
+            }
+        });
     }
 }

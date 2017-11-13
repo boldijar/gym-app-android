@@ -17,6 +17,10 @@ public class Day {
         this.mEndTime = endTime;
     }
 
+    public void setDayName(String dayName) {
+        this.mDayName = dayName;
+    }
+
     public String getDayName() {
         return mDayName;
     }

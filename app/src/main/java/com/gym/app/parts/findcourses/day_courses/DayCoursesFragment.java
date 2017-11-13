@@ -11,12 +11,20 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.gym.app.R;
+import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
 import com.gym.app.fragments.BaseFragment;
 import com.gym.app.parts.findcourses.FindCoursesView;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Fragment for the courses from a certain day
@@ -36,11 +44,11 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
 
     private DayCoursesAdapter mTodayCoursesAdapter = new DayCoursesAdapter();
 
-    private int mCurrentCoursePosition;
-
     private Snackbar mRetrySnackBar;
 
     private Toast mOperationStatus;
+
+    private LinearLayoutManager linearLayoutManager;
 
     public static Fragment newFragment(Day day) {
         Bundle bundle = new Bundle();
@@ -55,44 +63,33 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        mDayCoursesPresenter = new DayCoursesPresenter(this);
-        mTodayCoursesAdapter.setCourses(((FindCoursesView) getParentFragment()).getCoursesForDay(
-                getArguments().getLong(DAY_START),
-                getArguments().getLong(DAY_END)
-        ));
-        mTodayCoursesAdapter.setOnRegisterClickListener(new DayCoursesAdapter.OnRegisterClickListener() {
-            @Override
-            public void onClick(int position) {
-                mCurrentCoursePosition = position;
-                mDayCoursesPresenter.registerToCourse(mTodayCoursesAdapter.getCourse(position));
-            }
-        });
-        mTodayCoursesAdapter.setOnRemoveClickListener(new DayCoursesAdapter.OnRemoveClickListener() {
-            @Override
-            public void onClick(int position) {
-                mCurrentCoursePosition = position;
-                mDayCoursesPresenter.unregisterFromCourse(mTodayCoursesAdapter.getCourse(position));
-            }
-        });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(mTodayCoursesRecycler.getContext(),
-                linearLayoutManager.getOrientation());
-        mTodayCoursesRecycler.setAdapter(mTodayCoursesAdapter);
-        mTodayCoursesRecycler.setLayoutManager(linearLayoutManager);
-        mTodayCoursesRecycler.addItemDecoration(itemDecoration);
+        initPresenter();
+        setListeners();
+        initRecycler();
     }
 
+    /*
+        This method is needed when switching the fragment in the pager
+        Because of the FragmentStatePagerAdapter, the state of the fragment is retained so no
+        other life-cycle method works for hiding the snackbar
+     */
     @Override
-    public void onDetach() {
-        super.onDetach();
-        if (mRetrySnackBar != null) {
-            mRetrySnackBar.dismiss();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (!isVisibleToUser) {
+            if (mRetrySnackBar != null) {
+                mRetrySnackBar.dismiss();
+            }
+            if (mOperationStatus != null) {
+                mOperationStatus.cancel();
+            }
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mDayCoursesPresenter.destroySubscriptions();
     }
 
     @Override
@@ -101,14 +98,13 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
     }
 
     @Override
-    public void displayOperationSuccessful(@OperationType int operationType) {
+    public void displayOperationSuccessful(final OperationType operationType, int coursePosition) {
         String toastMessage = "";
         switch (operationType) {
-
-            case OperationType.REGISTER_TO_COURSE:
+            case REGISTER_TO_COURSE:
                 toastMessage = getString(R.string.registration_successful);
                 break;
-            case OperationType.REMOVE_COURSE:
+            case REMOVE_COURSE:
                 toastMessage = getString(R.string.unregister_successful);
                 break;
         }
@@ -117,30 +113,93 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         }
         mOperationStatus = Toast.makeText(getContext(), toastMessage, Toast.LENGTH_SHORT);
         mOperationStatus.show();
-        mTodayCoursesAdapter.updateCourse(mCurrentCoursePosition);
+        mTodayCoursesAdapter.updateCourse(coursePosition);
+        enableCourseButton(coursePosition);
     }
 
     @Override
-    public void displayError(@OperationType final int operationType) {
+    public void displayError(final OperationType operationType, final int coursePosition) {
         if (getView() != null) {
             mRetrySnackBar = Snackbar.make(getView(),
                     getString(R.string.network_error), Snackbar.LENGTH_LONG);
             mRetrySnackBar.setAction(getString(R.string.retry), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    linearLayoutManager.findViewByPosition(coursePosition)
+                            .findViewById(R.id.handle_course_button)
+                            .setClickable(false);
                     switch (operationType) {
-                        case OperationType.REGISTER_TO_COURSE:
-                            mDayCoursesPresenter.unregisterFromCourse(mTodayCoursesAdapter
-                                    .getCourse(mCurrentCoursePosition));
+                        case REGISTER_TO_COURSE:
+                            mDayCoursesPresenter.handleCourseClick(mTodayCoursesAdapter
+                                    .getCourse(coursePosition), coursePosition, false);
                             break;
-                        case OperationType.REMOVE_COURSE:
-                            mDayCoursesPresenter.registerToCourse(mTodayCoursesAdapter
-                                    .getCourse(mCurrentCoursePosition));
+                        case REMOVE_COURSE:
+                            mDayCoursesPresenter.handleCourseClick(mTodayCoursesAdapter
+                                    .getCourse(coursePosition), coursePosition, true);
                             break;
                     }
                 }
             });
             mRetrySnackBar.show();
         }
+        enableCourseButton(coursePosition);
+    }
+
+    private void setListeners() {
+        mTodayCoursesAdapter.setDayCourseClickListener(new DayCoursesAdapter.DayCourseClickListener() {
+            @Override
+            public void onClick(int position) {
+                linearLayoutManager.findViewByPosition(position)
+                        .findViewById(R.id.handle_course_button)
+                        .setClickable(false);
+                Course course = mTodayCoursesAdapter.getCourse(position);
+                mDayCoursesPresenter.handleCourseClick(course, position, course.isRegistered());
+            }
+        });
+    }
+
+    private void initRecycler() {
+        mTodayCoursesAdapter.setCourses(((FindCoursesView) getParentFragment()).getCoursesForDay(
+                getArguments().getLong(DAY_START),
+                getArguments().getLong(DAY_END)
+        ));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),
+                linearLayoutManager.getOrientation());
+        mTodayCoursesRecycler.setAdapter(mTodayCoursesAdapter);
+        mTodayCoursesRecycler.setLayoutManager(linearLayoutManager);
+        mTodayCoursesRecycler.addItemDecoration(itemDecoration);
+    }
+
+    private void initPresenter() {
+        mDayCoursesPresenter = new DayCoursesPresenter(this);
+    }
+
+    private void enableCourseButton(final int coursePosition) {
+        Observable.timer(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        linearLayoutManager.findViewByPosition(coursePosition).findViewById(R.id.handle_course_button)
+                                .setClickable(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

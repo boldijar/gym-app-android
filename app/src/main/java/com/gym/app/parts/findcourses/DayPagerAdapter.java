@@ -26,7 +26,7 @@ class DayPagerAdapter extends FragmentStatePagerAdapter {
         mDaysList = new ArrayList<>();
     }
 
-    void setmDaysList(List<Day> mDaysList) {
+    void setDaysList(List<Day> mDaysList) {
         this.mDaysList = mDaysList;
         notifyDataSetChanged();
     }

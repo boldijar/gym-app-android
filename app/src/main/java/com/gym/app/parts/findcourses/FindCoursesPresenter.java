@@ -1,5 +1,7 @@
 package com.gym.app.parts.findcourses;
 
+import android.annotation.SuppressLint;
+
 import com.gym.app.data.SystemUtils;
 import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
@@ -10,9 +12,10 @@ import com.gym.app.presenter.Presenter;
 import com.gym.app.server.CoursesService;
 import com.gym.app.utils.MvpObserver;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,25 +32,20 @@ import io.reactivex.schedulers.Schedulers;
  * @author catalinradoiu
  * @since 2017.10.31
  */
-
 public class FindCoursesPresenter extends Presenter<FindCoursesView> {
 
-    private static final String TODAY = "today";
-    private static final String TOMORROW = "tomorrow";
-    private static final String MONDAY = "monday";
-    private static final String TUESDAY = "tuesday";
-    private static final String WEDNESDAY = "wednesday";
-    private static final String THURSDAY = "thursday";
-    private static final String FRIDAY = "friday";
-    private static final String SATURDAY = "saturday";
-    private static final String SUNDAY = "sunday";
-
-    private static final long FIVE_DAYS_TIMESTAMP = 5 * 24 * 3600;
-    private static final long ONE_DAY_TIMESTAMP = 24 * 3600;
+    private static final String DAY_NAME_FORMAT = "EEEE";
+    private static final long FIVE_DAYS_TIMESTAMP = 5 * 24 * 3600 * 1000;
+    private static final long ONE_DAY_TIMESTAMP = 24 * 3600 * 1000;
+    private static final int DAYS_NUMBER = 5;
 
     private List<Course> mCoursesList;
 
     private List<Day> mDaysList;
+
+    private String today;
+
+    private String tomorrow;
 
     @Inject
     CoursesService mCoursesService;
@@ -66,17 +64,12 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     }
 
     void initData() {
-
-        //Initialize the days 
-
+        //Initialize the days
         long currentTime = System.currentTimeMillis() / 1000;
-        Calendar calendar = Calendar.getInstance();
-        int today = calendar.get(Calendar.DAY_OF_WEEK);
-        mDaysList = generateDaysList(today, calendar);
+        mDaysList = generateDaysList();
         getView().initDays(mDaysList);
 
         //Initialize the courses
-
         long endPeriod = currentTime + FIVE_DAYS_TIMESTAMP;
         loadCourses(currentTime, endPeriod);
     }
@@ -89,6 +82,18 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
             }
         }
         return result;
+    }
+
+    /**
+     * Set the today and tomorrow names in order to support internationalisation
+     * Should be called from the corresponding view where it is used with the corresponding string values
+     *
+     * @param today    the name of today day in the language of the device
+     * @param tomorrow the name of tomorrow day in the language of the device
+     */
+    void setTodayTomorrow(String today, String tomorrow) {
+        this.today = today;
+        this.tomorrow = tomorrow;
     }
 
     private void loadCourses(long periodStart, long periodEnd) {
@@ -147,45 +152,27 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
                 });
     }
 
-    private List<Day> generateDaysList(int firstDay, Calendar currentCalendar) {
-        List<String> daysNames = new ArrayList<>();
-        switch (firstDay) {
-            case Calendar.MONDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, WEDNESDAY, THURSDAY, FRIDAY));
-                break;
-            case Calendar.TUESDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, THURSDAY, FRIDAY, SATURDAY));
-                break;
-            case Calendar.WEDNESDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, FRIDAY, SATURDAY, SUNDAY));
-                break;
-            case Calendar.THURSDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, SATURDAY, SUNDAY, MONDAY));
-                break;
-            case Calendar.FRIDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, SUNDAY, MONDAY, TUESDAY));
-                break;
-            case Calendar.SATURDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, MONDAY, TUESDAY, WEDNESDAY));
-                break;
-            case Calendar.SUNDAY:
-                daysNames.addAll(Arrays.asList(TODAY, TOMORROW, TUESDAY, WEDNESDAY, THURSDAY));
-                break;
-        }
-
+    private List<Day> generateDaysList() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat =
+                new SimpleDateFormat(DAY_NAME_FORMAT);
         List<Day> days = new ArrayList<>();
-        long currentDayStartTime = currentCalendar.getTimeInMillis() / 1000;
+        Calendar currentCalendar = Calendar.getInstance();
+        long currentDayStartTime = currentCalendar.getTimeInMillis();
+        String currentDayName = dateFormat.format(currentCalendar.getTime());
         currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
         currentCalendar.set(Calendar.MINUTE, 0);
         currentCalendar.set(Calendar.SECOND, 0);
         currentCalendar.set(Calendar.MILLISECOND, 0);
-        long currentDayEndTime = currentCalendar.getTimeInMillis() / 1000 + ONE_DAY_TIMESTAMP - 1;
-        for (String name : daysNames) {
-            days.add(new Day(name, currentDayStartTime, currentDayEndTime));
-            currentDayStartTime = currentDayEndTime;
+        long currentDayEndTime = currentCalendar.getTimeInMillis() + ONE_DAY_TIMESTAMP - 1;
+        for (int i = 0; i < DAYS_NUMBER; i++) {
+            //For the day, the milliseconds are converted to seconds
+            days.add(new Day(currentDayName, currentDayStartTime / 1000, currentDayEndTime / 1000));
+            currentDayStartTime = currentDayEndTime + 1;
             currentDayEndTime += ONE_DAY_TIMESTAMP;
+            currentDayName = dateFormat.format(new Date(currentDayStartTime));
         }
-
+        days.get(0).setDayName(today);
+        days.get(1).setDayName(tomorrow);
         return days;
     }
 }
