@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import com.gym.app.data.SystemUtils;
 import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
-import com.gym.app.data.observables.DeleteCoursesObservable;
 import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.di.InjectionHelper;
@@ -139,7 +138,6 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
                 .subscribe(new Consumer<List<Course>>() {
                     @Override
                     public void accept(@NonNull List<Course> courseList) throws Exception {
-                        DeleteCoursesObservable.newInstance().subscribe();
                         getView().setLoaded();
                         mCoursesList.addAll(courseList);
                     }

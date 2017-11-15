@@ -1,7 +1,6 @@
 package com.gym.app.di;
 
 import com.gym.app.Shaorma;
-import com.gym.app.data.observables.DeleteCoursesObservable;
 import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.observables.SaveProductsObservable;
 import com.gym.app.data.observables.UpdateCourseObservable;
@@ -30,6 +29,4 @@ public interface ApplicationComponent {
     void inject(SaveCoursesObservable saveCoursesObservable);
 
     void inject(UpdateCourseObservable updateCourseObservable);
-
-    void inject(DeleteCoursesObservable deleteCoursesObservable);
 }

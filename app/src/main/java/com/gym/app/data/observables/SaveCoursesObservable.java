@@ -40,6 +40,7 @@ public class SaveCoursesObservable implements ObservableOnSubscribe<Long> {
 
     @Override
     public void subscribe(ObservableEmitter<Long> e) throws Exception {
+        mAppDatabase.getCoursesDao().deleteAllCourses();
         mAppDatabase.getCoursesDao().insertCourses(mCoursesList);
         e.onComplete();
     }
