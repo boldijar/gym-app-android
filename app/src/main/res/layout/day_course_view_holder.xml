@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="96dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/course_image"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="@dimen/primary_margin"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/primary_margin"
+        tools:src="@drawable/ic_key_green" />
+
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/adjustment_margin"
+        android:layout_toEndOf="@id/course_image"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        tools:text="Pilates with Alex" />
+
+    <TextView
+        android:id="@+id/course_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/course_name"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_toEndOf="@id/course_image"
+        tools:text="13:00 - 14:00" />
+
+    <TextView
+        android:id="@+id/course_remaining_places"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/course_schedule"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_toEndOf="@id/course_image"
+        tools:text="23 places left!" />
+
+    <Button
+        android:id="@+id/handle_course_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="?attr/selectableItemBackground"
+        android:textColor="@color/light_blue" />
+</RelativeLayout>
