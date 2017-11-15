@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_name"
-        android:hint="@string/username"
+        android:hint="@string/full_name"
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@color/white"
@@ -90,5 +90,13 @@
         android:text="@string/register"
         android:textColor="@color/white"
         android:textSize="@dimen/authentication_button_text_size" />
-
 </RelativeLayout>
+
+
+
+
+
+
+
+
+

@@ -8,6 +8,7 @@ import com.gym.app.BuildConfig;
 import com.gym.app.Shaorma;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.server.ApiService;
+import com.gym.app.server.AuthenticationService;
 import com.gym.app.server.NetworkInterceptor;
 import com.gym.app.utils.Constants;
 
@@ -100,5 +101,10 @@ public class ApiModule {
     @Provides
     ApiService provideApiService(final Retrofit retrofit) {
         return retrofit.create(ApiService.class);
+    }
+
+    @Provides
+    AuthenticationService provideAuthenticationService(final Retrofit retrofit) {
+        return retrofit.create(AuthenticationService.class);
     }
 }
