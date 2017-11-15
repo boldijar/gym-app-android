@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import com.gym.app.data.SystemUtils;
 import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
+import com.gym.app.data.observables.DeleteCoursesObservable;
 import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.di.InjectionHelper;
@@ -39,14 +40,6 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     private static final long ONE_DAY_TIMESTAMP = 24 * 3600 * 1000;
     private static final int DAYS_NUMBER = 5;
 
-    private List<Course> mCoursesList;
-
-    private List<Day> mDaysList;
-
-    private String today;
-
-    private String tomorrow;
-
     @Inject
     CoursesService mCoursesService;
 
@@ -55,6 +48,11 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
 
     @Inject
     AppDatabase mAppDatabase;
+
+    private List<Course> mCoursesList;
+    private List<Day> mDaysList;
+    private String mToday;
+    private String mTomorrow;
 
     FindCoursesPresenter(FindCoursesView view) {
         super(view);
@@ -85,15 +83,15 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
     }
 
     /**
-     * Set the today and tomorrow names in order to support internationalisation
+     * Set the mToday and mTomorrow names in order to support internationalisation
      * Should be called from the corresponding view where it is used with the corresponding string values
      *
-     * @param today    the name of today day in the language of the device
-     * @param tomorrow the name of tomorrow day in the language of the device
+     * @param today    the name of mToday day in the language of the device
+     * @param tomorrow the name of mTomorrow day in the language of the device
      */
     void setTodayTomorrow(String today, String tomorrow) {
-        this.today = today;
-        this.tomorrow = tomorrow;
+        this.mToday = today;
+        this.mTomorrow = tomorrow;
     }
 
     private void loadCourses(long periodStart, long periodEnd) {
@@ -141,6 +139,7 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
                 .subscribe(new Consumer<List<Course>>() {
                     @Override
                     public void accept(@NonNull List<Course> courseList) throws Exception {
+                        DeleteCoursesObservable.newInstance().subscribe();
                         getView().setLoaded();
                         mCoursesList.addAll(courseList);
                     }
@@ -171,8 +170,8 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
             currentDayEndTime += ONE_DAY_TIMESTAMP;
             currentDayName = dateFormat.format(new Date(currentDayStartTime));
         }
-        days.get(0).setDayName(today);
-        days.get(1).setDayName(tomorrow);
+        days.get(0).setDayName(mToday);
+        days.get(1).setDayName(mTomorrow);
         return days;
     }
 }

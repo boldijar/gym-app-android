@@ -36,7 +36,6 @@ import static android.support.v7.widget.RecyclerView.NO_POSITION;
 class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCoursesViewHolder> {
 
     private List<Course> mTodayCourses;
-
     private DayCourseClickListener mDayCourseClickListener;
 
     interface DayCourseClickListener {

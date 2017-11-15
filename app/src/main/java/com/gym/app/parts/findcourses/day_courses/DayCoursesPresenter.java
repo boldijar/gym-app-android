@@ -44,7 +44,7 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
             operation = mCoursesService.registerToCourse(course.getId());
             type = DayCoursesView.OperationType.REGISTER_TO_COURSE;
         }
-        operation.subscribeOn(Schedulers.io())
+        addDisposable(operation.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
@@ -61,6 +61,6 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
                     public void accept(@NonNull Throwable throwable) throws Exception {
                         getView().displayError(DayCoursesView.OperationType.REGISTER_TO_COURSE, position);
                     }
-                });
+                }));
     }
 }

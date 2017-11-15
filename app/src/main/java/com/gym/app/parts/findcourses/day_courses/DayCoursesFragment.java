@@ -15,6 +15,7 @@ import com.gym.app.data.model.Course;
 import com.gym.app.data.model.Day;
 import com.gym.app.fragments.BaseFragment;
 import com.gym.app.parts.findcourses.FindCoursesView;
+import com.gym.app.utils.MvpObserver;
 import com.gym.app.view.EmptyLayout;
 
 import java.util.List;
@@ -23,9 +24,7 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -43,17 +42,13 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
     RecyclerView mTodayCoursesRecycler;
 
     @BindView(R.id.day_courses_empty_layout)
-    EmptyLayout emptyLayout;
+    EmptyLayout mEmptyLayout;
 
     private DayCoursesPresenter mDayCoursesPresenter;
-
     private DayCoursesAdapter mTodayCoursesAdapter = new DayCoursesAdapter();
-
     private Snackbar mRetrySnackBar;
-
     private Toast mOperationStatus;
-
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager mLinearLayoutManager;
 
     public static Fragment newFragment(Day day) {
         Bundle bundle = new Bundle();
@@ -130,7 +125,7 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
             mRetrySnackBar.setAction(getString(R.string.retry), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    linearLayoutManager.findViewByPosition(coursePosition)
+                    mLinearLayoutManager.findViewByPosition(coursePosition)
                             .findViewById(R.id.handle_course_button)
                             .setClickable(false);
                     switch (operationType) {
@@ -154,7 +149,7 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         mTodayCoursesAdapter.setDayCourseClickListener(new DayCoursesAdapter.DayCourseClickListener() {
             @Override
             public void onClick(int position) {
-                linearLayoutManager.findViewByPosition(position)
+                mLinearLayoutManager.findViewByPosition(position)
                         .findViewById(R.id.handle_course_button)
                         .setClickable(false);
                 Course course = mTodayCoursesAdapter.getCourse(position);
@@ -169,16 +164,16 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
                 getArguments().getLong(DAY_END));
         if (!courseList.isEmpty()) {
             mTodayCoursesRecycler.setVisibility(View.VISIBLE);
-            emptyLayout.setVisibility(View.GONE);
+            mEmptyLayout.setVisibility(View.GONE);
             mTodayCoursesAdapter.setCourses(courseList);
-            linearLayoutManager = new LinearLayoutManager(getContext());
+            mLinearLayoutManager = new LinearLayoutManager(getContext());
             DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),
-                    linearLayoutManager.getOrientation());
+                    mLinearLayoutManager.getOrientation());
             mTodayCoursesRecycler.setAdapter(mTodayCoursesAdapter);
-            mTodayCoursesRecycler.setLayoutManager(linearLayoutManager);
+            mTodayCoursesRecycler.setLayoutManager(mLinearLayoutManager);
             mTodayCoursesRecycler.addItemDecoration(itemDecoration);
         } else {
-            emptyLayout.setState(EmptyLayout.State.EMPTY_NO_BUTTON, R.string.no_courses_for_day);
+            mEmptyLayout.setState(EmptyLayout.State.EMPTY_NO_BUTTON, R.string.no_courses_for_day);
         }
     }
 
@@ -190,26 +185,12 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         Observable.timer(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
+                .subscribe(new MvpObserver<Long>(mDayCoursesPresenter) {
 
                     @Override
                     public void onNext(Long aLong) {
-                        linearLayoutManager.findViewByPosition(coursePosition).findViewById(R.id.handle_course_button)
+                        mLinearLayoutManager.findViewByPosition(coursePosition).findViewById(R.id.handle_course_button)
                                 .setClickable(true);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
                     }
                 });
     }

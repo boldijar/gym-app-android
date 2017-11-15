@@ -35,7 +35,6 @@ public class FindCoursesFragment extends BaseHomeFragment implements FindCourses
     EmptyLayout mEmptyLayout;
 
     private FindCoursesPresenter mFindCoursesPresenter;
-
     private DayPagerAdapter mDayPagerAdapter;
 
     @Override
