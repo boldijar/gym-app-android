@@ -45,4 +45,8 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="no_courses_for_day">There are no courses for this day</string>
 
+    <!-- my courses -->
+    <string name="course_held_by">Course held by : %1$s</string>
+    <string name="people_per_session">%1$d people / session</string>
+
 </resources>

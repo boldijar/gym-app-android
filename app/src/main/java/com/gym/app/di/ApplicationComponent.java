@@ -7,6 +7,7 @@ import com.gym.app.data.observables.UpdateCourseObservable;
 import com.gym.app.parts.authentication.AuthenticationPresenter;
 import com.gym.app.parts.findcourses.FindCoursesPresenter;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
+import com.gym.app.parts.mycourses.MyCoursesPresenter;
 import com.gym.app.parts.shop.ShopPresenter;
 
 import dagger.Component;
@@ -29,4 +30,6 @@ public interface ApplicationComponent {
     void inject(SaveCoursesObservable saveCoursesObservable);
 
     void inject(UpdateCourseObservable updateCourseObservable);
+
+    void inject(MyCoursesPresenter myCoursesPresenter);
 }

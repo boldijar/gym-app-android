@@ -13,4 +13,6 @@
     <color name="transparent_blue">#801c6fce</color>
     <color name="light_red">#c70000</color>
 
+    <color name="transparent_gray">#7f494949</color>
+
 </resources>
