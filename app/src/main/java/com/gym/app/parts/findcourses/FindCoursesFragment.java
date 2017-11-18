@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 
 /**
  * @author Paul
+ * @author catalinradoiu
  * @since 2017.10.25
  */
 

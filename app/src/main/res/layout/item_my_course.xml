@@ -13,8 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/small_margin">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/course_main_details"
@@ -97,8 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/schedule_divider"
-            android:layout_marginEnd="@dimen/small_margin"
-            android:layout_marginTop="@dimen/small_margin"
             android:background="?attr/selectableItemBackground"
             android:text="@string/remove_course"
             android:textColor="@color/light_red" />

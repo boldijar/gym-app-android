@@ -28,6 +28,9 @@ public interface CoursesDao {
     @Query("SELECT * FROM courses")
     Single<List<Course>> getAllCourses();
 
+    @Query("SELECT * FROM courses WHERE isUserRegistered = 1")
+    Single<List<Course>> getRegisteredCourses();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCourses(List<Course> courses);
 

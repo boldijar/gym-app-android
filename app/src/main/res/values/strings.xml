@@ -48,5 +48,6 @@
     <!-- my courses -->
     <string name="course_held_by">Course held by : %1$s</string>
     <string name="people_per_session">%1$d people / session</string>
+    <string name="no_course_registrations">You are currently not registered to any course</string>
 
 </resources>

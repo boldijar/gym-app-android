@@ -1,6 +1,7 @@
 package com.gym.app.parts.mycourses;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -21,7 +23,7 @@ import butterknife.OnClick;
  * @since 2017.11.18
  */
 
-public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
+class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolder> {
 
     private List<Course> mCourseList;
     private OnRemoveCourseListener mOnRemoveCourseListener;
@@ -30,26 +32,32 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
         void onClick(int position);
     }
 
-    public CoursesAdapter() {
+    CoursesAdapter() {
         mCourseList = new ArrayList<>();
     }
 
     public void setCourses(List<Course> courses) {
         this.mCourseList = courses;
+        notifyDataSetChanged();
     }
 
-    public void removeCourse(int position) {
+    Course getCourse(int position) {
+        return mCourseList.get(position);
+    }
+
+    void removeCourse(int position) {
         mCourseList.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void setRemoveCourseListener(OnRemoveCourseListener onRemoveCourseListener) {
+    void setRemoveCourseListener(OnRemoveCourseListener onRemoveCourseListener) {
         this.mOnRemoveCourseListener = onRemoveCourseListener;
     }
 
     @Override
     public CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        return new CourseViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.item_my_course, parent, false), mOnRemoveCourseListener);
     }
 
     @Override
@@ -81,8 +89,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
 
         private OnRemoveCourseListener mOnRemoveCourseListener;
 
-        public CourseViewHolder(View itemView, OnRemoveCourseListener onRemoveCourseListener) {
+        CourseViewHolder(View itemView, OnRemoveCourseListener onRemoveCourseListener) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
             this.mOnRemoveCourseListener = onRemoveCourseListener;
         }
 
@@ -92,7 +101,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseVi
                     .into(mCourseImage);
             mCourseName.setText(course.getName());
             mCourseTrainer.setText(mCourseTrainer.getContext().getString(R.string.course_held_by,
-                    course.getTrainer()));
+                    course.getTrainer().getFullName()));
+            mCourseSchedule.setText(com.gym.app.utils.TimeUtils.formatToDate(course.getCourseDate()));
             mCourseCapacity.setText(mCourseCapacity.getContext().getString(R.string.people_per_session,
                     course.getCapacity()));
         }

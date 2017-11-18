@@ -1,8 +1,8 @@
 package com.gym.app.data.model;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
@@ -42,7 +42,7 @@ public class Course {
     @ColumnInfo(name = "registeredUsers")
     private int mRegisteredUsersNumber;
 
-    @Ignore
+    @Embedded
     @SerializedName("trainer")
     private Trainer mTrainer;
 

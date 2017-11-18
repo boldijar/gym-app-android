@@ -12,4 +12,10 @@ import java.util.List;
 interface MyCoursesView {
 
     void loadCourses(List<Course> courseList);
+
+    void showRemoveSuccessful(int coursePosition);
+
+    void showRemoveError(int coursePosition);
+
+    void showNoCourses();
 }
