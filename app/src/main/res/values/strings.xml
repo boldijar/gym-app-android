@@ -34,4 +34,17 @@
     <string name="products_error">Can\'t get products</string>
     <string name="no_internet_connection">No internet connection</string>
 
+    <!-- find courses -->
+    <string name="reserve_course">Reserve</string>
+    <string name="could_not_find_courses">No courses found</string>
+    <string name="network_error">No internet connection</string>
+    <string name="remove_course">Remove</string>
+    <string name="unregister_successful">Course removed successfully</string>
+    <string name="course_places_left">%1$d places left</string>
+    <string name="course_no_places_left">No places left</string>
+    <string name="registration_successful">Registration successful</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="no_courses_for_day">There are no courses for this day</string>
+
 </resources>
