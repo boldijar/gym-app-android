@@ -7,6 +7,7 @@ import com.gym.app.data.observables.UpdateCourseObservable;
 import com.gym.app.parts.authentication.AuthenticationPresenter;
 import com.gym.app.parts.findcourses.FindCoursesPresenter;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
+import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.mycourses.MyCoursesPresenter;
 import com.gym.app.parts.shop.ShopPresenter;
 
@@ -22,6 +23,8 @@ public interface ApplicationComponent {
     void inject(ShopPresenter shopPresenter);
 
     void inject(SaveProductsObservable saveProductsObservable);
+
+    void inject(RegisterPresenter registerPresenter);
 
     void inject(FindCoursesPresenter findCoursesPresenter);
 
