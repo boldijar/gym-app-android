@@ -24,6 +24,7 @@
     <string name="login">Login</string>
     <string name="save_changes">Save changes</string>
     <string name="token_expired">Session expired. Please login again.</string>
+    <string name="register_successful">Your account was created</string>
 
     <!-- profile -->
     <string name="open_gallery">Open gallery</string>
@@ -31,7 +32,6 @@
     <string name="file_path">file:///</string>
     <string name="check_sdcard_status">please check your sdcard status</string>
     <string name="products_error">Can\'t get products</string>
-    <string name="register_successful">Your account was created</string>
     <string name="no_internet_connection">No internet connection</string>
 
 </resources>

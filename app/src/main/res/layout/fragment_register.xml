@@ -91,12 +91,3 @@
         android:textColor="@color/white"
         android:textSize="@dimen/authentication_button_text_size" />
 </RelativeLayout>
-
-
-
-
-
-
-
-
-
