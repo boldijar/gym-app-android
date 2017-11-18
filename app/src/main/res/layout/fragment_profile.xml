@@ -26,7 +26,7 @@
         android:layout_marginTop="70dp"
         android:drawablePadding="@dimen/small_margin"
         android:drawableStart="@drawable/ic_name_green"
-        android:hint="@string/username"
+        android:hint="@string/full_name"
         android:inputType="text"
         android:maxLines="1"
         android:textColor="@color/black"

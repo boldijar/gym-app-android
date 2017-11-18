@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.gym.app.parts.authentication.register.RegisterFragment;
+
 
 /**
  * Pager adapter for navigating between the fragment from AuthenticationActivity
