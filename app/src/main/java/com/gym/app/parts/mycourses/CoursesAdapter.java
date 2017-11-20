@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
 import com.gym.app.data.model.Course;
+import com.gym.app.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,7 @@ class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.CourseViewHolde
 
         public void bind(Course course) {
             Glide.with(mCourseImage.getContext())
-                    .load(course.getImage())
+                    .load(Constants.COURSES_IMAGES_ENDPOINT + course.getImage())
                     .into(mCourseImage);
             mCourseName.setText(course.getName());
             mCourseTrainer.setText(mCourseTrainer.getContext().getString(R.string.course_held_by,
