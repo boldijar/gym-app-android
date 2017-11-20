@@ -6,14 +6,16 @@ import com.gym.app.data.model.Product;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface ApiService {
 
+    @FormUrlEncoded
     @POST("api/login")
-    Observable<LoginResponse> login(@Query("email") String email, @Query("password") String password);
+    Observable<LoginResponse> login(@Field("email") String email, @Field("password") String password);
 
     @GET("api/products")
     Observable<List<Product>> getProducts();

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
 import com.gym.app.data.model.Course;
+import com.gym.app.utils.Constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -126,7 +127,8 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
                             .getString(R.string.course_places_left,
                                     course.getCapacity() - course.getRegisteredUsersNumber());
             mCourseRemainingPlaces.setText(remainingPlaces);
-            Glide.with(mCourseImage.getContext()).load(course.getImage()).into(mCourseImage);
+            Glide.with(mCourseImage.getContext()).load(Constants.COURSES_IMAGES_ENDPOINT +
+                    course.getImage()).into(mCourseImage);
             mCourseName.setText(course.getName());
             mCourseSchedule.setText(getFormattedTime(course.getCourseDate() * 1000,
                     course.getCapacity() * 1000 + ONE_HOUR_TIME_STAMP));
