@@ -24,6 +24,7 @@
                 android:id="@+id/my_course_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:scaleType="centerCrop"
                 tools:background="@color/light_blue"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_key_green" />
