@@ -12,12 +12,16 @@ import java.util.Date;
 
 public class TimeUtils {
 
+    private static final int ONE_HOUR_TIMESTAMP = 3600 * 1000;
+
+    @SuppressLint("SimpleDateFormat")
     public static String formatToDate(long timestamp) {
         Date date = new Date(timestamp * 1000);
-        @SuppressLint("SimpleDateFormat")
+        Date endTime = new Date(timestamp * 1000 + ONE_HOUR_TIMESTAMP);
+        SimpleDateFormat dayNameFormat = new SimpleDateFormat("EEEE");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dayTimeFormat = new SimpleDateFormat("kk:mm");
-        return simpleDateFormat.format(date) + "\n" + dayTimeFormat.format(date);
+        return dayNameFormat.format(date) + ",  " + simpleDateFormat.format(date)
+                + "\n" + dayTimeFormat.format(date) + "-" + dayTimeFormat.format(endTime);
     }
 }

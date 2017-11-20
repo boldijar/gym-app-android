@@ -38,7 +38,7 @@ public class Course {
     @ColumnInfo(name = "capacity")
     private int mCapacity;
 
-    @SerializedName("registered_users")
+    @SerializedName("registeredUsers")
     @ColumnInfo(name = "registeredUsers")
     private int mRegisteredUsersNumber;
 
