@@ -7,7 +7,7 @@ package com.gym.app.parts.authentication;
  * @author catalinradoiu
  * @since 2017.10.25
  */
-interface AuthenticationNavigation {
+public interface AuthenticationNavigation {
 
     void goToRegister();
 

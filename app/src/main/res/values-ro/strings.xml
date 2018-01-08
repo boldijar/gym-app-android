@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Find courses fragment -->
+    <string name="today">Astăzi</string>
+    <string name="tomorrow">Mâine</string>
+</resources>

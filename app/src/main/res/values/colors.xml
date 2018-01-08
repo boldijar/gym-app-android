@@ -8,5 +8,11 @@
     <color name="white">#ffffff</color>
     <color name="light_gray">#999999</color>
     <color name="black">#000000</color>
+    <color name="light_blue">#1c6fce</color>
+    <color name="transparent_white">#b4ffffff</color>
+    <color name="transparent_blue">#801c6fce</color>
+    <color name="light_red">#c70000</color>
+
+    <color name="transparent_gray">#7f494949</color>
 
 </resources>
