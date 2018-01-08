@@ -7,7 +7,11 @@ package com.gym.app.parts.authentication.register;
 
 interface RegisterView {
 
+    enum RegisterErrorType{
+        EMAIL_IN_USE_ERROR, CONNECTION_ERROR
+    }
+
     void displayRegistrationSuccess();
 
-    void displayRegistrationError();
+    void displayRegistrationError(RegisterErrorType errorType);
 }
