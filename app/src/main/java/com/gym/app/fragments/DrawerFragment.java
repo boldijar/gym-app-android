@@ -40,7 +40,8 @@ public class DrawerFragment extends BaseFragment {
             R.id.drawer_my_courses,
             R.id.drawer_profile,
             R.id.drawer_shop,
-            R.id.drawer_logout
+            R.id.drawer_logout,
+            R.id.drawer_terms
     })
     void onOptionsClicked(View view) {
         switch (view.getId()) {
@@ -58,6 +59,10 @@ public class DrawerFragment extends BaseFragment {
                 return;
             case R.id.drawer_logout:
                 mHomeNavigator.logout();
+                return;
+            case R.id.drawer_terms:
+                mHomeNavigator.goToTerms();
+                return;
         }
     }
 
