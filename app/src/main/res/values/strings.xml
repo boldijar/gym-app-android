@@ -52,4 +52,14 @@
     <string name="people_per_session">%1$d people / session</string>
     <string name="no_course_registrations">You are currently not registered to any course</string>
 
+    <!-- create course -->
+    <string name="Add">Add</string>
+    <string name="create_course">Create course</string>
+    <string name="tap_to_select_date">Tap to select date</string>
+    <string name="date">Date</string>
+    <string name="course_name">Course name</string>
+    <string name="capacity">Capacity</string>
+    <string name="select_image">Select image</string>
+    <string name="no_image_uploaded">No image uploaded</string>
+
 </resources>

@@ -34,6 +34,9 @@ public interface CoursesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCourses(List<Course> courses);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertCourse(Course course);
+
     @Update
     void updateCourse(Course course);
 }

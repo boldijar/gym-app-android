@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/course_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/course_image_height"
+        android:src="@drawable/ic_add_a_photo"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/image_upload_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/no_image_uploaded"
+        android:textColor="@color/error_red_color"
+        android:textSize="@dimen/error_text_size"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/course_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/primary_margin"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginStart="@dimen/primary_margin"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/course_name_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/primary_margin"
+            android:drawableStart="@drawable/ic_assignment"
+            android:hint="@string/course_name"
+            android:inputType="text" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/course_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginStart="@dimen/primary_margin"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/course_date_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/small_margin"
+            android:drawableStart="@drawable/ic_date_range"
+            android:enabled="false"
+            android:hint="@string/date"
+            android:inputType="none"
+            android:text="@string/tap_to_select_date" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/course_capacity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginStart="@dimen/primary_margin"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/course_capacity_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/primary_margin"
+            android:drawableStart="@drawable/ic_people"
+            android:hint="@string/capacity"
+            android:inputType="numberDecimal" />
+
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
