@@ -6,4 +6,7 @@ package com.gym.app.parts.create_course;
  */
 
 interface CreateCourseView {
+
+    void displayError();
+    void displaySuccess();
 }

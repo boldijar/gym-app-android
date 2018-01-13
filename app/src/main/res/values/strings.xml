@@ -61,5 +61,10 @@
     <string name="capacity">Capacity</string>
     <string name="select_image">Select image</string>
     <string name="no_image_uploaded">No image uploaded</string>
+    <string name="course_create_success">Course created successfully</string>
+    <string name="create_course_error">Could not create course</string>
+    <string name="course_date_not_past">The course time cannot be in the past</string>
+    <string name="course_capaciy_invalid">The course capacity must be between 1 and 50</string>
+    <string name="course_name_invalid">The course name must have at least 3 characters</string>
 
 </resources>

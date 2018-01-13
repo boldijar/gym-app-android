@@ -2,6 +2,10 @@ package com.gym.app.parts.create_course;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
@@ -17,13 +22,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.gym.app.R;
 import com.gym.app.parts.home.BaseHomeFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,12 +69,16 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
     @BindView(R.id.course_date_input)
     TextInputEditText courseDate;
 
+    @BindView(R.id.image_upload_error)
+    TextView uploadImageError;
+
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int READ_EXTERNAL_STORAGE_REQUEST = 2;
 
     private CreateCoursePresenter createCoursePresenter;
     private long courseDateTimestamp;
     private Uri uploadedImage;
+    private Snackbar operationSnackBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,8 +103,34 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.add_course_menu_item) {
-            // todo : validations
-            handlePermissionUpload();
+            boolean isDataValid = true;
+            if (uploadedImage == null) {
+                uploadImageError.setVisibility(View.VISIBLE);
+                isDataValid = false;
+            } else {
+                uploadImageError.setVisibility(View.INVISIBLE);
+            }
+            if (courseCapacity.getText().toString().isEmpty()) {
+                courseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
+                isDataValid = false;
+            } else {
+                int capacity = Integer.parseInt(courseCapacity.getText().toString());
+                if (capacity < 1 || capacity > 50) {
+                    courseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
+                    isDataValid = false;
+                } else {
+                    courseCapacityLayout.setError("");
+                }
+            }
+            if (courseName.getText().toString().isEmpty() || courseName.getText().toString().length() < 3) {
+                courseNameLayout.setError(getString(R.string.course_name_invalid));
+                isDataValid = false;
+            } else {
+                courseNameLayout.setError("");
+            }
+            if (isDataValid) {
+                handlePermissionUpload();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -112,13 +153,35 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == READ_EXTERNAL_STORAGE_REQUEST && grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            try {
-                File courseImage = new Compressor(getContext()).compressToFile(new File(getPath(uploadedImage)));
-                createCoursePresenter.createCourse(courseName.getText().toString(),
-                        courseDateTimestamp, 1515758400, courseImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            createCourse();
+        }
+    }
+
+    @Override
+    public void displayError() {
+        if (operationSnackBar != null && operationSnackBar.isShown()) {
+            operationSnackBar.dismiss();
+        }
+        if (getView() != null) {
+            operationSnackBar = Snackbar.make(getView(), getString(R.string.create_course_error), Snackbar.LENGTH_LONG);
+            operationSnackBar.setAction(getString(R.string.retry), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    createCourse();
+                }
+            });
+            operationSnackBar.show();
+        }
+    }
+
+    @Override
+    public void displaySuccess() {
+        if (operationSnackBar != null && operationSnackBar.isShown()) {
+            operationSnackBar.dismiss();
+        }
+        if (getView() != null) {
+            operationSnackBar = Snackbar.make(getView(), getString(R.string.course_create_success), Snackbar.LENGTH_LONG);
+            operationSnackBar.show();
         }
     }
 
@@ -136,7 +199,6 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
         createCoursePresenter = new CreateCoursePresenter(this);
     }
 
-
     private void initListeners() {
         courseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,35 +208,90 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
                         PICK_IMAGE_REQUEST);
             }
         });
+
+        courseDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (courseDate.getText().toString().equals(getString(R.string.tap_to_select_date))) {
+                    courseDate.setText("");
+                }
+                final Calendar calendar = Calendar.getInstance();
+                int pickerYear = Calendar.getInstance().get(Calendar.YEAR);
+                int pickerMonth = Calendar.getInstance().get(Calendar.MONTH);
+                int pickerDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePicker = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.set(Calendar.MONTH, monthOfYear);
+                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                displayCourseTimePicker(calendar);
+                            }
+                        }, pickerYear, pickerMonth, pickerDay);
+                datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePicker.show();
+            }
+        });
     }
 
     private String getPath(Uri uri) {
-        String result;
-        String[] proj = {MediaStore.Images.Media.DATA};
+        String result = "";
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().getContentResolver().query(uri,
-                proj, // Which columns to return
-                null,       // WHERE clause; which rows to return (all rows)
-                null,       // WHERE clause selection arguments (none)
-                null); // Order-by clause (ascending by name)
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        result = cursor.getString(column_index);
-        cursor.close();
+                projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            result = cursor.getString(columnIndex);
+            cursor.close();
+        }
         return result;
+    }
+
+    private void displayCourseTimePicker(final Calendar calendar) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                new TimePickerDialog.OnTimeSetListener() {
+                    @SuppressLint("SimpleDateFormat")
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hour);
+                        calendar.set(Calendar.MINUTE, minute);
+                        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+                            if (operationSnackBar != null && operationSnackBar.isShown()) {
+                                operationSnackBar.dismiss();
+                            }
+                            if (getView() != null) {
+                                operationSnackBar = Snackbar.make(getView(),
+                                        getString(R.string.course_date_not_past), Snackbar.LENGTH_LONG);
+                                operationSnackBar.show();
+                            }
+                        } else {
+                            courseDateTimestamp = calendar.getTimeInMillis();
+                            courseDate.setText(new SimpleDateFormat("DD/MM/YY HH:mm")
+                                    .format(new Date(courseDateTimestamp)));
+                        }
+                    }
+                }, 0, 0, true);
+        timePickerDialog.show();
     }
 
     private void handlePermissionUpload() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_REQUEST);
         } else {
-            try {
-                File courseImage = new Compressor(getContext()).compressToFile(new File(getPath(uploadedImage)));
-                createCoursePresenter.createCourse(courseName.getText().toString(),
-                        courseDateTimestamp, 1515758400, courseImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            createCourse();
         }
     }
 
+    private void createCourse() {
+        File courseImage = null;
+        try {
+            courseImage = new Compressor(getContext()).compressToFile(new File(getPath(uploadedImage)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        createCoursePresenter.createCourse(courseName.getText().toString(),
+                Integer.parseInt(courseCapacity.getText().toString()), courseDateTimestamp / 1000, courseImage);
+    }
 }

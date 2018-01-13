@@ -6,4 +6,5 @@ public interface Constants {
     String TRAINER = "ROLE_TRAINER";
     String USER = "ROLE_USER";
     String COURSES_IMAGES_ENDPOINT = "http://54.70.10.6/uploads/course/";
+    String PRODUCTS_IMAGES_ENDPOINT = "http://54.70.10.6/uploads/product/";
 }

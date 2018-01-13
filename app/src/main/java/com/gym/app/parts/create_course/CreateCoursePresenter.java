@@ -1,7 +1,6 @@
 package com.gym.app.parts.create_course;
 
 import com.gym.app.data.SystemUtils;
-import com.gym.app.data.model.Course;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.presenter.Presenter;
@@ -35,13 +34,12 @@ public class CreateCoursePresenter extends Presenter<CreateCourseView> {
     @Inject
     SystemUtils mSystemUtils;
 
-    public CreateCoursePresenter(CreateCourseView view) {
+    CreateCoursePresenter(CreateCourseView view) {
         super(view);
         InjectionHelper.getApplicationComponent().inject(this);
     }
 
-    public void createCourse(String courseName, long courseDate, int capacity, File courseImage) {
-        //TODO : check whu the server return 400 response code
+    void createCourse(String courseName, int capacity, long courseDate, File courseImage) {
         RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), courseName);
         RequestBody dateBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(courseDate));
         RequestBody capacityBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(capacity));
@@ -51,7 +49,7 @@ public class CreateCoursePresenter extends Presenter<CreateCourseView> {
                 .doOnComplete(new Action() {
                     @Override
                     public void run() throws Exception {
-                        
+                        //TODO : add to database
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -59,12 +57,12 @@ public class CreateCoursePresenter extends Presenter<CreateCourseView> {
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
-
+                        getView().displaySuccess();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        getView().displayError();
                     }
                 }));
     }
