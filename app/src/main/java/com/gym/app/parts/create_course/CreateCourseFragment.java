@@ -8,6 +8,9 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -40,6 +43,7 @@ import butterknife.ButterKnife;
 import id.zelory.compressor.Compressor;
 
 import static android.app.Activity.RESULT_OK;
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
 /**
  * @author catalinradoiu
@@ -118,12 +122,16 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
                 mCourseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
                 isDataValid = false;
             } else {
-                int capacity = Integer.parseInt(mCourseCapacity.getText().toString());
-                if (capacity < 1 || capacity > 50) {
+                try {
+                    int capacity = Integer.parseInt(mCourseCapacity.getText().toString());
+                    if (capacity < 1 || capacity > 50) {
+                        mCourseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
+                        isDataValid = false;
+                    } else {
+                        mCourseCapacityLayout.setError("");
+                    }
+                } catch (NumberFormatException e) {
                     mCourseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
-                    isDataValid = false;
-                } else {
-                    mCourseCapacityLayout.setError("");
                 }
             }
             if (mCourseName.getText().toString().isEmpty() || mCourseName.getText().toString().length() < 3) {
@@ -146,7 +154,8 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             Uri image = data.getData();
             if (image != null) {
-                mCourseImage.setImageURI(image);
+                mCourseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                mCourseImage.setImageBitmap(rotatePhoto(getPath(image)));
                 mUploadedImage = image;
             }
         }
@@ -301,9 +310,38 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
     }
 
     private void clearFields() {
+        mCourseImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
         mCourseName.setText("");
         mCourseCapacity.setText("");
         mCourseDate.setText(getString(R.string.tap_to_select_date));
         mCourseImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_a_photo));
+    }
+
+    private Bitmap rotatePhoto(String photoPath) {
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
+        ExifInterface ei = null;
+        try {
+            ei = new ExifInterface(photoPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+        Bitmap rotatedBitmap;
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotatedBitmap = rotateImage(bitmap, 90);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotatedBitmap = rotateImage(bitmap, 180);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotatedBitmap = rotateImage(bitmap, 270);
+                break;
+            case ExifInterface.ORIENTATION_NORMAL:
+            default:
+                rotatedBitmap = bitmap;
+        }
+        return rotatedBitmap;
     }
 }
