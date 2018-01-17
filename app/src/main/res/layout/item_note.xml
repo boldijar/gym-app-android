@@ -33,10 +33,12 @@
 
     <TextView
         android:id="@+id/note_text"
+        fontPath="fonts/Latino-Light.ttf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/note_date"
         android:layout_marginTop="@dimen/primary_margin"
+        tools:ignore="MissingPrefix"
         tools:text="Do mo push-ups! dasjdajdjadasjhd adbahsgd ajsdh jahdasjhd ajhdsja hdajsdh ajshdajs hdjashd jashd jahdasjhd ajshdjahd ajshd ajshdjas hdjsahd aj" />
 
 </RelativeLayout>

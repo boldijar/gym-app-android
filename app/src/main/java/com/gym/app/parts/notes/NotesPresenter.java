@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -49,5 +50,25 @@ public class NotesPresenter extends Presenter<NotesView> {
 
                     }
                 }));
+    }
+
+    void deleteNote(int noteId) {
+        addDisposable(mNotesService.deleteNote(noteId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        getView().noteDeleted();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        getView().displayOperationStatus(NotesView.MessageType.DELETE_ERROR);
+                    }
+                }));
+    }
+
+    void addNote(){
+
     }
 }

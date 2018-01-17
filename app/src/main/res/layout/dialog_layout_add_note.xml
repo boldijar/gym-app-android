@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        fontPath="fonts/Lato-Bold.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/primary_margin"
+        android:text="@string/new_note"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        tools:ignore="MissingPrefix" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/note_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/add_note_input_height"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/small_margin">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/note_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:background="?attr/borderlessButtonStyle"
+        android:text="@string/add_note"
+        android:textColor="@color/colorAccent" />
+
+</LinearLayout>

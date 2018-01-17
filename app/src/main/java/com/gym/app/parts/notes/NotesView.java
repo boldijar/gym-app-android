@@ -10,5 +10,15 @@ import java.util.List;
  */
 interface NotesView {
 
+    enum MessageType {
+        UNDO_DELETE, ADD_ERROR, ADD_SUCCESS, DELETE_ERROR
+    }
+
     void setNotes(List<Note> noteList);
+
+    void displayOperationStatus(MessageType messageType);
+
+    void addNewNote(Note note);
+
+    void noteDeleted();
 }

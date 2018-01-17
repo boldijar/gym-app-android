@@ -56,6 +56,13 @@
     <!-- notes -->
     <string name="notes">Notes</string>
     <string name="note_created_at">Created at %1$s</string>
+    <string name="note_deleted">Note has been deleted</string>
+    <string name="undo">Undo</string>
+    <string name="note_add_error">Coyld not add note</string>
+    <string name="note_add_success">Note added succesfully</string>
+    <string name="note_delete_error">Could not delete note</string>
+    <string name="new_note">New note</string>
+    <string name="add_note">Add note</string>
 
 
 </resources>

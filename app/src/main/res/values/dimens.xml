@@ -16,4 +16,5 @@
     <dimen name="no_dimension">0dp</dimen>
     <dimen name="standard_elevation">4dp</dimen>
     <dimen name="adjustment_margin">24dp</dimen>
+    <dimen name="add_note_input_height">72dp</dimen>
 </resources>

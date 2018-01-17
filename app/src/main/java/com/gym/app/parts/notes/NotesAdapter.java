@@ -47,15 +47,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         notifyItemInserted(mNotesList.size());
     }
 
+    public void addNote(int position, Note note) {
+        mNotesList.add(position, note);
+        notifyItemInserted(position);
+    }
+
     public void deleteNote(int position) {
         mNotesList.remove(position);
         notifyItemRemoved(position);
-    }
-
-    public void updateNote(int position, Note note) {
-        mNotesList.remove(position);
-        mNotesList.add(position, note);
-        notifyItemChanged(position);
     }
 
     public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
