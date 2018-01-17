@@ -6,6 +6,7 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,7 +84,7 @@ public class RegisterFragment extends BaseFragment implements RegisterView {
         boolean mValidPasswordMatching = mPasswordInput.getText().toString()
                 .equals(mPasswordConfirmationInput.getText().toString());
         boolean mValidEmail = !mEmailInput.getText().toString().isEmpty() &&
-                mPasswordInput.getText().toString().matches(VALID_PASSWORD_REGEX);
+                Patterns.EMAIL_ADDRESS.matcher(mEmailInput.getText().toString()).matches();
         boolean mValidFullName = !mNameInput.getText().toString().isEmpty() &&
                 mNameInput.getText().toString().matches(VALID_NAME_REGEX);
 
