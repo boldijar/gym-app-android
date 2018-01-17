@@ -25,6 +25,9 @@
     <string name="save_changes">Save changes</string>
     <string name="token_expired">Session expired. Please login again.</string>
     <string name="register_successful">Your account was created</string>
+    <string name="invalid_email_address">Invalid email adress</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="confirm_password">Confirm password</string>
 
     <!-- profile -->
     <string name="open_gallery">Open gallery</string>
@@ -51,6 +54,25 @@
     <string name="course_held_by">Course held by : %1$s</string>
     <string name="people_per_session">%1$d people / session</string>
     <string name="no_course_registrations">You are currently not registered to any course</string>
+    <string name="password_do_not_match">Passwords don\'t match</string>
+    <string name="invalid_name">Invalid name</string>
+    <string name="email_address_in_use">The email adress is already is use</string>
+
+    <!-- create course -->
+    <string name="Add">Add</string>
+    <string name="create_course">Create course</string>
+    <string name="tap_to_select_date">Tap to select date</string>
+    <string name="date">Date</string>
+    <string name="course_name">Course name</string>
+    <string name="capacity">Capacity</string>
+    <string name="select_image">Select image</string>
+    <string name="no_image_uploaded">No image uploaded</string>
+    <string name="course_create_success">Course created successfully</string>
+    <string name="create_course_error">Could not create course</string>
+    <string name="course_date_not_past">The course time cannot be in the past</string>
+    <string name="course_capaciy_invalid">The course capacity must be between 1 and 50</string>
+    <string name="course_name_invalid">The course name must have at least 3 characters</string>
+    <string name="no_date_selected">No course date selected</string>
 
 
     <!-- notes -->

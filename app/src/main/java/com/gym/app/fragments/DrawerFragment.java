@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.gym.app.R;
+import com.gym.app.data.Prefs;
 import com.gym.app.parts.home.HomeNavigator;
+import com.gym.app.utils.Constants;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 /**
  * @author Paul
@@ -35,18 +38,24 @@ public class DrawerFragment extends BaseFragment {
         ButterKnife.bind(this, view);
     }
 
+    @Optional
     @OnClick({
             R.id.drawer_find_courses,
             R.id.drawer_my_courses,
             R.id.drawer_profile,
             R.id.drawer_shop,
+            R.id.drawer_create_course,
             R.id.drawer_logout,
+            R.id.drawer_terms,
             R.id.drawer_notes
     })
     void onOptionsClicked(View view) {
         switch (view.getId()) {
             case R.id.drawer_find_courses:
                 mHomeNavigator.goToFindCourses();
+                return;
+            case R.id.drawer_create_course:
+                mHomeNavigator.goToCreateCourse();
                 return;
             case R.id.drawer_my_courses:
                 mHomeNavigator.goToMyCourses();
@@ -63,11 +72,21 @@ public class DrawerFragment extends BaseFragment {
             case R.id.drawer_logout:
                 mHomeNavigator.logout();
                 return;
+            case R.id.drawer_terms:
+                mHomeNavigator.goToTerms();
+                return;
         }
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_drawer;
+        if (Prefs.Role.get() == null) {
+            return R.layout.fragment_drawer;
+        }
+        if (Prefs.Role.get().equals(Constants.USER)) {
+            return R.layout.fragment_drawer;
+        } else {
+            return R.layout.fragment_drawer_trainer;
+        }
     }
 }

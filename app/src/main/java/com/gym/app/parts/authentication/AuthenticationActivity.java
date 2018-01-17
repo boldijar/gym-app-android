@@ -12,9 +12,11 @@ import com.gym.app.activities.BaseActivity;
 import com.gym.app.activities.HomeActivity;
 import com.gym.app.data.Prefs;
 import com.gym.app.data.model.LoginResponse;
+import com.gym.app.parts.terms.TermsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class AuthenticationActivity extends BaseActivity implements AuthenticationNavigation, AuthenticationView {
@@ -100,6 +102,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     @Override
     public void showLoginResponse(LoginResponse loginResponse) {
         Prefs.Token.put(loginResponse.mToken);
+        Prefs.Role.put(loginResponse.mRole);
         startActivity(HomeActivity.createIntent(this));
         finish();
     }
@@ -113,5 +116,10 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     protected void onDestroy() {
         super.onDestroy();
         mAuthenticationPresenter.destroySubscriptions();
+    }
+
+    @OnClick(R.id.authentication_terms)
+    void onClickTerms() {
+        startActivity(TermsActivity.createIntent(this));
     }
 }

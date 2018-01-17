@@ -11,58 +11,110 @@
     android:paddingStart="@dimen/second_key_line"
     tools:ignore="MissingPrefix">
 
-    <EditText
-        android:id="@+id/register_name_input"
-        fontPath="fonts/Lato-Light.ttf"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/register_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/small_margin"
-        android:drawableStart="@drawable/ic_name"
-        android:hint="@string/full_name"
-        android:inputType="text"
-        android:maxLines="1"
-        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/primary_margin"
         android:textColorHint="@color/light_gray"
-        android:textSize="@dimen/authentication_input_size"
-        app:backgroundTint="@color/white" />
+        app:errorEnabled="true">
 
-    <EditText
-        android:id="@+id/register_email_input"
-        fontPath="fonts/Lato-Light.ttf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/register_name_input"
-        android:drawablePadding="@dimen/small_margin"
-        android:drawableStart="@drawable/ic_mail"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:maxLines="1"
-        android:textColor="@color/white"
-        android:textColorHint="@color/light_gray"
-        android:textSize="@dimen/authentication_input_size"
-        app:backgroundTint="@color/white" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/register_name_input"
+            fontPath="fonts/Lato-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/small_margin"
+            android:drawableStart="@drawable/ic_name"
+            android:hint="@string/full_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/authentication_input_size"
+            app:backgroundTint="@color/white" />
 
-    <EditText
-        android:id="@+id/register_password_input"
-        fontPath="fonts/Lato-Light.ttf"
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/register_email_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/register_email_input"
-        android:drawablePadding="@dimen/small_margin"
-        android:drawableStart="@drawable/ic_key"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:textColor="@color/white"
+        android:layout_below="@id/register_name_layout"
         android:textColorHint="@color/light_gray"
-        android:textSize="@dimen/authentication_input_size"
-        app:backgroundTint="@color/white" />
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/register_email_input"
+            fontPath="fonts/Lato-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/small_margin"
+            android:drawableStart="@drawable/ic_mail"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/authentication_input_size"
+            app:backgroundTint="@color/white" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/register_password_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_email_layout"
+        android:textColorHint="@color/light_gray"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/register_password_input"
+            fontPath="fonts/Lato-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/register_password_confirmation_layout"
+            android:drawablePadding="@dimen/small_margin"
+            android:drawableStart="@drawable/ic_key"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/authentication_input_size"
+            app:backgroundTint="@color/white" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/register_password_confirmation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_password_layout"
+        android:textColorHint="@color/light_gray"
+        app:errorEnabled="true">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/register_password_confirmation_input"
+            fontPath="fonts/Lato-Light.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/register_password_confirmation_layout"
+            android:drawablePadding="@dimen/small_margin"
+            android:drawableStart="@drawable/ic_key"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/authentication_input_size"
+            app:backgroundTint="@color/white" />
+
+
+    </android.support.design.widget.TextInputLayout>
 
     <View
         android:id="@+id/register_centered_view"
         android:layout_width="@dimen/no_dimension"
         android:layout_height="@dimen/no_dimension"
-        android:layout_below="@id/register_password_input"
+        android:layout_below="@id/register_password_confirmation_layout"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -70,7 +122,7 @@
         fontPath="fonts/Lato-Light.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/register_password_input"
+        android:layout_below="@id/register_password_confirmation_layout"
         android:layout_marginTop="@dimen/primary_margin"
         android:layout_toStartOf="@id/register_centered_view"
         android:background="?attr/selectableItemBackground"
@@ -83,7 +135,7 @@
         fontPath="fonts/Lato-Light.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/register_password_input"
+        android:layout_below="@id/register_password_confirmation_layout"
         android:layout_marginTop="@dimen/primary_margin"
         android:layout_toEndOf="@id/register_centered_view"
         android:background="?attr/selectableItemBackground"
