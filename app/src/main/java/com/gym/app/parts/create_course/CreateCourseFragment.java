@@ -109,6 +109,11 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
             } else {
                 mUploadImageError.setVisibility(View.INVISIBLE);
             }
+            if (mCourseDateTimestamp == 0) {
+                mCourseDateLayout.setError(getString(R.string.no_date_selected));
+            } else {
+                mCourseDateLayout.setError("");
+            }
             if (mCourseCapacity.getText().toString().isEmpty()) {
                 mCourseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
                 isDataValid = false;
