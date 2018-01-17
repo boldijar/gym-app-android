@@ -5,6 +5,7 @@ import com.gym.app.data.model.Product;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -19,4 +20,9 @@ public interface ApiService {
 
     @GET("api/products")
     Observable<List<Product>> getProducts();
+
+    @POST("api/user")
+    @FormUrlEncoded
+    Completable checkInUser(@Field("isAtTheGym") boolean isAtTheGym,
+                            @Field("_method") String method);
 }

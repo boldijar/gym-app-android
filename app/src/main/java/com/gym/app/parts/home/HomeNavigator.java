@@ -20,4 +20,8 @@ public interface HomeNavigator {
     void logout();
 
     void goToCreateCourse();
+
+    void goToSettings();
+
+    void goToScan();
 }
