@@ -1,6 +1,7 @@
 package com.gym.app.parts.create_course;
 
 import com.gym.app.data.SystemUtils;
+import com.gym.app.data.model.Course;
 import com.gym.app.data.room.AppDatabase;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.presenter.Presenter;
@@ -31,9 +32,6 @@ public class CreateCoursePresenter extends Presenter<CreateCourseView> {
     @Inject
     AppDatabase mAppDatabase;
 
-    @Inject
-    SystemUtils mSystemUtils;
-
     CreateCoursePresenter(CreateCourseView view) {
         super(view);
         InjectionHelper.getApplicationComponent().inject(this);
@@ -46,17 +44,17 @@ public class CreateCoursePresenter extends Presenter<CreateCourseView> {
         MultipartBody.Part imageBody = MultipartBody.Part.createFormData("image", courseImage.getName(),
                 RequestBody.create(MediaType.parse("image/*"), courseImage));
         addDisposable(mCoursesService.createCourse(nameBody, dateBody, capacityBody, imageBody)
-                .doOnComplete(new Action() {
+                .doOnSuccess(new Consumer<Course>() {
                     @Override
-                    public void run() throws Exception {
-                        //TODO : add to database
+                    public void accept(Course course) throws Exception {
+                        mAppDatabase.getCoursesDao().insertCourse(course);
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action() {
+                .subscribe(new Consumer<Course>() {
                     @Override
-                    public void run() throws Exception {
+                    public void accept(Course course) throws Exception {
                         getView().displaySuccess();
                     }
                 }, new Consumer<Throwable>() {

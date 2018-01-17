@@ -3,7 +3,6 @@ package com.gym.app.parts.create_course;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -49,36 +48,36 @@ import static android.app.Activity.RESULT_OK;
 public class CreateCourseFragment extends BaseHomeFragment implements CreateCourseView {
 
     @BindView(R.id.course_image)
-    ImageView courseImage;
+    ImageView mCourseImage;
 
     @BindView(R.id.course_name_layout)
-    TextInputLayout courseNameLayout;
+    TextInputLayout mCourseNameLayout;
 
     @BindView(R.id.course_name_input)
-    TextInputEditText courseName;
+    TextInputEditText mCourseName;
 
     @BindView(R.id.course_capacity_layout)
-    TextInputLayout courseCapacityLayout;
+    TextInputLayout mCourseCapacityLayout;
 
     @BindView(R.id.course_capacity_input)
-    TextInputEditText courseCapacity;
+    TextInputEditText mCourseCapacity;
 
     @BindView(R.id.course_date_layout)
-    TextInputLayout courseDateLayout;
+    TextInputLayout mCourseDateLayout;
 
     @BindView(R.id.course_date_input)
-    TextInputEditText courseDate;
+    TextInputEditText mCourseDate;
 
     @BindView(R.id.image_upload_error)
-    TextView uploadImageError;
+    TextView mUploadImageError;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int READ_EXTERNAL_STORAGE_REQUEST = 2;
 
-    private CreateCoursePresenter createCoursePresenter;
-    private long courseDateTimestamp;
-    private Uri uploadedImage;
-    private Snackbar operationSnackBar;
+    private CreateCoursePresenter mCreateCoursePresenter;
+    private long mCourseDateTimestamp;
+    private Uri mUploadedImage;
+    private Snackbar mOperationSnackBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,29 +103,29 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.add_course_menu_item) {
             boolean isDataValid = true;
-            if (uploadedImage == null) {
-                uploadImageError.setVisibility(View.VISIBLE);
+            if (mUploadedImage == null) {
+                mUploadImageError.setVisibility(View.VISIBLE);
                 isDataValid = false;
             } else {
-                uploadImageError.setVisibility(View.INVISIBLE);
+                mUploadImageError.setVisibility(View.INVISIBLE);
             }
-            if (courseCapacity.getText().toString().isEmpty()) {
-                courseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
+            if (mCourseCapacity.getText().toString().isEmpty()) {
+                mCourseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
                 isDataValid = false;
             } else {
-                int capacity = Integer.parseInt(courseCapacity.getText().toString());
+                int capacity = Integer.parseInt(mCourseCapacity.getText().toString());
                 if (capacity < 1 || capacity > 50) {
-                    courseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
+                    mCourseCapacityLayout.setError(getString(R.string.course_capaciy_invalid));
                     isDataValid = false;
                 } else {
-                    courseCapacityLayout.setError("");
+                    mCourseCapacityLayout.setError("");
                 }
             }
-            if (courseName.getText().toString().isEmpty() || courseName.getText().toString().length() < 3) {
-                courseNameLayout.setError(getString(R.string.course_name_invalid));
+            if (mCourseName.getText().toString().isEmpty() || mCourseName.getText().toString().length() < 3) {
+                mCourseNameLayout.setError(getString(R.string.course_name_invalid));
                 isDataValid = false;
             } else {
-                courseNameLayout.setError("");
+                mCourseNameLayout.setError("");
             }
             if (isDataValid) {
                 handlePermissionUpload();
@@ -142,8 +141,8 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             Uri image = data.getData();
             if (image != null) {
-                courseImage.setImageURI(image);
-                uploadedImage = image;
+                mCourseImage.setImageURI(image);
+                mUploadedImage = image;
             }
         }
     }
@@ -159,29 +158,30 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
 
     @Override
     public void displayError() {
-        if (operationSnackBar != null && operationSnackBar.isShown()) {
-            operationSnackBar.dismiss();
+        if (mOperationSnackBar != null && mOperationSnackBar.isShown()) {
+            mOperationSnackBar.dismiss();
         }
         if (getView() != null) {
-            operationSnackBar = Snackbar.make(getView(), getString(R.string.create_course_error), Snackbar.LENGTH_LONG);
-            operationSnackBar.setAction(getString(R.string.retry), new View.OnClickListener() {
+            mOperationSnackBar = Snackbar.make(getView(), getString(R.string.create_course_error), Snackbar.LENGTH_LONG);
+            mOperationSnackBar.setAction(getString(R.string.retry), new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     createCourse();
                 }
             });
-            operationSnackBar.show();
+            mOperationSnackBar.show();
         }
     }
 
     @Override
     public void displaySuccess() {
-        if (operationSnackBar != null && operationSnackBar.isShown()) {
-            operationSnackBar.dismiss();
+        clearFields();
+        if (mOperationSnackBar != null && mOperationSnackBar.isShown()) {
+            mOperationSnackBar.dismiss();
         }
         if (getView() != null) {
-            operationSnackBar = Snackbar.make(getView(), getString(R.string.course_create_success), Snackbar.LENGTH_LONG);
-            operationSnackBar.show();
+            mOperationSnackBar = Snackbar.make(getView(), getString(R.string.course_create_success), Snackbar.LENGTH_LONG);
+            mOperationSnackBar.show();
         }
     }
 
@@ -196,11 +196,11 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
     }
 
     private void initPresenter() {
-        createCoursePresenter = new CreateCoursePresenter(this);
+        mCreateCoursePresenter = new CreateCoursePresenter(this);
     }
 
     private void initListeners() {
-        courseImage.setOnClickListener(new View.OnClickListener() {
+        mCourseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(Intent.createChooser(new Intent().setType("image/*")
@@ -209,11 +209,11 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
             }
         });
 
-        courseDate.setOnClickListener(new View.OnClickListener() {
+        mCourseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (courseDate.getText().toString().equals(getString(R.string.tap_to_select_date))) {
-                    courseDate.setText("");
+                if (mCourseDate.getText().toString().equals(getString(R.string.tap_to_select_date))) {
+                    mCourseDate.setText("");
                 }
                 final Calendar calendar = Calendar.getInstance();
                 int pickerYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -258,18 +258,18 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
                         calendar.set(Calendar.HOUR_OF_DAY, hour);
                         calendar.set(Calendar.MINUTE, minute);
                         if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
-                            if (operationSnackBar != null && operationSnackBar.isShown()) {
-                                operationSnackBar.dismiss();
+                            if (mOperationSnackBar != null && mOperationSnackBar.isShown()) {
+                                mOperationSnackBar.dismiss();
                             }
                             if (getView() != null) {
-                                operationSnackBar = Snackbar.make(getView(),
+                                mOperationSnackBar = Snackbar.make(getView(),
                                         getString(R.string.course_date_not_past), Snackbar.LENGTH_LONG);
-                                operationSnackBar.show();
+                                mOperationSnackBar.show();
                             }
                         } else {
-                            courseDateTimestamp = calendar.getTimeInMillis();
-                            courseDate.setText(new SimpleDateFormat("DD/MM/YY HH:mm")
-                                    .format(new Date(courseDateTimestamp)));
+                            mCourseDateTimestamp = calendar.getTimeInMillis();
+                            mCourseDate.setText(new SimpleDateFormat("DD/MM/YY HH:mm")
+                                    .format(new Date(mCourseDateTimestamp)));
                         }
                     }
                 }, 0, 0, true);
@@ -287,11 +287,18 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
     private void createCourse() {
         File courseImage = null;
         try {
-            courseImage = new Compressor(getContext()).compressToFile(new File(getPath(uploadedImage)));
+            courseImage = new Compressor(getContext()).compressToFile(new File(getPath(mUploadedImage)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        createCoursePresenter.createCourse(courseName.getText().toString(),
-                Integer.parseInt(courseCapacity.getText().toString()), courseDateTimestamp / 1000, courseImage);
+        mCreateCoursePresenter.createCourse(mCourseName.getText().toString(),
+                Integer.parseInt(mCourseCapacity.getText().toString()), mCourseDateTimestamp / 1000, courseImage);
+    }
+
+    private void clearFields() {
+        mCourseName.setText("");
+        mCourseCapacity.setText("");
+        mCourseDate.setText(getString(R.string.tap_to_select_date));
+        mCourseImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_a_photo));
     }
 }

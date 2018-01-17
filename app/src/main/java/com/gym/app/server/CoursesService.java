@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.DELETE;
@@ -40,8 +41,8 @@ public interface CoursesService {
 
     @Multipart
     @POST("api/course")
-    Completable createCourse(@Part("name") RequestBody name,
-                             @Part("eventDate") RequestBody eventDate,
-                             @Part("capacity") RequestBody capacity,
-                             @Part MultipartBody.Part image);
+    Single<Course> createCourse(@Part("name") RequestBody name,
+                        @Part("eventDate") RequestBody eventDate,
+                        @Part("capacity") RequestBody capacity,
+                        @Part MultipartBody.Part image);
 }
