@@ -39,9 +39,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 import static android.app.Activity.RESULT_OK;
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
@@ -75,7 +72,6 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
     AppCompatEditText mEmailInput;
     @BindView(R.id.profile_password_input)
     AppCompatEditText mPasswordInput;
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -115,14 +111,7 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
 
         String userName = String.valueOf(mNameInput.getText());
         String userPassword = String.valueOf(mPasswordInput.getText());
-        MultipartBody.Part userPicture = createPictureRequestBody(mPhotoToUpload);
-        profilePresenter.updateUser(userName, userPassword, userPicture);
-    }
-
-    private MultipartBody.Part createPictureRequestBody(File userImage){
-        File file = new File(userImage.getPath());
-        RequestBody pictureBody = RequestBody.create(MediaType.parse("image/*"), userImage);
-        return MultipartBody.Part.createFormData("picture", file.getName(), pictureBody);
+        profilePresenter.updateUser(userName, userPassword, mPhotoToUpload);
     }
 
 
@@ -302,7 +291,6 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
     protected int getTitle() {
         return R.string.profile;
     }
-
 
     @Override
     public void showError() {

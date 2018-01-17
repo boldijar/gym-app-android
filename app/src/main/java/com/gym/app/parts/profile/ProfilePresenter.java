@@ -6,6 +6,8 @@ import com.gym.app.presenter.Presenter;
 import com.gym.app.server.UserService;
 import com.gym.app.utils.MvpObserver;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import io.reactivex.functions.Action;
@@ -41,12 +43,14 @@ public class ProfilePresenter extends Presenter<ProfileView> {
                 });
     }
 
-    public void updateUser(String name, String password, MultipartBody.Part picture){
+    public void updateUser(String name, String password, File file){
+        RequestBody pictureBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part imagePart= MultipartBody.Part.createFormData("image", file.getName(), pictureBody);
         RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), name);
         RequestBody passwordBody = RequestBody.create(MediaType.parse("text/plain"), password);
         RequestBody methodBody = RequestBody.create(MediaType.parse("text/plain"), "PUT");
 
-        userService.updateUser(methodBody, nameBody, passwordBody, picture)
+        userService.updateUser(methodBody, nameBody, imagePart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Action() {

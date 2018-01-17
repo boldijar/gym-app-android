@@ -25,8 +25,11 @@ public interface UserService {
     @POST("api/user")
     Completable updateUser(@Part("_method") RequestBody method,
                             @Part("fullName") RequestBody fullName,
-                           @Part("password") RequestBody password,
                            @Part MultipartBody.Part picture);
+
+    @POST("api/user")
+    Completable updatePassword(@Part("password") RequestBody password);
+
 
 /*
     @PUT("api/user/{id}")
