@@ -9,6 +9,7 @@ import com.gym.app.parts.findcourses.FindCoursesPresenter;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
 import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.mycourses.MyCoursesPresenter;
+import com.gym.app.parts.notes.NotesPresenter;
 import com.gym.app.parts.shop.ShopPresenter;
 
 import dagger.Component;
@@ -35,4 +36,6 @@ public interface ApplicationComponent {
     void inject(UpdateCourseObservable updateCourseObservable);
 
     void inject(MyCoursesPresenter myCoursesPresenter);
+
+    void inject(NotesPresenter notesPresenter);
 }

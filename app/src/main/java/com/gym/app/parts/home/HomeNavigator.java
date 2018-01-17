@@ -16,4 +16,6 @@ public interface HomeNavigator {
     void goToProfile();
 
     void logout();
+
+    void goToNotes();
 }

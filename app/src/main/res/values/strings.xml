@@ -52,4 +52,10 @@
     <string name="people_per_session">%1$d people / session</string>
     <string name="no_course_registrations">You are currently not registered to any course</string>
 
+
+    <!-- notes -->
+    <string name="notes">Notes</string>
+    <string name="note_created_at">Created at %1$s</string>
+
+
 </resources>

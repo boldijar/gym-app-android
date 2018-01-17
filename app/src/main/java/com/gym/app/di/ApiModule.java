@@ -11,6 +11,7 @@ import com.gym.app.server.ApiService;
 import com.gym.app.server.AuthenticationService;
 import com.gym.app.server.CoursesService;
 import com.gym.app.server.NetworkInterceptor;
+import com.gym.app.server.NotesService;
 import com.gym.app.utils.Constants;
 
 import java.io.File;
@@ -105,12 +106,17 @@ public class ApiModule {
     }
 
     @Provides
-    static CoursesService provideCoursesService(final Retrofit retrofit){
+    static CoursesService provideCoursesService(final Retrofit retrofit) {
         return retrofit.create(CoursesService.class);
     }
 
     @Provides
-    AuthenticationService provideAuthenticationService(final Retrofit retrofit) {
+    static AuthenticationService provideAuthenticationService(final Retrofit retrofit) {
         return retrofit.create(AuthenticationService.class);
+    }
+
+    @Provides
+    static NotesService provideNotesService(final Retrofit retrofit) {
+        return retrofit.create(NotesService.class);
     }
 }
