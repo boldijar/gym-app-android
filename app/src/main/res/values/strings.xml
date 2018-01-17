@@ -31,5 +31,7 @@
     <string name="file_path">file:///</string>
     <string name="check_sdcard_status">please check your sdcard status</string>
     <string name="products_error">Can\'t get products</string>
+    <string name="update_profile">"Profile has been updated"</string>
+    <string name="update_faild">"Update faild"</string>
 
 </resources>

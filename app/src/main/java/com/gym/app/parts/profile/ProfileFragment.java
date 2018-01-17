@@ -4,40 +4,52 @@ import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 import com.gym.app.R;
+import com.gym.app.data.model.User;
 import com.gym.app.parts.home.BaseHomeFragment;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 
 /**
  * @author Paul
  * @since 2017.10.25
  */
 
-public class ProfileFragment extends BaseHomeFragment {
+public class ProfileFragment extends BaseHomeFragment implements ProfileView{
 
-    @BindView(R.id.profile_image)
-    CircleImageView mProfileImage;
-    private File mPhotoFile = null;
-    private PopupMenu mUploadPhotoMenu;
     private static final int MY_REQUEST_CAMERA = 10;
     private static final int MY_REQUEST_WRITE_CAMERA = 11;
     private static final int CAPTURE_CAMERA = 12;
@@ -45,11 +57,26 @@ public class ProfileFragment extends BaseHomeFragment {
     private static final int MY_REQUEST_WRITE_GALLERY = 14;
     private static final int MY_REQUEST_GALLERY = 15;
 
+    @BindView(R.id.profile_image)
+    CircleImageView mProfileImage;
+    @BindView(R.id.profile_name_input)
+    AppCompatEditText mNameInput;
+    @BindView(R.id.profile_email_input)
+    AppCompatEditText mEmailInput;
+    @BindView(R.id.profile_password_input)
+    AppCompatEditText mPasswordInput;
+    private File mPhotoFile = null;
+    private File mPhotoToBeSend = null;
+    private PopupMenu mUploadPhotoMenu;
+    private ProfilePresenter profilePresenter;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        profilePresenter = new ProfilePresenter(this);
         ButterKnife.bind(this, view);
         setUploadPhotoMenu();
+        profilePresenter.getUser();
     }
 
     private void setUploadPhotoMenu() {
@@ -166,6 +193,40 @@ public class ProfileFragment extends BaseHomeFragment {
         return mediaFile;
     }
 
+    private Bitmap rotatePhoto(String photoPath){
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
+        ExifInterface ei = null;
+        try {
+            ei = new ExifInterface(photoPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_UNDEFINED);
+
+        Bitmap rotatedBitmap = null;
+        switch(orientation) {
+
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotatedBitmap = rotateImage(bitmap, 90);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotatedBitmap = rotateImage(bitmap, 180);
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotatedBitmap = rotateImage(bitmap, 270);
+                break;
+
+            case ExifInterface.ORIENTATION_NORMAL:
+            default:
+                rotatedBitmap = bitmap;
+        }
+        return rotatedBitmap;
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK){
@@ -174,13 +235,21 @@ public class ProfileFragment extends BaseHomeFragment {
 
         switch (requestCode) {
             case CAPTURE_CAMERA:
-                mProfileImage.setImageURI(Uri.parse(getString(R.string.file_path) + mPhotoFile));
+                /*Bundle mBundle = data.getExtras();
+                final Bitmap mBmp = (Bitmap) mBundle.get("data");
+                */
+
+                //mProfileImage.setImageURI(Uri.parse(getString(R.string.file_path) + mPhotoFile));
+                Bitmap bmp = rotatePhoto(mPhotoFile.getPath());
+                mProfileImage.setImageBitmap(bmp);
+                mPhotoToBeSend = mPhotoFile;
                 mPhotoFile = null;
                 break;
             case MY_REQUEST_GALLERY:
                 try {
                     InputStream inputStream = getActivity().getApplicationContext().getContentResolver().openInputStream(data.getData());
                     mPhotoFile = getFile();
+                    mPhotoToBeSend = mPhotoFile;
                     FileOutputStream fileOutputStream = new FileOutputStream(mPhotoFile);
                     byte[] buffer = new byte[1024];
                     int bytesRead;
@@ -190,7 +259,6 @@ public class ProfileFragment extends BaseHomeFragment {
                     fileOutputStream.close();
                     inputStream.close();
                     mProfileImage.setImageURI(Uri.parse(getString(R.string.file_path) + mPhotoFile));
-
                 } catch (Exception e) {
                 }
                 break;
@@ -205,5 +273,29 @@ public class ProfileFragment extends BaseHomeFragment {
     @Override
     protected int getTitle() {
         return R.string.profile;
+    }
+
+    @Override
+    public void showError() {
+        message(R.string.update_faild);
+    }
+
+    @Override
+    public void showUser(User value) {
+        mNameInput.setText(value.mFullName);
+        mEmailInput.setText(value.mEmail);
+        mPasswordInput.setText(value.mPassword);
+        Glide.with(getContext()).load(value.mImage).into(mProfileImage);
+    }
+
+    @Override
+    public void updateMessage() {
+        message(R.string.update_profile);
+    }
+
+    private void message(int stringId){
+        View layout = getView().findViewById(R.id.update_user_snack);
+        Snackbar updateSnackbar = Snackbar.make(layout, stringId, Snackbar.LENGTH_SHORT);
+        updateSnackbar.show();
     }
 }
