@@ -15,6 +15,8 @@ public interface HomeNavigator {
 
     void goToProfile();
 
+    void goToTerms();
+
     void logout();
 
     void goToCreateCourse();

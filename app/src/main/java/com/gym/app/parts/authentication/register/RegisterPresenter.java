@@ -11,6 +11,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 /**
  * @author catalinradoiu
@@ -39,7 +40,10 @@ public class RegisterPresenter extends Presenter<RegisterView> {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        getView().displayRegistrationError();
+                        if (throwable instanceof HttpException && ((HttpException) throwable).code() == 400){
+                            getView().displayRegistrationError(RegisterView.RegisterErrorType.EMAIL_IN_USE_ERROR);
+                        }
+                        getView().displayRegistrationError(RegisterView.RegisterErrorType.CONNECTION_ERROR);
                     }
                 }));
     }

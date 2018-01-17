@@ -25,6 +25,9 @@
     <string name="save_changes">Save changes</string>
     <string name="token_expired">Session expired. Please login again.</string>
     <string name="register_successful">Your account was created</string>
+    <string name="invalid_email_address">Invalid email adress</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="confirm_password">Confirm password</string>
 
     <!-- profile -->
     <string name="open_gallery">Open gallery</string>
@@ -51,6 +54,9 @@
     <string name="course_held_by">Course held by : %1$s</string>
     <string name="people_per_session">%1$d people / session</string>
     <string name="no_course_registrations">You are currently not registered to any course</string>
+    <string name="password_do_not_match">Passwords don\'t match</string>
+    <string name="invalid_name">Invalid name</string>
+    <string name="email_address_in_use">The email adress is already is use</string>
 
     <!-- create course -->
     <string name="Add">Add</string>
