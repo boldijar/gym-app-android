@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
 import com.gym.app.data.model.Product;
+import com.gym.app.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     @Override
     public void onBindViewHolder(ShopViewHolder holder, int position) {
         Product product = mItems.get(position);
-        Glide.with(holder.mImage.getContext()).load(product.mImage).into(holder.mImage);
+        Glide.with(holder.mImage.getContext()).load(Constants.PRODUCTS_IMAGES_ENDPOINT + product.mImage).into(holder.mImage);
         holder.mPrice.setText(product.mPrice);
         holder.mTitle.setText(product.mName);
         holder.mDescription.setText(product.mDescription);

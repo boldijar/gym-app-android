@@ -18,4 +18,6 @@ public interface HomeNavigator {
     void goToTerms();
 
     void logout();
+
+    void goToCreateCourse();
 }

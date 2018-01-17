@@ -102,6 +102,7 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     @Override
     public void showLoginResponse(LoginResponse loginResponse) {
         Prefs.Token.put(loginResponse.mToken);
+        Prefs.Role.put(loginResponse.mRole);
         startActivity(HomeActivity.createIntent(this));
         finish();
     }
