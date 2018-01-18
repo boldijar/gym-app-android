@@ -26,4 +26,6 @@ public interface HomeNavigator {
     void goToSettings();
 
     void goToScan();
+
+    void goToGallery();
 }

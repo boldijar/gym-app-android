@@ -16,6 +16,7 @@ import com.gym.app.R;
 import com.gym.app.data.Prefs;
 import com.gym.app.parts.create_course.CreateCourseFragment;
 import com.gym.app.parts.findcourses.FindCoursesFragment;
+import com.gym.app.parts.gallery.GalleryFragment;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.parts.home.HomeNavigator;
 import com.gym.app.parts.mycourses.MyCoursesFragment;
@@ -137,6 +138,11 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
     @Override
     public void goToScan() {
         startActivity(ScanActivity.createIntent(this));
+    }
+
+    @Override
+    public void goToGallery() {
+        setFragment(new GalleryFragment());
     }
 
     @Override

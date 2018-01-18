@@ -10,6 +10,7 @@ import com.gym.app.data.room.AppDatabase;
 import com.gym.app.server.ApiService;
 import com.gym.app.server.AuthenticationService;
 import com.gym.app.server.CoursesService;
+import com.gym.app.server.GalleryService;
 import com.gym.app.server.NetworkInterceptor;
 import com.gym.app.server.NotesService;
 import com.gym.app.utils.Constants;
@@ -118,5 +119,10 @@ public class ApiModule {
     @Provides
     static NotesService provideNotesService(final Retrofit retrofit) {
         return retrofit.create(NotesService.class);
+    }
+
+    @Provides
+    static GalleryService providesGalleryService(final Retrofit retrofit){
+        return retrofit.create(GalleryService.class);
     }
 }

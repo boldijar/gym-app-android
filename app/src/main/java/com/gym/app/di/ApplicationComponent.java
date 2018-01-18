@@ -9,6 +9,7 @@ import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.create_course.CreateCoursePresenter;
 import com.gym.app.parts.findcourses.FindCoursesPresenter;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
+import com.gym.app.parts.gallery.GalleryPresenter;
 import com.gym.app.parts.mycourses.MyCoursesPresenter;
 import com.gym.app.parts.settings.SettingsPresenter;
 import com.gym.app.parts.notes.NotesPresenter;
@@ -44,4 +45,6 @@ public interface ApplicationComponent {
     void inject(NotesPresenter notesPresenter);
 
     void inject(SettingsPresenter settingsPresenter);
+
+    void inject(GalleryPresenter galleryPresenter);
 }

@@ -99,4 +99,9 @@
     <string name="scan">Scan</string>
     <string name="people_at_the_gym">People at the gym</string>
 
+    <!-- gallery -->
+    <string name="gallery">Gallery</string>
+    <string name="no_photos_in_gallery">No photos in gallery</string>
+    <string name="could_not_load_gallery">Could not load gallery</string>
+
 </resources>

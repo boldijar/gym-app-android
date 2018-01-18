@@ -48,7 +48,8 @@ public class DrawerFragment extends BaseFragment {
             R.id.drawer_logout,
             R.id.drawer_terms,
             R.id.drawer_notes,
-            R.id.drawer_settings
+            R.id.drawer_settings,
+            R.id.drawer_gallery
     })
     void onOptionsClicked(View view) {
         switch (view.getId()) {
@@ -79,6 +80,8 @@ public class DrawerFragment extends BaseFragment {
             case R.id.drawer_settings:
                 mHomeNavigator.goToSettings();
                 return;
+            case R.id.drawer_gallery:
+                mHomeNavigator.goToGallery();
         }
     }
 
