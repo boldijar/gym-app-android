@@ -97,5 +97,6 @@
 
     <!-- scan -->
     <string name="scan">Scan</string>
+    <string name="people_at_the_gym">People at the gym</string>
 
 </resources>
