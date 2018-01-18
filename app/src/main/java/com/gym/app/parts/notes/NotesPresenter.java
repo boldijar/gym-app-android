@@ -37,23 +37,42 @@ public class NotesPresenter extends Presenter<NotesView> {
     }
 
     void getNotes() {
-        addDisposable(mNotesService.getAllNotes().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Note>>() {
-                    @Override
-                    public void accept(List<Note> notes) throws Exception {
-                        getView().setNotes(notes);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
+        if (mSystemUtils.isNetworkUnavailable()) {
+            loadNotesOffline();
+        } else {
+            addDisposable(mNotesService.getAllNotes()
+                    .doOnSuccess(new Consumer<List<Note>>() {
+                        @Override
+                        public void accept(List<Note> notes) throws Exception {
+                            mAppDatabase.notesDao().deleteAll();
+                            mAppDatabase.notesDao().insertAll(notes);
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<Note>>() {
+                        @Override
+                        public void accept(List<Note> notes) throws Exception {
+                            getView().setNotes(notes);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
 
-                    }
-                }));
+                        }
+                    }));
+        }
     }
 
-    void deleteNote(int noteId) {
-        addDisposable(mNotesService.deleteNote(noteId).subscribeOn(Schedulers.io())
+    void deleteNote(final int noteId) {
+        addDisposable(mNotesService.deleteNote(noteId)
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mAppDatabase.notesDao().deleteNote(noteId);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
@@ -68,7 +87,47 @@ public class NotesPresenter extends Presenter<NotesView> {
                 }));
     }
 
-    void addNote(){
+    void addNote(String note) {
+        addDisposable(mNotesService.createNote(note)
+                .doOnSuccess(new Consumer<Note>() {
+                    @Override
+                    public void accept(Note note) throws Exception {
+                        mAppDatabase.notesDao().insertNote(note);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Note>() {
+                    @Override
+                    public void accept(Note note) throws Exception {
+                        getView().addNewNote(note);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        getView().displayOperationStatus(NotesView.MessageType.ADD_ERROR);
+                    }
+                }));
+    }
 
+    private void loadNotesOffline() {
+        addDisposable(mAppDatabase.notesDao().getAllNotes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Note>>() {
+                    @Override
+                    public void accept(List<Note> notes) throws Exception {
+                        if (notes.size() == 0){
+                            getView().setReloadState();
+                        } else {
+                            getView().setNotes(notes);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        getView().setReloadState();
+                    }
+                }));
     }
 }

@@ -12,6 +12,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AuthenticationTheme" parent="AppThemeNoActionbar">
+        <item name="colorAccent">@color/yellow_accent</item>
+    </style>
+
     <style name="AppToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>

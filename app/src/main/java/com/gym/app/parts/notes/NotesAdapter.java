@@ -33,35 +33,35 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         void onDeleteClick(int position);
     }
 
-    public NotesAdapter() {
+    NotesAdapter() {
         mNotesList = new ArrayList<>();
     }
 
-    public void setNotesList(List<Note> notesList) {
+    void setNotesList(List<Note> notesList) {
         this.mNotesList = notesList;
         notifyDataSetChanged();
     }
 
-    public void addNote(Note note) {
+    void addNote(Note note) {
         mNotesList.add(note);
         notifyItemInserted(mNotesList.size());
     }
 
-    public void addNote(int position, Note note) {
+    void addNote(int position, Note note) {
         mNotesList.add(position, note);
         notifyItemInserted(position);
     }
 
-    public void deleteNote(int position) {
+    void deleteNote(int position) {
         mNotesList.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+    void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
         this.mOnDeleteClickListener = onDeleteClickListener;
     }
 
-    public Note getNote(int position) {
+    Note getNote(int position) {
         return mNotesList.get(position);
     }
 

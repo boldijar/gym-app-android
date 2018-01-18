@@ -11,10 +11,12 @@ import java.util.List;
 interface NotesView {
 
     enum MessageType {
-        UNDO_DELETE, ADD_ERROR, ADD_SUCCESS, DELETE_ERROR
+        UNDO_DELETE, ADD_ERROR, DELETE_ERROR
     }
 
     void setNotes(List<Note> noteList);
+
+    void setReloadState();
 
     void displayOperationStatus(MessageType messageType);
 

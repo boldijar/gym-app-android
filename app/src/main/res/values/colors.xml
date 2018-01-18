@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#00695C</color>
     <color name="colorPrimaryDark">#005449</color>
-    <color name="colorAccent">#ffca28</color>
+    <color name="colorAccent">#1D6FCE</color>
 
     <!-- RGB colors -->
     <color name="white">#ffffff</color>
@@ -16,5 +16,6 @@
     <color name="transparent_gray">#7f494949</color>
     <color name="error_red_color">#ff0000</color>
     <color name="note_yellow_color">#FFFACD</color>
+    <color name="yellow_accent">#ffca28</color>
 
 </resources>
