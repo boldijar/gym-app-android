@@ -98,7 +98,7 @@
         android:paddingBottom="14dp"
         android:paddingStart="40dp"
         android:paddingTop="20dp"
-        android:text="SETTINGS"
+        android:text="@string/settings"
         android:textAllCaps="true"
         android:textColor="@color/light_gray"
         tools:ignore="RtlSymmetry" />

@@ -55,7 +55,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".parts.scan.ScanActivity"
+            android:label="@string/scan"
+            android:screenOrientation="portrait"/>
 
     </application>
 

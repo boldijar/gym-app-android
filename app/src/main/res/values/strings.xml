@@ -14,6 +14,7 @@
     <string name="profile">Profile</string>
     <string name="shop">Shop</string>
     <string name="find_courses">Find courses</string>
+    <string name="settings">Settings</string>
 
     <!-- authentication -->
     <string name="back">Back</string>
@@ -89,5 +90,12 @@
     <string name="no_notes_created">You have currently no notes</string>
     <string name="could_not_find_notes">Could not find notes</string>
 
+
+    <!-- settings -->
+    <string name="check_in">Check-in</string>
+    <string name="check_out">Check out</string>
+
+    <!-- scan -->
+    <string name="scan">Scan</string>
 
 </resources>

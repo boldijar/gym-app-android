@@ -5,11 +5,12 @@ import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.observables.SaveProductsObservable;
 import com.gym.app.data.observables.UpdateCourseObservable;
 import com.gym.app.parts.authentication.AuthenticationPresenter;
+import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.create_course.CreateCoursePresenter;
 import com.gym.app.parts.findcourses.FindCoursesPresenter;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
-import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.mycourses.MyCoursesPresenter;
+import com.gym.app.parts.settings.SettingsPresenter;
 import com.gym.app.parts.notes.NotesPresenter;
 import com.gym.app.parts.shop.ShopPresenter;
 
@@ -41,4 +42,6 @@ public interface ApplicationComponent {
     void inject(CreateCoursePresenter createCoursePresenter);
 
     void inject(NotesPresenter notesPresenter);
+
+    void inject(SettingsPresenter settingsPresenter);
 }
