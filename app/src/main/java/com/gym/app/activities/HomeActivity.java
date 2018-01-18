@@ -19,6 +19,7 @@ import com.gym.app.parts.findcourses.FindCoursesFragment;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.parts.home.HomeNavigator;
 import com.gym.app.parts.mycourses.MyCoursesFragment;
+import com.gym.app.parts.notes.NotesFragment;
 import com.gym.app.parts.profile.ProfileFragment;
 import com.gym.app.parts.scan.ScanActivity;
 import com.gym.app.parts.settings.SettingsFragment;
@@ -141,6 +142,11 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
     @Override
     public void goToTerms() {
         startActivity(new Intent(this, TermsActivity.class));
+    }
+
+    @Override
+    public void goToNotes() {
+        setFragment(new NotesFragment());
     }
 
     @Override

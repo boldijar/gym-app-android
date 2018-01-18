@@ -11,6 +11,7 @@ import com.gym.app.parts.findcourses.FindCoursesPresenter;
 import com.gym.app.parts.findcourses.day_courses.DayCoursesPresenter;
 import com.gym.app.parts.mycourses.MyCoursesPresenter;
 import com.gym.app.parts.settings.SettingsPresenter;
+import com.gym.app.parts.notes.NotesPresenter;
 import com.gym.app.parts.shop.ShopPresenter;
 
 import dagger.Component;
@@ -39,6 +40,8 @@ public interface ApplicationComponent {
     void inject(MyCoursesPresenter myCoursesPresenter);
 
     void inject(CreateCoursePresenter createCoursePresenter);
+
+    void inject(NotesPresenter notesPresenter);
 
     void inject(SettingsPresenter settingsPresenter);
 }

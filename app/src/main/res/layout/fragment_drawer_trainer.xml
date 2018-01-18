@@ -10,7 +10,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
-        android:src="@drawable/user"/>
+        android:src="@drawable/user" />
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:paddingLeft="40dp"
             android:paddingTop="20dp"
             android:text="@string/my_courses"
-            android:textColor="@color/selector_drawer_text"/>
+            android:textColor="@color/selector_drawer_text" />
 
         <RadioButton
             android:id="@+id/drawer_create_course"
@@ -38,7 +38,7 @@
             android:paddingLeft="40dp"
             android:paddingTop="20dp"
             android:text="@string/create_course"
-            android:textColor="@color/selector_drawer_text"/>
+            android:textColor="@color/selector_drawer_text" />
 
         <RadioButton
             android:id="@+id/drawer_find_courses"
@@ -49,7 +49,7 @@
             android:paddingLeft="40dp"
             android:paddingTop="20dp"
             android:text="@string/find_courses"
-            android:textColor="@color/selector_drawer_text"/>
+            android:textColor="@color/selector_drawer_text" />
 
         <RadioButton
             android:id="@+id/drawer_profile"
@@ -60,7 +60,7 @@
             android:paddingLeft="40dp"
             android:paddingTop="20dp"
             android:text="@string/profile"
-            android:textColor="@color/selector_drawer_text"/>
+            android:textColor="@color/selector_drawer_text" />
 
 
         <RadioButton
@@ -72,7 +72,18 @@
             android:paddingLeft="40dp"
             android:paddingTop="14dp"
             android:text="@string/shop"
-            android:textColor="@color/selector_drawer_text"/>
+            android:textColor="@color/selector_drawer_text" />
+
+        <RadioButton
+            android:id="@+id/drawer_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="14dp"
+            android:paddingLeft="40dp"
+            android:paddingTop="14dp"
+            android:text="@string/notes"
+            android:textColor="@color/selector_drawer_text" />
 
 
     </RadioGroup>
@@ -80,13 +91,13 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".3"
-        android:background="@color/light_gray"/>
+        android:background="@color/light_gray" />
 
     <TextView
         android:id="@+id/drawer_settings"
@@ -99,13 +110,13 @@
         android:paddingTop="20dp"
         android:text="@string/settings"
         android:textAllCaps="true"
-        android:textColor="@color/light_gray"/>
+        android:textColor="@color/light_gray" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".3"
-        android:background="@color/light_gray"/>
+        android:background="@color/light_gray" />
 
     <TextView
         android:id="@+id/drawer_terms"
@@ -118,13 +129,13 @@
         android:paddingTop="20dp"
         android:text="Terms and conditions"
         android:textAllCaps="true"
-        android:textColor="@color/light_gray"/>
+        android:textColor="@color/light_gray" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".3"
-        android:background="@color/light_gray"/>
+        android:background="@color/light_gray" />
 
     <TextView
         android:id="@+id/drawer_logout"
@@ -137,7 +148,7 @@
         android:paddingTop="20dp"
         android:text="logout"
         android:textAllCaps="true"
-        android:textColor="@color/light_gray"/>
+        android:textColor="@color/light_gray" />
 
 
 </LinearLayout>

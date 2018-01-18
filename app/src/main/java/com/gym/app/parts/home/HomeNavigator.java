@@ -21,6 +21,8 @@ public interface HomeNavigator {
 
     void goToCreateCourse();
 
+    void goToNotes();
+
     void goToSettings();
 
     void goToScan();

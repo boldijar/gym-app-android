@@ -43,7 +43,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".parts.authentication.AuthenticationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AuthenticationTheme" />
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
