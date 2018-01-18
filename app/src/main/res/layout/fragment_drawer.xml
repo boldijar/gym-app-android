@@ -1,146 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/user" />
-
-    <RadioGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ffffff"
         android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/drawer_my_courses"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/user" />
+
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:checked="true"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/drawer_my_courses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="20dp"
+                android:text="@string/my_courses"
+                android:textColor="@color/selector_drawer_text" />
+
+            <RadioButton
+                android:id="@+id/drawer_find_courses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="20dp"
+                android:text="@string/find_courses"
+                android:textColor="@color/selector_drawer_text" />
+
+            <RadioButton
+                android:id="@+id/drawer_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="20dp"
+                android:text="@string/profile"
+                android:textColor="@color/selector_drawer_text" />
+
+
+            <RadioButton
+                android:id="@+id/drawer_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="14dp"
+                android:text="@string/shop"
+                android:textColor="@color/selector_drawer_text" />
+
+            <RadioButton
+                android:id="@+id/drawer_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="14dp"
+                android:text="@string/notes"
+                android:textColor="@color/selector_drawer_text" />
+
+            <RadioButton
+                android:id="@+id/drawer_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="14dp"
+                android:text="@string/gallery"
+                android:textColor="@color/selector_drawer_text" />
+
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha=".3"
+            android:background="@color/light_gray" />
+
+        <TextView
+            android:id="@+id/drawer_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:paddingBottom="14dp"
-            android:paddingLeft="40dp"
+            android:paddingStart="40dp"
             android:paddingTop="20dp"
-            android:text="@string/my_courses"
-            android:textColor="@color/selector_drawer_text" />
+            android:text="@string/settings"
+            android:textAllCaps="true"
+            android:textColor="@color/light_gray"
+            tools:ignore="RtlSymmetry" />
 
-        <RadioButton
-            android:id="@+id/drawer_find_courses"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha=".3"
+            android:background="@color/light_gray" />
+
+        <TextView
+            android:id="@+id/drawer_terms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:paddingBottom="14dp"
-            android:paddingLeft="40dp"
+            android:paddingStart="40dp"
             android:paddingTop="20dp"
-            android:text="@string/find_courses"
-            android:textColor="@color/selector_drawer_text" />
+            android:text="Terms and conditions"
+            android:textAllCaps="true"
+            android:textColor="@color/light_gray"
+            tools:ignore="RtlSymmetry" />
 
-        <RadioButton
-            android:id="@+id/drawer_profile"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha=".3"
+            android:background="@color/light_gray" />
+
+        <TextView
+            android:id="@+id/drawer_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:paddingBottom="14dp"
-            android:paddingLeft="40dp"
+            android:paddingStart="40dp"
             android:paddingTop="20dp"
-            android:text="@string/profile"
-            android:textColor="@color/selector_drawer_text" />
+            android:text="logout"
+            android:textAllCaps="true"
+            android:textColor="@color/light_gray"
+            tools:ignore="RtlSymmetry" />
 
-
-        <RadioButton
-            android:id="@+id/drawer_shop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:paddingBottom="14dp"
-            android:paddingLeft="40dp"
-            android:paddingTop="14dp"
-            android:text="@string/shop"
-            android:textColor="@color/selector_drawer_text" />
-
-        <RadioButton
-            android:id="@+id/drawer_notes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:paddingBottom="14dp"
-            android:paddingLeft="40dp"
-            android:paddingTop="14dp"
-            android:text="@string/notes"
-            android:textColor="@color/selector_drawer_text" />
-
-
-    </RadioGroup>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:alpha=".3"
-        android:background="@color/light_gray" />
-
-    <TextView
-        android:id="@+id/drawer_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:paddingBottom="14dp"
-        android:paddingStart="40dp"
-        android:paddingTop="20dp"
-        android:text="@string/settings"
-        android:textAllCaps="true"
-        android:textColor="@color/light_gray"
-        tools:ignore="RtlSymmetry" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:alpha=".3"
-        android:background="@color/light_gray" />
-
-    <TextView
-        android:id="@+id/drawer_terms"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:paddingBottom="14dp"
-        android:paddingStart="40dp"
-        android:paddingTop="20dp"
-        android:text="Terms and conditions"
-        android:textAllCaps="true"
-        android:textColor="@color/light_gray"
-        tools:ignore="RtlSymmetry" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:alpha=".3"
-        android:background="@color/light_gray" />
-
-    <TextView
-        android:id="@+id/drawer_logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:paddingBottom="14dp"
-        android:paddingStart="40dp"
-        android:paddingTop="20dp"
-        android:text="logout"
-        android:textAllCaps="true"
-        android:textColor="@color/light_gray"
-        tools:ignore="RtlSymmetry" />
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
