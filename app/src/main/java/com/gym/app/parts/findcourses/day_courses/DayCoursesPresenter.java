@@ -34,10 +34,10 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
         InjectionHelper.getApplicationComponent().inject(this);
     }
 
-    void handleCourseClick(final Course course, final int position, final boolean isRegistered) {
+    void handleCourseClick(final Course course, final int position, final int isRegistered) {
         Completable operation;
         final DayCoursesView.OperationType type;
-        if (isRegistered) {
+        if (isRegistered == 1) {
             operation = mCoursesService.unregisterFromCourse(course.getId());
             type = DayCoursesView.OperationType.REMOVE_COURSE;
         } else {
@@ -49,17 +49,18 @@ public class DayCoursesPresenter extends Presenter<DayCoursesView> {
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
-                        course.setIsRegistered(!isRegistered);
-                        course.setRegisteredUsersNumber((!isRegistered) ?
-                                course.getRegisteredUsersNumber() + 1 :
-                                course.getRegisteredUsersNumber() - 1);
+                        course.setIsRegistered((isRegistered == 1) ? 0 : 1);
+                        course.setRegisteredUsersNumber((isRegistered == 1) ?
+                                course.getRegisteredUsersNumber() - 1 :
+                                course.getRegisteredUsersNumber() + 1);
                         UpdateCourseObservable.newInstance(course).subscribe();
                         getView().displayOperationSuccessful(type, position);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(@NonNull Throwable throwable) throws Exception {
-                        getView().displayError(DayCoursesView.OperationType.REGISTER_TO_COURSE, position);
+                        getView().displayError((isRegistered == 1) ? DayCoursesView.OperationType.REMOVE_COURSE :
+                                DayCoursesView.OperationType.REGISTER_TO_COURSE, position);
                     }
                 }));
     }

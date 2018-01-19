@@ -36,6 +36,18 @@
                 android:textColor="@color/selector_drawer_text" />
 
             <RadioButton
+                android:id="@+id/drawer_trained_courses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:paddingBottom="14dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="20dp"
+                android:text="@string/trained_courses"
+                android:textColor="@color/selector_drawer_text" />
+
+            <RadioButton
                 android:id="@+id/drawer_create_course"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

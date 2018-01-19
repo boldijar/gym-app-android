@@ -132,7 +132,7 @@ class DayCoursesAdapter extends RecyclerView.Adapter<DayCoursesAdapter.DayCourse
             mCourseName.setText(course.getName());
             mCourseSchedule.setText(getFormattedTime(course.getCourseDate() * 1000,
                     course.getCapacity() * 1000 + ONE_HOUR_TIME_STAMP));
-            if (!course.isRegistered()) {
+            if (!(course.isRegistered() == 1)) {
                 buttonText = mHandleCourseButton.getContext().getString(R.string.reserve_course);
                 if (course.getCapacity() - course.getRegisteredUsersNumber() == 0) {
                     mHandleCourseButton.setClickable(false);

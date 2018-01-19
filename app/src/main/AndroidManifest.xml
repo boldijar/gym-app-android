@@ -57,13 +57,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme"
             android:name=".parts.scan.ScanActivity"
             android:label="@string/scan"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
-        <receiver android:name=".parts.findcourses.day_courses.CoursesReceiver"
-                  android:enabled="true"/>
+        <receiver
+            android:name=".parts.findcourses.day_courses.CoursesReceiver"
+            android:enabled="true" />
+
+        <activity
+            android:name=".parts.updatecourse.UpdateCourseActivity"
+            android:label="@string/update_course"
+            android:parentActivityName=".activities.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
     </application>
 

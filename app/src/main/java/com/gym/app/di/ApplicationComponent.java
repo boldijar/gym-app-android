@@ -17,6 +17,8 @@ import com.gym.app.parts.settings.SettingsPresenter;
 import com.gym.app.parts.notes.NotesPresenter;
 import com.gym.app.parts.profile.ProfilePresenter;
 import com.gym.app.parts.shop.ShopPresenter;
+import com.gym.app.parts.trainedcourses.TrainedCoursesPresenter;
+import com.gym.app.parts.updatecourse.UpdateCoursePresenter;
 
 import dagger.Component;
 
@@ -54,4 +56,8 @@ public interface ApplicationComponent {
     void inject(GalleryPresenter galleryPresenter);
 
     void inject(DrawerFragment drawerFragment);
+
+    void inject(TrainedCoursesPresenter trainedCoursesPresenter);
+
+    void inject(UpdateCoursePresenter updateCoursePresenter);
 }

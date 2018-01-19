@@ -10,9 +10,12 @@ import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -33,16 +36,30 @@ public interface CoursesService {
     @GET("api/courses")
     Observable<List<Course>> getCoursesForCurrentUser(@Query("usersCourses") boolean ownedCourses);
 
+    @GET("api/courses")
+    Single<List<Course>> getTrainedCourses(@Query("ownedCourses") boolean trainedCourses);
+
     @POST("api/course/{id}/subscription")
     Completable registerToCourse(@Path("id") int courseId);
 
     @DELETE("api/course/{id}/subscription")
     Completable unregisterFromCourse(@Path("id") int courseId);
 
+    @DELETE("api/course/{id}")
+    Completable deleteCourse(@Path("id") int courseId);
+
     @Multipart
     @POST("api/course")
     Single<Course> createCourse(@Part("name") RequestBody name,
-                        @Part("eventDate") RequestBody eventDate,
-                        @Part("capacity") RequestBody capacity,
-                        @Part MultipartBody.Part image);
+                                @Part("eventDate") RequestBody eventDate,
+                                @Part("capacity") RequestBody capacity,
+                                @Part MultipartBody.Part image);
+
+    @FormUrlEncoded
+    @PUT("api/course/{id}")
+    Completable updateCourse(@Path("id") int id,
+                             @Field("name") String name,
+                             @Field("eventDate") long eventDate,
+                             @Field("capacity") int capacity,
+                             @Field("_method") String method);
 }

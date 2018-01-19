@@ -3,7 +3,10 @@ package com.gym.app.data.model;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 @Entity(tableName = "courses")
-public class Course {
+public class Course implements Parcelable{
 
     @SerializedName("id")
     @PrimaryKey
@@ -46,12 +49,57 @@ public class Course {
     @SerializedName("trainer")
     private Trainer mTrainer;
 
-    /* Extra field used to check is the current user is registered to the current course or not
-       Used only locally, in the database
-       It's false by default and should be modified with its setter
-    */
+    @SerializedName("amRegistered")
     @ColumnInfo(name = "isUserRegistered")
-    private boolean mIsRegistered = false;
+    private int mIsRegistered = 0;
+
+    /*  Extra field used to check if the current user ( trainer ) owns the course or not
+        User only locally, in the database
+        It's false by default and should be modified with its setter
+     */
+    @ColumnInfo(name = "trained")
+    private int mIsTrained = 0;
+
+    protected Course(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mImage = in.readString();
+        mCourseDate = in.readLong();
+        mCapacity = in.readInt();
+        mRegisteredUsersNumber = in.readInt();
+        mIsRegistered = in.readInt();
+        mIsTrained = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeString(mImage);
+        dest.writeLong(mCourseDate);
+        dest.writeInt(mCapacity);
+        dest.writeInt(mRegisteredUsersNumber);
+        dest.writeInt(mIsRegistered);
+        dest.writeInt(mIsTrained);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Ignore
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel in) {
+            return new Course(in);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 
     @Override
     public boolean equals(Object obj) {
@@ -93,7 +141,7 @@ public class Course {
         this.mCapacity = capacity;
     }
 
-    public boolean isRegistered() {
+    public int isRegistered() {
         return mIsRegistered;
     }
 
@@ -121,7 +169,15 @@ public class Course {
         this.mTrainer = trainer;
     }
 
-    public void setIsRegistered(boolean isRegistered) {
+    public void setIsRegistered(int isRegistered) {
         this.mIsRegistered = isRegistered;
+    }
+
+    public void setIsTrained(int isTrained) {
+        this.mIsTrained = isTrained;
+    }
+
+    public int getIsTrained() {
+        return mIsTrained;
     }
 }
