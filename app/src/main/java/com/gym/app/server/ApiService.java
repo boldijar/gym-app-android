@@ -1,5 +1,6 @@
 package com.gym.app.server;
 
+import com.gym.app.data.model.AtTheGym;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.Product;
 
@@ -26,6 +27,9 @@ public interface ApiService {
     @FormUrlEncoded
     Completable checkInUser(@Field("isAtTheGym") boolean isAtTheGym,
                             @Field("_method") String method);
+
+    @GET("api/users/at-the-gym")
+    Observable<AtTheGym> getNumberOfUsers();
 
     @POST("api/newsletter/subscription")
     Completable subscribeToNewsLetter();

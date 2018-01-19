@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+import com.gym.app.data.model.AtTheGym;
 import com.gym.app.parts.home.BaseHomeFragment;
 
 import butterknife.BindView;
@@ -36,6 +37,9 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
     SwitchCompat mNotificationsSwitch;
     @BindView(R.id.settings_newsletter)
     SwitchCompat mNewsletterSwitch;
+
+    @BindView(R.id.no_users_at_gym)
+    TextView mNumberOfUsers;
 
     private SettingsPresenter mSettingsPresenter = new SettingsPresenter(this);
 
@@ -71,6 +75,7 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
     private void updateSwitches() {
         mNotificationsSwitch.setChecked(Prefs.NotificationsEnabled.getBoolean(true));
         mNewsletterSwitch.setChecked(Prefs.SubscribedToNewsLetter.getBoolean(true));
+        mSettingsPresenter.getNumberOfUsers();
     }
 
     private void updateCheckInText() {
@@ -121,4 +126,9 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
         updateCheckInText();
     }
 
+    @Override
+    public void numberOfUsers(AtTheGym noUsers) {
+        String text = "People at gym: " + noUsers.mNumberOfUsers;
+        mNumberOfUsers.setText(text);
+    }
 }
