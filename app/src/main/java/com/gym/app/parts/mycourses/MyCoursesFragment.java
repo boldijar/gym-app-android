@@ -1,5 +1,9 @@
 package com.gym.app.parts.mycourses;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -9,6 +13,7 @@ import android.view.View;
 
 import com.gym.app.R;
 import com.gym.app.data.model.Course;
+import com.gym.app.parts.findcourses.day_courses.CoursesReceiver;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.view.EmptyLayout;
 
@@ -84,11 +89,19 @@ public class MyCoursesFragment extends BaseHomeFragment implements MyCoursesView
 
     @Override
     public void showRemoveSuccessful(int coursePosition) {
+        cancelNotificationAlarm(mCoursesAdapter.getCourse(coursePosition));
         mCoursesAdapter.removeCourse(coursePosition);
         if (mCoursesAdapter.getItemCount() == 0) {
             mEmptyLayout.setState(EmptyLayout.State.EMPTY_NO_BUTTON, R.string.no_course_registrations);
             mCoursesRecycler.setVisibility(View.GONE);
         }
+    }
+
+    private void cancelNotificationAlarm(Course course) {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = CoursesReceiver.createIntent(getContext(), course.getName());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), course.getId(), intent, 0);
+        alarmManager.cancel(pendingIntent);
     }
 
     @Override

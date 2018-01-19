@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
+            android:maxLength="200"
             android:layout_marginRight="24dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/light_gray"

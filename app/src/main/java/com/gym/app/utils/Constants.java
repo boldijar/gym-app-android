@@ -9,4 +9,5 @@ public interface Constants {
     String COURSES_IMAGES_ENDPOINT = "http://54.70.10.6/uploads/course/";
     String PRODUCTS_IMAGES_ENDPOINT = "http://54.70.10.6/uploads/product/";
     String GYM_PHOTOS_ENDPOINT = "http://54.70.10.6/uploads/gym-photos/";
+    String CURRENCY = "RON";
 }

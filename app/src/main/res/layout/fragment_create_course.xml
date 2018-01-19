@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/course_image"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/course_image_height"
-            android:src="@drawable/ic_add_a_photo"
-            tools:ignore="ContentDescription" />
+            android:layout_height="@dimen/course_image_height">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_image_height"
+                android:scaleType="center"
+                android:focusable="false"
+                android:scaleY="2"
+                android:scaleX="2"
+                android:focusableInTouchMode="false"
+                android:clickable="false"
+                android:alpha=".8"
+                android:src="@drawable/ic_add_a_photo"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/course_image"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_image_height"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/image_upload_error"
@@ -27,7 +47,7 @@
             android:textColor="@color/error_red_color"
             android:textSize="@dimen/error_text_size"
             android:visibility="invisible"
-            tools:visibility="visible" />
+            tools:visibility="visible"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/course_name_layout"
@@ -45,7 +65,7 @@
                 android:drawablePadding="@dimen/primary_margin"
                 android:drawableStart="@drawable/ic_assignment"
                 android:hint="@string/course_name"
-                android:inputType="text" />
+                android:inputType="text"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -66,7 +86,7 @@
                 android:focusable="false"
                 android:hint="@string/date"
                 android:inputType="none"
-                android:text="@string/tap_to_select_date" />
+                android:text="@string/tap_to_select_date"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +105,7 @@
                 android:drawablePadding="@dimen/primary_margin"
                 android:drawableStart="@drawable/ic_people"
                 android:hint="@string/capacity"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"/>
 
         </android.support.design.widget.TextInputLayout>
 

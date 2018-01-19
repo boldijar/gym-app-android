@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -33,6 +34,7 @@
         </provider>
 
         <activity
+            android:launchMode="singleInstance"
             android:name=".activities.HomeActivity"
             android:label="Home"
             android:screenOrientation="portrait" />
@@ -60,6 +62,9 @@
             android:name=".parts.scan.ScanActivity"
             android:label="@string/scan"
             android:screenOrientation="portrait"/>
+
+        <receiver android:name=".parts.findcourses.day_courses.CoursesReceiver"
+                  android:enabled="true"/>
 
         <activity android:name=".parts.updatecourse.UpdateCourseActivity"
             android:screenOrientation="portrait"

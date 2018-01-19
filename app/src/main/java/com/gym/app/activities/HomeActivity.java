@@ -39,6 +39,7 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements HomeNavigator {
 
+    private static final String ARG_GO_TO_MY_COURSES = "mycourses";
     @BindView(R.id.home_drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.toolbar)
@@ -50,6 +51,12 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
         return new Intent(context, HomeActivity.class);
     }
 
+    public static Intent createMyCoursesIntent(Context context) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra(ARG_GO_TO_MY_COURSES, true);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +64,12 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
         ButterKnife.bind(this);
         mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.home_drawer_fragment);
         initDrawer();
+        goToMyCourses();
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
         goToMyCourses();
     }
 
