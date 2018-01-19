@@ -12,4 +12,10 @@ import java.util.List;
 interface TrainedCoursesView {
 
     void loadCourses(List<Course> courseList);
+
+    void displayLoadError();
+
+    void displayDeleteSuccess(int position);
+
+    void displayDeleteError(int id, int position);
 }

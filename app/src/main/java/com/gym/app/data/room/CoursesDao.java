@@ -25,6 +25,9 @@ public interface CoursesDao {
     @Query("DELETE FROM courses")
     void deleteAllCourses();
 
+    @Query("DELETE FROM courses WHERE id=:courseId")
+    void deleteCourse(int courseId);
+
     @Query("SELECT * FROM courses")
     Single<List<Course>> getAllCourses();
 
@@ -40,6 +43,6 @@ public interface CoursesDao {
     @Update
     void updateCourse(Course course);
 
-    @Query("UPDATE courses SET trained=1 where id=:courseId")
-    void setTrained(int courseId);
+    @Query("SELECT * FROM courses WHERE trained=1")
+    Single<List<Course>> getTrainedCourses();
 }

@@ -65,7 +65,7 @@
     <string name="yo">Heeeyo</string>
 
     <!-- create course -->
-    <string name="Add">Add</string>
+    <string name="Save">Save</string>
     <string name="create_course">Create course</string>
     <string name="tap_to_select_date">Tap to select date</string>
     <string name="date">Date</string>
@@ -113,5 +113,8 @@
     <string name="could_not_load_gallery">Could not load gallery</string>
     <string name="trained_courses">Trained courses</string>
     <string name="no_courses_created">You haven\'t created any course</string>
+    <string name="delete_course_error">Could not delete course</string>
+    <string name="update_course">Update course</string>
+    <string name="update_course_error">Could not update course</string>
 
 </resources>

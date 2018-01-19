@@ -12,8 +12,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * @author catalinradoiu
@@ -66,11 +69,56 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
         }
     }
 
-    public void deleteCourse() {
+    void deleteCourse(final int id, final int position) {
+        mCoursesService.deleteCourse(id)
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mAppDatabase.getCoursesDao().deleteCourse(id);
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        getView().displayDeleteSuccess(position);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        getView().displayDeleteError(id, position);
+                    }
+                });
+    }
+
+    void update(final Course course) {
+        Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override
+            public void call(Subscriber<? super Void> subscriber) {
+                mAppDatabase.getCoursesDao().updateCourse(course);
+            }
+        });
 
     }
 
     private void loadCoursesOffline() {
-
+        mAppDatabase.getCoursesDao().getTrainedCourses()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Course>>() {
+                    @Override
+                    public void accept(List<Course> courses) throws Exception {
+                        if (courses.size() == 0) {
+                            getView().displayLoadError();
+                        } else {
+                            getView().loadCourses(courses);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        getView().displayLoadError();
+                    }
+                });
     }
 }

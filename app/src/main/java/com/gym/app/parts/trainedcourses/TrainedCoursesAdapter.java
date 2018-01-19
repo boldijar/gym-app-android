@@ -1,5 +1,6 @@
 package com.gym.app.parts.trainedcourses;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,9 @@ import com.gym.app.R;
 import com.gym.app.data.model.Course;
 import com.gym.app.utils.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -109,10 +112,12 @@ public class TrainedCoursesAdapter extends RecyclerView.Adapter<TrainedCoursesAd
             this.mOnEditClickListener = onEditClickListener;
         }
 
+        @SuppressLint("SimpleDateFormat")
         void bind(Course course) {
             mCourseName.setText(course.getName());
             Glide.with(mCourseImage.getContext()).load(Constants.COURSES_IMAGES_ENDPOINT + course.getImage())
                     .into(mCourseImage);
+            mCourseTime.setText(new SimpleDateFormat("dd/MM/yy  hh:MM").format(new Date(course.getCourseDate() * 1000)));
         }
 
         @OnClick(R.id.trained_course_delete_button)

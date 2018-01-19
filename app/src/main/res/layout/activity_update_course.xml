@@ -1,0 +1,100 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/course_image_height">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_image_height"
+                android:alpha=".8"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="center"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:src="@drawable/ic_add_a_photo"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/update_course_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/course_image_height"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+        </FrameLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/course_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/primary_margin"
+            android:layout_marginEnd="@dimen/primary_margin"
+            android:layout_marginStart="@dimen/primary_margin"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/course_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="@dimen/primary_margin"
+                android:drawableStart="@drawable/ic_assignment"
+                android:hint="@string/course_name"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/course_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/primary_margin"
+            android:layout_marginStart="@dimen/primary_margin"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/course_date_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="@dimen/small_margin"
+                android:drawableStart="@drawable/ic_date_range"
+                android:focusable="false"
+                android:hint="@string/date"
+                android:inputType="none"
+                android:text="@string/tap_to_select_date" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/course_capacity_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/primary_margin"
+            android:layout_marginStart="@dimen/primary_margin"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/course_capacity_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="@dimen/primary_margin"
+                android:drawableStart="@drawable/ic_people"
+                android:hint="@string/capacity"
+                android:inputType="numberDecimal" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

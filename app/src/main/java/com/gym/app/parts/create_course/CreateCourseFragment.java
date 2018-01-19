@@ -282,7 +282,7 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
                             }
                         } else {
                             mCourseDateTimestamp = calendar.getTimeInMillis();
-                            mCourseDate.setText(new SimpleDateFormat("DD/MM/YY HH:mm")
+                            mCourseDate.setText(new SimpleDateFormat("dd/MM/yy HH:mm")
                                     .format(new Date(mCourseDateTimestamp)));
                         }
                     }
@@ -325,23 +325,27 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
         } catch (IOException e) {
             e.printStackTrace();
         }
-        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                ExifInterface.ORIENTATION_UNDEFINED);
-        Bitmap rotatedBitmap;
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                rotatedBitmap = rotateImage(bitmap, 90);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                rotatedBitmap = rotateImage(bitmap, 180);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                rotatedBitmap = rotateImage(bitmap, 270);
-                break;
-            case ExifInterface.ORIENTATION_NORMAL:
-            default:
-                rotatedBitmap = bitmap;
+        if (ei != null) {
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+            Bitmap rotatedBitmap;
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotatedBitmap = rotateImage(bitmap, 90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotatedBitmap = rotateImage(bitmap, 180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotatedBitmap = rotateImage(bitmap, 270);
+                    break;
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    rotatedBitmap = bitmap;
+            }
+            return rotatedBitmap;
+        } else {
+            return bitmap;
         }
-        return rotatedBitmap;
     }
 }
