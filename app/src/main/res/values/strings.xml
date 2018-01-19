@@ -37,6 +37,9 @@
     <string name="check_sdcard_status">please check your sdcard status</string>
     <string name="products_error">Can\'t get products</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="update_faild">Update faild</string>
+    <string name="update_profile">Profile has been updated</string>
+    <string name="user_image_shared_pref">user_image</string>
 
     <!-- find courses -->
     <string name="reserve_course">Reserve</string>

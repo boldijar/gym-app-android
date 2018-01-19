@@ -10,12 +10,13 @@
         android:background="#ffffff"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/user" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/drawer_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/user"/>
 
         <RadioGroup
             android:layout_width="match_parent"

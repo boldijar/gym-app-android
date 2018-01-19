@@ -13,6 +13,7 @@ import com.gym.app.server.CoursesService;
 import com.gym.app.server.GalleryService;
 import com.gym.app.server.NetworkInterceptor;
 import com.gym.app.server.NotesService;
+import com.gym.app.server.UserService;
 import com.gym.app.utils.Constants;
 
 import java.io.File;
@@ -124,5 +125,11 @@ public class ApiModule {
     @Provides
     static GalleryService providesGalleryService(final Retrofit retrofit){
         return retrofit.create(GalleryService.class);
+    }
+
+
+    @Provides
+    UserService provideUserService(final Retrofit retrofit){
+        return retrofit.create(UserService.class);
     }
 }
