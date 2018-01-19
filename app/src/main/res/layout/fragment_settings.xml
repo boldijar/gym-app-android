@@ -5,6 +5,7 @@
              android:orientation="vertical">
 
     <TextView
+        android:id="@+id/no_users_at_gym"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
