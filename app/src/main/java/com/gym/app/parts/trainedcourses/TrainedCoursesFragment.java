@@ -59,7 +59,6 @@ public class TrainedCoursesFragment extends BaseHomeFragment implements TrainedC
                 data.getBooleanExtra(UpdateCourseActivity.UPDATED, false)) {
             Course course = data.getParcelableExtra(UpdateCourseActivity.COURSE);
             mTrainedCoursesAdapter.updateCouse(data.getIntExtra(UpdateCourseActivity.POSITION, -1), course);
-            mTrainedCoursesPresenter.update(course);
         }
     }
 

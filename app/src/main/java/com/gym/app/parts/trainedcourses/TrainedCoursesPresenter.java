@@ -40,16 +40,7 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
     }
 
     void loadTrainedCourses() {
-        if (mSystemUtils.isNetworkUnavailable()) {
-            loadCoursesOffline();
-        } else {
             addDisposable(mCoursesService.getTrainedCourses(true)
-                    .doOnSuccess(courses -> {
-                        for (Course value : courses) {
-                            value.setIsTrained(1);
-                            mAppDatabase.getCoursesDao().updateCourse(value);
-                        }
-                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<List<Course>>() {
@@ -58,9 +49,8 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
                             getView().loadCourses(courses);
                         }
                     }, throwable -> {
-
+                        getView().displayLoadError();
                     }));
-        }
     }
 
     void deleteCourse(final int id, final int position) {
@@ -90,16 +80,4 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
 
     }
 
-    private void loadCoursesOffline() {
-        mAppDatabase.getCoursesDao().getTrainedCourses(1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(courses -> {
-                    if (courses.size() == 0) {
-                        getView().displayLoadError();
-                    } else {
-                        getView().loadCourses(courses);
-                    }
-                }, throwable -> getView().displayLoadError());
-    }
 }
