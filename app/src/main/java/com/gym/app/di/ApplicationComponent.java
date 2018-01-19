@@ -4,6 +4,7 @@ import com.gym.app.Shaorma;
 import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.observables.SaveProductsObservable;
 import com.gym.app.data.observables.UpdateCourseObservable;
+import com.gym.app.fragments.DrawerFragment;
 import com.gym.app.parts.authentication.AuthenticationPresenter;
 import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.create_course.CreateCoursePresenter;
@@ -51,4 +52,6 @@ public interface ApplicationComponent {
     void inject(SettingsPresenter settingsPresenter);
 
     void inject(GalleryPresenter galleryPresenter);
+
+    void inject(DrawerFragment drawerFragment);
 }
