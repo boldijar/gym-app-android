@@ -43,6 +43,6 @@ public interface CoursesDao {
     @Update
     void updateCourse(Course course);
 
-    @Query("SELECT * FROM courses WHERE trained=1")
-    Single<List<Course>> getTrainedCourses();
+    @Query("SELECT * FROM courses WHERE trained=:trained")
+    Single<List<Course>> getTrainedCourses(int trained);
 }

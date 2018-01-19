@@ -44,13 +44,10 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
             loadCoursesOffline();
         } else {
             addDisposable(mCoursesService.getTrainedCourses(true)
-                    .doOnSuccess(new Consumer<List<Course>>() {
-                        @Override
-                        public void accept(List<Course> courses) throws Exception {
-                            for (Course value : courses) {
-                                value.setIsTrained(1);
-                                mAppDatabase.getCoursesDao().updateCourse(value);
-                            }
+                    .doOnSuccess(courses -> {
+                        for (Course value : courses) {
+                            value.setIsTrained(1);
+                            mAppDatabase.getCoursesDao().updateCourse(value);
                         }
                     })
                     .subscribeOn(Schedulers.io())
@@ -60,11 +57,8 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
                         public void accept(List<Course> courses) throws Exception {
                             getView().loadCourses(courses);
                         }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
+                    }, throwable -> {
 
-                        }
                     }));
         }
     }
@@ -92,33 +86,20 @@ public class TrainedCoursesPresenter extends Presenter<TrainedCoursesView> {
     }
 
     void update(final Course course) {
-        Observable.create(new Observable.OnSubscribe<Void>() {
-            @Override
-            public void call(Subscriber<? super Void> subscriber) {
-                mAppDatabase.getCoursesDao().updateCourse(course);
-            }
-        });
+        Observable.create((Observable.OnSubscribe<Void>) subscriber -> mAppDatabase.getCoursesDao().insertCourse(course));
 
     }
 
     private void loadCoursesOffline() {
-        mAppDatabase.getCoursesDao().getTrainedCourses()
+        mAppDatabase.getCoursesDao().getTrainedCourses(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Course>>() {
-                    @Override
-                    public void accept(List<Course> courses) throws Exception {
-                        if (courses.size() == 0) {
-                            getView().displayLoadError();
-                        } else {
-                            getView().loadCourses(courses);
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
+                .subscribe(courses -> {
+                    if (courses.size() == 0) {
                         getView().displayLoadError();
+                    } else {
+                        getView().loadCourses(courses);
                     }
-                });
+                }, throwable -> getView().displayLoadError());
     }
 }
