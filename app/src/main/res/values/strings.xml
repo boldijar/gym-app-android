@@ -105,7 +105,7 @@
 
     <!-- scan -->
     <string name="scan">Scan</string>
-    <string name="people_at_the_gym">People at the gym</string>
+    <string name="people_at_the_gym">People at gym:</string>
 
     <!-- gallery -->
     <string name="gallery">Gallery</string>

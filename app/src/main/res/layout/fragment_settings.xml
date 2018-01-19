@@ -22,28 +22,32 @@
         android:layout_weight="1"/>
 
     <TextView
-        android:layout_width="wrap_content"
         android:id="@+id/no_users_at_gym"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="@string/people_at_the_gym"
-        android:textSize="20sp"/>
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/settings_notifications"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textSize="16sp"
         android:text="@string/enable_notifications"
+        android:textSize="16sp"
         app:switchPadding="10dp"/>
+
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/settings_newsletter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textSize="16sp"
         android:text="@string/enable_newsletter"
+        android:textSize="16sp"
         app:switchPadding="10dp"/>
+
     <Button
         android:id="@+id/settings_checkin"
         android:layout_width="wrap_content"
