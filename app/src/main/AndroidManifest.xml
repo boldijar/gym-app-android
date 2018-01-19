@@ -43,7 +43,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".parts.authentication.AuthenticationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AuthenticationTheme" />
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
@@ -54,7 +55,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".parts.scan.ScanActivity"
+            android:label="@string/scan"
+            android:screenOrientation="portrait"/>
 
     </application>
 

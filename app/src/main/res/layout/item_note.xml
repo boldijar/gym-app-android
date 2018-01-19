@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/primary_margin"
+    android:layout_marginStart="@dimen/primary_margin"
+    android:layout_marginTop="@dimen/small_margin"
+    android:background="@drawable/note_rounded_corners"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/small_margin"
+    android:paddingEnd="@dimen/primary_margin"
+    android:paddingStart="@dimen/primary_margin"
+    android:paddingTop="@dimen/small_margin">
+
+    <ImageButton
+        android:id="@+id/delete_note_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/small_margin"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_delete"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/note_date"
+        fontPath="fonts/Lato-Bold.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingPrefix"
+        tools:text="Created at : 01.08.2017" />
+
+    <TextView
+        android:id="@+id/note_text"
+        fontPath="fonts/Lato-Light.ttf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/note_date"
+        android:layout_marginTop="@dimen/primary_margin"
+        tools:ignore="MissingPrefix"
+        tools:text="Do mo push-ups! dasjdajdjadasjhd adbahsgd ajsdh jahdasjhd ajhdsja hdajsdh ajshdajs hdjashd jashd jahdasjhd ajshdjahd ajshd ajshdjas hdjsahd aj" />
+
+</RelativeLayout>

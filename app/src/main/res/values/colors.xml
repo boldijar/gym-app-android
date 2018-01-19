@@ -15,5 +15,7 @@
 
     <color name="transparent_gray">#7f494949</color>
     <color name="error_red_color">#ff0000</color>
+    <color name="note_yellow_color">#FFFACD</color>
+    <color name="yellow_accent">#ffca28</color>
 
 </resources>

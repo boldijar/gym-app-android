@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -12,13 +12,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AuthenticationTheme" parent="AppThemeNoActionbar">
+        <item name="colorAccent">@color/yellow_accent</item>
+    </style>
+
     <style name="AppToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
-    </style>
-
-    <style name="WhiteHintInout" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/light_gray</item>
     </style>
 
 </resources>
