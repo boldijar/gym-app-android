@@ -34,6 +34,8 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
     TextView mCheckinButton;
     @BindView(R.id.settings_notifications)
     SwitchCompat mNotificationsSwitch;
+    @BindView(R.id.settings_newsletter)
+    SwitchCompat mNewsletterSwitch;
 
     private SettingsPresenter mSettingsPresenter = new SettingsPresenter(this);
 
@@ -52,7 +54,7 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         updateCheckInText();
-        updateNotification();
+        updateSwitches();
     }
 
     @OnCheckedChanged(R.id.settings_notifications)
@@ -60,8 +62,15 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
         Prefs.NotificationsEnabled.put(checked);
     }
 
-    private void updateNotification() {
+    @OnCheckedChanged(R.id.settings_newsletter)
+    public void newsletterChanged(CompoundButton compoundButton, boolean checked) {
+        Prefs.SubscribedToNewsLetter.put(checked);
+        mSettingsPresenter.subscribeToNewsLetter(checked);
+    }
+
+    private void updateSwitches() {
         mNotificationsSwitch.setChecked(Prefs.NotificationsEnabled.getBoolean(true));
+        mNewsletterSwitch.setChecked(Prefs.SubscribedToNewsLetter.getBoolean(true));
     }
 
     private void updateCheckInText() {

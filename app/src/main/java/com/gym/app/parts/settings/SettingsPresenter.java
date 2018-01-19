@@ -6,6 +6,7 @@ import com.gym.app.server.ApiService;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -28,13 +29,30 @@ public class SettingsPresenter extends Presenter<SettingsView> {
     }
 
     public void checkInUser(final boolean checkIn) {
-        mApiService.checkInUser(checkIn,"PUT")
+        mApiService.checkInUser(checkIn, "PUT")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
                         getView().checkInSuccess(checkIn);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Timber.e(throwable);
+                    }
+                });
+    }
+
+    public void subscribeToNewsLetter(final boolean subscribe) {
+        Completable completable = subscribe ? mApiService.subscribeToNewsLetter() : mApiService.unSubscribeToNewsLetter();
+        completable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Timber.d("Subscribe = " + subscribe + " success!");
                     }
                 }, new Consumer<Throwable>() {
                     @Override

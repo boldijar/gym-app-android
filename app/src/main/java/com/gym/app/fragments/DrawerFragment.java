@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
@@ -39,6 +40,9 @@ public class DrawerFragment extends BaseFragment {
 
     @BindView(R.id.drawer_image)
     ImageView mImageView;
+
+    @BindView(R.id.drawer_radio_group)
+    RadioGroup mRadioGroup;
 
     @Inject
     UserService mUserService;
@@ -125,6 +129,7 @@ public class DrawerFragment extends BaseFragment {
                 mHomeNavigator.goToTerms();
                 return;
             case R.id.drawer_settings:
+                mRadioGroup.clearCheck();
                 mHomeNavigator.goToSettings();
                 return;
             case R.id.drawer_gallery:

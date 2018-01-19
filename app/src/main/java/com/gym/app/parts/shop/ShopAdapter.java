@@ -42,7 +42,7 @@ class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder> {
     public void onBindViewHolder(ShopViewHolder holder, int position) {
         Product product = mItems.get(position);
         Glide.with(holder.mImage.getContext()).load(Constants.PRODUCTS_IMAGES_ENDPOINT + product.mImage).into(holder.mImage);
-        holder.mPrice.setText(product.mPrice);
+        holder.mPrice.setText(product.mPrice + " " + Constants.CURRENCY);
         holder.mTitle.setText(product.mName);
         holder.mDescription.setText(product.mDescription);
     }
