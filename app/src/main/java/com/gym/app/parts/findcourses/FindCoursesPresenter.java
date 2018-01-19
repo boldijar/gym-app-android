@@ -121,18 +121,10 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
         mAppDatabase.getCoursesDao().getAllCourses()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Course>>() {
-                    @Override
-                    public void accept(@NonNull List<Course> courseList) throws Exception {
-                        getView().setLoaded();
-                        mCoursesList.addAll(courseList);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                        getView().setError();
-                    }
-                });
+                .subscribe(courseList -> {
+                    getView().setLoaded();
+                    mCoursesList.addAll(courseList);
+                }, throwable -> getView().setError());
     }
 
     private List<Day> generateDaysList() {
