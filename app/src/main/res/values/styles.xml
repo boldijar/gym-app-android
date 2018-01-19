@@ -17,4 +17,8 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
+    <style name="WhiteHintInout" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/light_gray</item>
+    </style>
+
 </resources>

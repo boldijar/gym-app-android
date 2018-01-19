@@ -23,17 +23,21 @@ public interface UserService {
 
     @Multipart
     @POST("api/user")
-    Completable updateUser(@Part("_method") RequestBody method,
-                            @Part("fullName") RequestBody fullName,
-                           @Part MultipartBody.Part picture);
+    Completable updateUserName(@Part("_method") RequestBody method,
+                               @Part("fullName") RequestBody fullName);
 
+    @Multipart
     @POST("api/user")
-    Completable updatePassword(@Part("password") RequestBody password);
+    Completable updatePassword(@Part("_method") RequestBody method,
+                               @Part("password") RequestBody password);
+
+    @Multipart
+    @POST("api/user")
+    Completable updateImage(@Part("_method") RequestBody method,
+                            @Part MultipartBody.Part picture);
 
 
-/*
-    @PUT("api/user/{id}")
-    Completable updateUser(@Path("id") int id,*/
+
 }
 
 

@@ -2,9 +2,10 @@ package com.gym.app.parts.profile;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
@@ -29,7 +30,6 @@ import com.gym.app.data.model.User;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.utils.Constants;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -54,6 +54,8 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
     private ProfilePresenter profilePresenter;
     private File mPhotoFile = null;
     private File mPhotoToUpload = null;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mSharedPrefEditor;
     private PopupMenu mUploadPhotoMenu;
     private static final int MY_REQUEST_CAMERA = 10;
     private static final int MY_REQUEST_WRITE_CAMERA = 11;
@@ -77,9 +79,20 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        initSharedPref();
         profilePresenter = new ProfilePresenter(this);
         setUploadPhotoMenu();
         profilePresenter.getUser();
+    }
+
+    private void initSharedPref(){
+        mSharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        mSharedPrefEditor = mSharedPreferences.edit();
+    }
+
+    private void putInSharedPref(String userImage){
+        mSharedPrefEditor.putString(getString(R.string.user_image_shared_pref), userImage);
+        mSharedPrefEditor.commit();
     }
 
     private void setUploadPhotoMenu() {
@@ -112,21 +125,6 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
         String userName = String.valueOf(mNameInput.getText());
         String userPassword = String.valueOf(mPasswordInput.getText());
         profilePresenter.updateUser(userName, userPassword, mPhotoToUpload);
-    }
-
-
-    public Uri getImageUri(Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    public String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
     }
 
     private void checkPermissionReadExternalStorage(){
@@ -303,6 +301,7 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
         mEmailInput.setText(value.mEmail);
         mPasswordInput.setText(value.mPassword);
         Glide.with(getContext()).load(Constants.USER_ENDPOINT + value.mImage).into(mProfileImage);
+        putInSharedPref(value.mImage);
     }
 
     @Override

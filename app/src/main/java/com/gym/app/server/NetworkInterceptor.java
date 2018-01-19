@@ -38,6 +38,7 @@ public class NetworkInterceptor implements Interceptor {
         Response response = chain.proceed(builder.build());
         if (response.code() == 401) {
             Prefs.Token.put(null);
+            Prefs.Role.put(null);
             mApplication.startActivity(AuthenticationActivity.createExpiredTokenIntent(mApplication));
         }
         if (!response.isSuccessful()) {

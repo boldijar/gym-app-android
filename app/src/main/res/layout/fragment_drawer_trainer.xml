@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#ffffff"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/drawer_image"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="center"
@@ -28,6 +27,17 @@
             android:paddingLeft="40dp"
             android:paddingTop="20dp"
             android:text="@string/my_courses"
+            android:textColor="@color/selector_drawer_text"/>
+
+        <RadioButton
+            android:id="@+id/drawer_create_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingBottom="14dp"
+            android:paddingLeft="40dp"
+            android:paddingTop="20dp"
+            android:text="@string/create_course"
             android:textColor="@color/selector_drawer_text"/>
 
         <RadioButton

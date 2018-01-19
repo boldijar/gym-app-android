@@ -14,12 +14,14 @@ import android.view.View;
 
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+import com.gym.app.parts.create_course.CreateCourseFragment;
 import com.gym.app.parts.findcourses.FindCoursesFragment;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.parts.home.HomeNavigator;
 import com.gym.app.parts.mycourses.MyCoursesFragment;
 import com.gym.app.parts.profile.ProfileFragment;
 import com.gym.app.parts.shop.ShopFragment;
+import com.gym.app.parts.terms.TermsActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,8 +122,19 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
     }
 
     @Override
+    public void goToCreateCourse() {
+        setFragment(new CreateCourseFragment());
+    }
+
+    @Override
+    public void goToTerms() {
+        startActivity(new Intent(this, TermsActivity.class));
+    }
+
+    @Override
     public void logout() {
         Prefs.Token.put(null);
+        Prefs.Role.put(null);
         Intent intent = SplashActivity.createIntent(this);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
