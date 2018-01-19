@@ -28,4 +28,6 @@ public interface HomeNavigator {
     void goToScan();
 
     void goToGallery();
+
+    void goToTrainedCourses();
 }

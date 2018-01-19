@@ -131,11 +131,11 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
                     switch (operationType) {
                         case REGISTER_TO_COURSE:
                             mDayCoursesPresenter.handleCourseClick(mTodayCoursesAdapter
-                                    .getCourse(coursePosition), coursePosition, false);
+                                    .getCourse(coursePosition), coursePosition, 0);
                             break;
                         case REMOVE_COURSE:
                             mDayCoursesPresenter.handleCourseClick(mTodayCoursesAdapter
-                                    .getCourse(coursePosition), coursePosition, true);
+                                    .getCourse(coursePosition), coursePosition, 1);
                             break;
                     }
                 }

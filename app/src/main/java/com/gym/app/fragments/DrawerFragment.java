@@ -96,12 +96,16 @@ public class DrawerFragment extends BaseFragment {
             R.id.drawer_terms,
             R.id.drawer_notes,
             R.id.drawer_settings,
-            R.id.drawer_gallery
+            R.id.drawer_gallery,
+            R.id.drawer_trained_courses
     })
     void onOptionsClicked(View view) {
         switch (view.getId()) {
             case R.id.drawer_find_courses:
                 mHomeNavigator.goToFindCourses();
+                return;
+            case R.id.drawer_trained_courses:
+                mHomeNavigator.goToTrainedCourses();
                 return;
             case R.id.drawer_create_course:
                 mHomeNavigator.goToCreateCourse();

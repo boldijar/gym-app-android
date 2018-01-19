@@ -33,6 +33,9 @@ public interface CoursesService {
     @GET("api/courses")
     Observable<List<Course>> getCoursesForCurrentUser(@Query("usersCourses") boolean ownedCourses);
 
+    @GET("api/courses")
+    Single<List<Course>> getTrainedCourses(@Query("ownedCourses") boolean trainedCourses);
+
     @POST("api/course/{id}/subscription")
     Completable registerToCourse(@Path("id") int courseId);
 
@@ -42,7 +45,7 @@ public interface CoursesService {
     @Multipart
     @POST("api/course")
     Single<Course> createCourse(@Part("name") RequestBody name,
-                        @Part("eventDate") RequestBody eventDate,
-                        @Part("capacity") RequestBody capacity,
-                        @Part MultipartBody.Part image);
+                                @Part("eventDate") RequestBody eventDate,
+                                @Part("capacity") RequestBody capacity,
+                                @Part MultipartBody.Part image);
 }

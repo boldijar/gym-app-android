@@ -61,6 +61,11 @@
             android:label="@string/scan"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".parts.updatecourse.UpdateCourseActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppTheme"/>
+
     </application>
 
 </manifest>

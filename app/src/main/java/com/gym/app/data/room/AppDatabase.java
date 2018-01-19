@@ -13,7 +13,7 @@ import com.gym.app.data.model.Product;
  * @since 2017.09.25
  */
 
-@Database(entities = {Product.class, Course.class, Note.class}, version = 6)
+@Database(entities = {Product.class, Course.class, Note.class}, version = 7)
 @TypeConverters({RoomConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract AppDao getDao();

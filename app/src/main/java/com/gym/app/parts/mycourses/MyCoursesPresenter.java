@@ -58,7 +58,7 @@ public class MyCoursesPresenter extends Presenter<MyCoursesView> {
                             List<Course> result = new ArrayList<>();
                             for (Course value : courses) {
                                 if (value.getCourseDate() > System.currentTimeMillis() / 1000) {
-                                    value.setIsRegistered(true);
+                                    value.setIsRegistered(1);
                                     result.add(value);
                                 }
                             }
@@ -85,7 +85,8 @@ public class MyCoursesPresenter extends Presenter<MyCoursesView> {
                 .subscribe(new Action() {
                     @Override
                     public void run() throws Exception {
-                        course.setIsRegistered(false);
+                        course.setIsRegistered(0);
+                        course.setRegisteredUsersNumber(course.getRegisteredUsersNumber() - 1);
                         UpdateCourseObservable.newInstance(course).subscribe();
                         getView().showRemoveSuccessful(coursePosition);
                     }

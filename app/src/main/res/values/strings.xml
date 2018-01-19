@@ -106,5 +106,7 @@
     <string name="gallery">Gallery</string>
     <string name="no_photos_in_gallery">No photos in gallery</string>
     <string name="could_not_load_gallery">Could not load gallery</string>
+    <string name="trained_courses">Trained courses</string>
+    <string name="no_courses_created">You haven\'t created any course</string>
 
 </resources>

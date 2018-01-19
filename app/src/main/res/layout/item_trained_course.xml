@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/small_margin"
+    android:paddingTop="@dimen/small_margin">
+
+    <ImageView
+        android:id="@+id/trained_course_image"
+        android:layout_width="@dimen/trained_course_image_size"
+        android:layout_height="@dimen/trained_course_image_size"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription"
+        tools:src="@color/yellow_accent" />
+
+    <TextView
+        android:id="@+id/trained_course_name"
+        fontPath="fonts/Lato-Bold.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_toEndOf="@id/trained_course_image"
+        android:textSize="14sp"
+        tools:ignore="MissingPrefix,RelativeOverlap"
+        tools:text="Zumbea" />
+
+    <TextView
+        android:id="@+id/trained_course_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trained_course_name"
+        android:layout_marginStart="@dimen/primary_margin"
+        android:layout_toEndOf="@id/trained_course_image"
+        tools:text="Time : 15.10.2018 10:00" />
+
+    <ImageButton
+        android:id="@+id/trained_course_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_marginTop="@dimen/primary_margin"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_delete"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/trained_course_update_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/primary_margin"
+        android:layout_toStartOf="@id/trained_course_delete_button"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_edit_24dp"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>

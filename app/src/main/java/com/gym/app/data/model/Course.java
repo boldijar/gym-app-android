@@ -46,12 +46,16 @@ public class Course {
     @SerializedName("trainer")
     private Trainer mTrainer;
 
-    /* Extra field used to check is the current user is registered to the current course or not
-       Used only locally, in the database
-       It's false by default and should be modified with its setter
-    */
+    @SerializedName("amRegistered")
     @ColumnInfo(name = "isUserRegistered")
-    private boolean mIsRegistered = false;
+    private int mIsRegistered = 0;
+
+    /*  Extra field used to check if the current user ( trainer ) owns the course or not
+        User only locally, in the database
+        It's false by default and should be modified with its setter
+     */
+    @ColumnInfo(name = "trained")
+    private int mIsTrained = 0;
 
     @Override
     public boolean equals(Object obj) {
@@ -93,7 +97,7 @@ public class Course {
         this.mCapacity = capacity;
     }
 
-    public boolean isRegistered() {
+    public int isRegistered() {
         return mIsRegistered;
     }
 
@@ -121,7 +125,15 @@ public class Course {
         this.mTrainer = trainer;
     }
 
-    public void setIsRegistered(boolean isRegistered) {
+    public void setIsRegistered(int isRegistered) {
         this.mIsRegistered = isRegistered;
+    }
+
+    public void setIsTrained(int isTrained) {
+        this.mIsTrained = isTrained;
+    }
+
+    public int getIsTrained() {
+        return mIsTrained;
     }
 }

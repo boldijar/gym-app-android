@@ -39,4 +39,7 @@ public interface CoursesDao {
 
     @Update
     void updateCourse(Course course);
+
+    @Query("UPDATE courses SET trained=1 where id=:courseId")
+    void setTrained(int courseId);
 }

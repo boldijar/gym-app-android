@@ -27,6 +27,7 @@ import com.gym.app.parts.scan.ScanActivity;
 import com.gym.app.parts.settings.SettingsFragment;
 import com.gym.app.parts.shop.ShopFragment;
 import com.gym.app.parts.terms.TermsActivity;
+import com.gym.app.parts.trainedcourses.TrainedCoursesFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,6 +148,11 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
     @Override
     public void goToGallery() {
         setFragment(new GalleryFragment());
+    }
+
+    @Override
+    public void goToTrainedCourses() {
+        setFragment(new TrainedCoursesFragment());
     }
 
     @Override

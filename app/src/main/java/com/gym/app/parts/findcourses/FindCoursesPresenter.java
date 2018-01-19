@@ -98,20 +98,20 @@ public class FindCoursesPresenter extends Presenter<FindCoursesView> {
             loadCoursesOffline();
         } else {
             mCoursesService.getCoursesForPeriod(periodStart, periodEnd)
-                    .zipWith(mCoursesService.getCoursesForCurrentUser(true),
-                            new BiFunction<List<Course>, List<Course>, List<Course>>() {
-
-                                @Override
-                                public List<Course> apply(@NonNull List<Course> firstList,
-                                                          @NonNull List<Course> secondList) throws Exception {
-                                    for (Course value : firstList) {
-                                        if (secondList.contains(value)) {
-                                            value.setIsRegistered(true);
-                                        }
-                                    }
-                                    return firstList;
-                                }
-                            })
+//                    .zipWith(mCoursesService.getCoursesForCurrentUser(true),
+//                            new BiFunction<List<Course>, List<Course>, List<Course>>() {
+//
+//                                @Override
+//                                public List<Course> apply(@NonNull List<Course> firstList,
+//                                                          @NonNull List<Course> secondList) throws Exception {
+//                                    for (Course value : firstList) {
+//                                        if (secondList.contains(value)) {
+//                                            value.setIsRegistered(true);
+//                                        }
+//                                    }
+//                                    return firstList;
+//                                }
+//                            })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MvpObserver<List<Course>>(this) {
