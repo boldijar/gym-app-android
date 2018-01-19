@@ -34,7 +34,7 @@
         </provider>
 
         <activity
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:name=".activities.HomeActivity"
             android:label="Home"
             android:screenOrientation="portrait" />
