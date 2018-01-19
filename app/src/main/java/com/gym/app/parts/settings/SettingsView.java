@@ -1,5 +1,7 @@
 package com.gym.app.parts.settings;
 
+import com.gym.app.data.model.AtTheGym;
+
 /**
  * @author Paul
  * @since 2018.01.17
@@ -8,4 +10,6 @@ package com.gym.app.parts.settings;
 public interface SettingsView {
 
     void checkInSuccess(boolean checkedIn);
+
+    void numberOfUsers(AtTheGym noUsers);
 }

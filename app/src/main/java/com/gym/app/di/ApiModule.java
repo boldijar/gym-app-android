@@ -14,6 +14,7 @@ import com.gym.app.server.GalleryService;
 import com.gym.app.server.NetworkInterceptor;
 import com.gym.app.server.NotesService;
 import com.gym.app.server.UserService;
+import com.gym.app.server.NotesService;
 import com.gym.app.utils.Constants;
 
 import java.io.File;

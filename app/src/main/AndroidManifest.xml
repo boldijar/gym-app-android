@@ -16,9 +16,8 @@
     <application
         android:name=".Shaorma"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/launcher"
         android:label="@string/appname"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionbar">
 
@@ -34,9 +33,9 @@
         </provider>
 
         <activity
+            android:launchMode="singleTask"
             android:name=".activities.HomeActivity"
             android:label="Home"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
             android:name=".parts.terms.TermsActivity"

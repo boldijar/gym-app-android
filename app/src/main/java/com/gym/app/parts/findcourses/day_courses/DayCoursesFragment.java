@@ -132,12 +132,12 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
 
     private void scheduleNotificationAlarm(Course course) {
         // 30 mins before notification
-        long when = course.getCourseDate() - 1000 * 60 * 30;
+        long when = course.getCourseDate() - 60 * 30;
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = CoursesReceiver.createIntent(getContext(), course.getName());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), course.getId(), intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP,
-                when, pendingIntent);
+                when * 1000, pendingIntent);
     }
 
     @Override
