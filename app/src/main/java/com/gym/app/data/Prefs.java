@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 public enum Prefs {
 
-    Token, Role, IsAtGym, ScannedSuccessfully;
+    Token, Role, IsAtGym, ScannedSuccessfully, NotificationsEnabled;
 
     Prefs(String defaultValue) {
         mDefaultValue = defaultValue;
