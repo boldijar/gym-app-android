@@ -9,16 +9,18 @@
         android:background="#ffffff"
         android:orientation="vertical">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_gravity="center"
+            android:id="@+id/drawer_image"
             android:layout_marginTop="24dp"
             android:src="@drawable/user" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/drawer_radio_group"
             android:orientation="vertical">
 
             <RadioButton

@@ -106,7 +106,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         }
 
         void bind(Note note) {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.YY");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
             mNoteText.setText(note.getText());
             mNoteDate.setText(itemView.getContext().getString(R.string.note_created_at,
                     dateFormat.format(new Date(note.getCreationDate() * 1000))));

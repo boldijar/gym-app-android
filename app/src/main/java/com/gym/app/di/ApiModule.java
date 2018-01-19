@@ -12,6 +12,7 @@ import com.gym.app.server.AuthenticationService;
 import com.gym.app.server.CoursesService;
 import com.gym.app.server.GalleryService;
 import com.gym.app.server.NetworkInterceptor;
+import com.gym.app.server.NotesService;
 import com.gym.app.server.UserService;
 import com.gym.app.server.NotesService;
 import com.gym.app.utils.Constants;

@@ -1,5 +1,9 @@
 package com.gym.app.parts.findcourses.day_courses;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -103,8 +107,10 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         switch (operationType) {
             case REGISTER_TO_COURSE:
                 toastMessage = getString(R.string.registration_successful);
+                scheduleNotificationAlarm(mTodayCoursesAdapter.getCourse(coursePosition));
                 break;
             case REMOVE_COURSE:
+                cancelNotificationAlarm(mTodayCoursesAdapter.getCourse(coursePosition));
                 toastMessage = getString(R.string.unregister_successful);
                 break;
         }
@@ -115,6 +121,23 @@ public class DayCoursesFragment extends BaseFragment implements DayCoursesView {
         mOperationStatus.show();
         mTodayCoursesAdapter.updateCourse(coursePosition);
         enableCourseButton(coursePosition);
+    }
+
+    private void cancelNotificationAlarm(Course course) {
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = CoursesReceiver.createIntent(getContext(), course.getName());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), course.getId(), intent, 0);
+        alarmManager.cancel(pendingIntent);
+    }
+
+    private void scheduleNotificationAlarm(Course course) {
+        // 30 mins before notification
+        long when = course.getCourseDate() - 1000 * 60 * 30;
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = CoursesReceiver.createIntent(getContext(), course.getName());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), course.getId(), intent, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                when, pendingIntent);
     }
 
     @Override

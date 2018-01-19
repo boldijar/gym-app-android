@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -29,4 +30,10 @@ public interface ApiService {
 
     @GET("api/users/at-the-gym")
     Observable<AtTheGym> getNumberOfUsers();
+
+    @POST("api/newsletter/subscription")
+    Completable subscribeToNewsLetter();
+
+    @DELETE("api/newsletter/subscription")
+    Completable unSubscribeToNewsLetter();
 }

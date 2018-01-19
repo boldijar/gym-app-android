@@ -5,7 +5,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.gym.app.R;
@@ -15,6 +17,7 @@ import com.gym.app.parts.home.BaseHomeFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -30,6 +33,10 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
 
     @BindView(R.id.settings_checkin)
     TextView mCheckinButton;
+    @BindView(R.id.settings_notifications)
+    SwitchCompat mNotificationsSwitch;
+    @BindView(R.id.settings_newsletter)
+    SwitchCompat mNewsletterSwitch;
 
     @BindView(R.id.no_users_at_gym)
     TextView mNumberOfUsers;
@@ -51,6 +58,23 @@ public class SettingsFragment extends BaseHomeFragment implements SettingsView {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         updateCheckInText();
+        updateSwitches();
+    }
+
+    @OnCheckedChanged(R.id.settings_notifications)
+    public void radioButtonCheckChanged(CompoundButton compoundButton, boolean checked) {
+        Prefs.NotificationsEnabled.put(checked);
+    }
+
+    @OnCheckedChanged(R.id.settings_newsletter)
+    public void newsletterChanged(CompoundButton compoundButton, boolean checked) {
+        Prefs.SubscribedToNewsLetter.put(checked);
+        mSettingsPresenter.subscribeToNewsLetter(checked);
+    }
+
+    private void updateSwitches() {
+        mNotificationsSwitch.setChecked(Prefs.NotificationsEnabled.getBoolean(true));
+        mNewsletterSwitch.setChecked(Prefs.SubscribedToNewsLetter.getBoolean(true));
         mSettingsPresenter.getNumberOfUsers();
     }
 

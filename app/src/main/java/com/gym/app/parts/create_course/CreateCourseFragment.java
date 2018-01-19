@@ -314,7 +314,7 @@ public class CreateCourseFragment extends BaseHomeFragment implements CreateCour
         mCourseName.setText("");
         mCourseCapacity.setText("");
         mCourseDate.setText(getString(R.string.tap_to_select_date));
-        mCourseImage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_add_a_photo));
+        mCourseImage.setImageBitmap(null);
     }
 
     private Bitmap rotatePhoto(String photoPath) {

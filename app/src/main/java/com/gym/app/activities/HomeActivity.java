@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+import com.gym.app.fragments.DrawerFragment;
 import com.gym.app.parts.create_course.CreateCourseFragment;
 import com.gym.app.parts.findcourses.FindCoursesFragment;
 import com.gym.app.parts.gallery.GalleryFragment;
@@ -37,14 +38,22 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends BaseActivity implements HomeNavigator {
 
+    private static final String ARG_GO_TO_MY_COURSES = "mycourses";
     @BindView(R.id.home_drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerFragment mDrawerFragment;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, HomeActivity.class);
+    }
+
+    public static Intent createMyCoursesIntent(Context context) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra(ARG_GO_TO_MY_COURSES, true);
+        return intent;
     }
 
     @Override
@@ -52,7 +61,14 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.home_drawer_fragment);
         initDrawer();
+        goToMyCourses();
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
         goToMyCourses();
     }
 
@@ -69,6 +85,7 @@ public class HomeActivity extends BaseActivity implements HomeNavigator {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
+                mDrawerFragment.loadImage();
             }
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
