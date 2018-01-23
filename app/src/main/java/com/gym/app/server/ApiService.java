@@ -3,6 +3,7 @@ package com.gym.app.server;
 import com.gym.app.data.model.AtTheGym;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.Product;
+import com.gym.app.examstuff.ExamResponse;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -36,4 +39,10 @@ public interface ApiService {
 
     @DELETE("api/newsletter/subscription")
     Completable unSubscribeToNewsLetter();
+
+    @GET("task")
+    Observable<ExamResponse> loadTasks(@Query("page") int page);
+
+    @DELETE("task/{id}")
+    Completable deleteTask(@Path("id") int id);
 }

@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- *
  * @author Paul
  * @since 2017.08.30
  */
@@ -58,6 +57,13 @@ public class EmptyLayout extends LinearLayout {
 
     public void setState(State state) {
         setState(state, 0);
+    }
+
+    public void setState(State state, String text) {
+        mProgress.setVisibility(GONE);
+        mText.setVisibility(VISIBLE);
+        mButton.setVisibility(VISIBLE);
+        mText.setText(text);
     }
 
     public void setState(State state, int textId) {

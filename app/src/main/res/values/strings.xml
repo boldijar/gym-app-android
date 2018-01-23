@@ -116,5 +116,6 @@
     <string name="delete_course_error">Could not delete course</string>
     <string name="update_course">Update course</string>
     <string name="update_course_error">Could not update course</string>
+    <string name="not_connected">Not Connected</string>
 
 </resources>
