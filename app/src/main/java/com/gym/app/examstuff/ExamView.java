@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ExamView {
 
-    void showTasks(List<Task> tasks);
+    void showTasks(List<Task> tasks, int page);
 
     void showProgress();
 
@@ -22,4 +22,6 @@ public interface ExamView {
     void deleteSuccess(int id);
 
     void deleteError(int id, Throwable e);
+
+    void showLoadedOffline(List<Task> tasks);
 }

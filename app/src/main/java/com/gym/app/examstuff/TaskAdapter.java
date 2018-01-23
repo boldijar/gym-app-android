@@ -65,6 +65,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.Holder> {
         }
     }
 
+    public void clear() {
+        mTaskList.clear();
+        notifyDataSetChanged();
+    }
+
     public interface Listener {
         void deleteTask(int id);
     }

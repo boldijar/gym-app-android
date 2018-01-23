@@ -17,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author Paul
@@ -37,6 +38,8 @@ public class TasksActivity extends BaseActivity implements ExamView, TaskAdapter
     private ExamPresenter mExamPresenter = new ExamPresenter(this);
     private int mPage = 1;
     private TaskAdapter mTaskAdapter = new TaskAdapter(this);
+    private LinearLayoutManager manager;
+    private EndlessScrollListener mScroll;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,20 +54,43 @@ public class TasksActivity extends BaseActivity implements ExamView, TaskAdapter
         loadRecycler();
         loadTasks();
         mEmptyLayout.setOnRetryListener(view -> loadTasks());
+        mExamPresenter.loadToCache();
     }
 
+
     private void loadRecycler() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        manager = new LinearLayoutManager(this);
+        mScroll = new EndlessScrollListener(manager) {
+            @Override
+            int getCurrentPage() {
+                return mPage;
+            }
+
+            @Override
+            void changeCurrentPage(int page) {
+            }
+
+            @Override
+            public void onLoadMore(int page) {
+                mExamPresenter.loadTasks(page);
+            }
+        };
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mTaskAdapter);
+        mRecyclerView.addOnScrollListener(mScroll);
     }
+
 
     private void loadTasks() {
         mExamPresenter.loadTasks(mPage);
     }
 
     @Override
-    public void showTasks(List<Task> tasks) {
+    public void showTasks(List<Task> tasks, int page) {
         mPage++;
+        if (page == 1) {
+            mTaskAdapter.clear();
+        }
         mTaskAdapter.addTasks(tasks);
         mEmptyLayout.setState(EmptyLayout.State.CLEAR);
     }
@@ -98,11 +124,20 @@ public class TasksActivity extends BaseActivity implements ExamView, TaskAdapter
         if (mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
-        Toast.makeText(this, "Can't delete task = ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Can't delete task = "+id, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoadedOffline(List<Task> tasks) {
+        mTaskAdapter.clear();
+        mEmptyLayout.setState(EmptyLayout.State.CLEAR);
+        mTaskAdapter.addTasks(tasks);
+        Toast.makeText(this, "Loaded from offline", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onDestroy() {
+        mRecyclerView.removeOnScrollListener(mScroll);
         mExamPresenter.destroySubscriptions();
         mProgressDialog = null;
         super.onDestroy();
@@ -112,5 +147,10 @@ public class TasksActivity extends BaseActivity implements ExamView, TaskAdapter
     public void deleteTask(int id) {
         mProgressDialog.show();
         mExamPresenter.deleteTask(id);
+    }
+
+    @OnClick(R.id.status)
+    void retry() {
+        loadTasks();
     }
 }

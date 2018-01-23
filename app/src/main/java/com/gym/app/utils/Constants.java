@@ -2,7 +2,7 @@ package com.gym.app.utils;
 
 public interface Constants {
     int DISK_CACHE_SIZE = 10 * 1024;
-    String ENDPOINT = "http://172.30.119.27:3000/";
+    String ENDPOINT = "http://172.25.14.90:3000/";
     String USER_ENDPOINT = ENDPOINT + "uploads/user/";
     String TRAINER = "ROLE_TRAINER";
     String USER = "ROLE_USER";
