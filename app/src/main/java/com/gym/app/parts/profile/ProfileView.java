@@ -1,6 +1,6 @@
 package com.gym.app.parts.profile;
 
-import com.gym.app.data.model.User;
+import com.gym.app.data.model.GymUser;
 
 /**
  * @author flaviuoprea
@@ -11,7 +11,7 @@ public interface ProfileView {
 
     void showError();
 
-    void showUser(User value);
+    void showUser(GymUser value);
 
     void updateMessage();
 }

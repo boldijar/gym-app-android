@@ -2,7 +2,7 @@ package com.gym.app.parts.profile;
 
 import android.text.TextUtils;
 
-import com.gym.app.data.model.User;
+import com.gym.app.data.model.GymUser;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.presenter.Presenter;
 import com.gym.app.server.UserService;
@@ -37,9 +37,9 @@ public class ProfilePresenter extends Presenter<ProfileView> {
         userService.getUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
-                .subscribe(new MvpObserver<User>(this){
+                .subscribe(new MvpObserver<GymUser>(this){
                     @Override
-                    public void onNext(User value) {
+                    public void onNext(GymUser value) {
                         getView().showUser(value);
                     }
                 });

@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
-import com.gym.app.data.Prefs;
 import com.gym.app.di.InjectionHelper;
-import com.gym.app.server.UserService;
-import com.gym.app.utils.Constants;
+import com.gym.app.server.ApiService;
 
 import javax.inject.Inject;
 
@@ -32,11 +30,15 @@ public class DrawerFragment extends BaseFragment {
     @BindView(R.id.drawer_image)
     ImageView mImageView;
 
-    @BindView(R.id.drawer_radio_group)
-    RadioGroup mRadioGroup;
+    @BindView(R.id.drawer_first_name)
+    TextView mFirstName;
+    @BindView(R.id.drawer_second_name)
+    TextView mSecondName;
+    @BindView(R.id.drawer_credits)
+    TextView mCredits;
 
     @Inject
-    UserService mUserService;
+    ApiService mApiService;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,27 +54,21 @@ public class DrawerFragment extends BaseFragment {
     }
 
     public void loadImage() {
-        mUserService.getUser()
+        mApiService.getUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(user -> {
-                    if (mImageView == null) {
-                        return;
-                    }
-                    Glide.with(getContext()).load(Constants.USER_ENDPOINT + user.mImage).into(mImageView);
+                    Glide.with(getContext()).load(user.mAvatar).into(mImageView);
+                    mFirstName.setText(user.mFirstName);
+                    mSecondName.setText(user.mLastName);
+                    mCredits.setText(user.mPoints + " credits");
+
                 }, throwable -> Timber.e(throwable));
     }
 
 
     @Override
     protected int getLayoutId() {
-        if (Prefs.Role.get() == null) {
-            return R.layout.fragment_drawer;
-        }
-        if (Prefs.Role.get().equals(Constants.USER)) {
-            return R.layout.fragment_drawer;
-        } else {
-            return R.layout.fragment_drawer_trainer;
-        }
+        return R.layout.fragment_drawer;
     }
 }

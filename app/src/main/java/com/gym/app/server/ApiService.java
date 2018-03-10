@@ -1,5 +1,6 @@
 package com.gym.app.server;
 
+import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.Product;
@@ -15,6 +16,10 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
+
+
+    @GET("user")
+    Observable<User> getUser();
 
     @FormUrlEncoded
     @POST("api/login")
@@ -36,4 +41,6 @@ public interface ApiService {
 
     @DELETE("api/newsletter/subscription")
     Completable unSubscribeToNewsLetter();
+
+
 }

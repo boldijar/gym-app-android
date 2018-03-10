@@ -1,6 +1,6 @@
 package com.gym.app.server;
 
-import com.gym.app.data.model.User;
+import com.gym.app.data.model.GymUser;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -19,7 +19,7 @@ import retrofit2.http.Part;
 public interface UserService {
 
     @GET("api/user")
-    Observable<User> getUser();
+    Observable<GymUser> getUser();
 
     @Multipart
     @POST("api/user")

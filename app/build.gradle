@@ -69,7 +69,10 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$glideVersion"
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'id.zelory:compressor:2.1.0'
+    compile 'com.google.android.gms:play-services-places:10.2.1'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
+    compile 'com.patloew.rxlocation:rxlocation:1.0.4'
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"

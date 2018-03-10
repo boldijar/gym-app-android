@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.gym.app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -14,10 +15,11 @@
     <uses-feature android:name="android.hardware.camera"/>
 
     <application
+        tools:replace="android:label"
         android:name=".Shaorma"
         android:allowBackup="true"
         android:icon="@drawable/launcher"
-        android:label="@string/appname"
+        android:label="@string/nameofapp"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionbar">
 
@@ -75,6 +77,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>
