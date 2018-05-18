@@ -1,7 +1,7 @@
 <resources>
     <string name="appname">Gym app</string>
 
-
+    <string name="google_maps_key">AIzaSyAFWwJKOCz_vcbt6tjLTXrMsB5YHbYELak</string>
     <!-- empty layout -->
     <string name="retry">Retry</string>
     <string name="no_events_found">No events found :(</string>
@@ -116,5 +116,6 @@
     <string name="delete_course_error">Could not delete course</string>
     <string name="update_course">Update course</string>
     <string name="update_course_error">Could not update course</string>
+    <string name="nameofapp">ParkParkGo</string>
 
 </resources>
