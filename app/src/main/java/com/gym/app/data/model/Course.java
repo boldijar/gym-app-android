@@ -54,7 +54,7 @@ public class Course implements Parcelable{
     private int mIsRegistered = 0;
 
     /*  Extra field used to check if the current user ( trainer ) owns the course or not
-        User only locally, in the database
+        GymUser only locally, in the database
         It's false by default and should be modified with its setter
      */
     @ColumnInfo(name = "trained")

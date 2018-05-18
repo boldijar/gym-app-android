@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
-import com.gym.app.data.model.User;
+import com.gym.app.data.model.GymUser;
 import com.gym.app.parts.home.BaseHomeFragment;
 import com.gym.app.utils.Constants;
 
@@ -296,7 +296,7 @@ public class ProfileFragment extends BaseHomeFragment implements ProfileView{
     }
 
     @Override
-    public void showUser(User value) {
+    public void showUser(GymUser value) {
         mNameInput.setText(value.mFullName);
         mEmailInput.setText(value.mEmail);
         mPasswordInput.setText(value.mPassword);
