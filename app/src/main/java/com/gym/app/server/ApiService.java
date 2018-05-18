@@ -2,6 +2,7 @@ package com.gym.app.server;
 
 import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
+import com.gym.app.data.model.Car;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.data.model.Product;
@@ -22,10 +23,12 @@ public interface ApiService {
     @GET("user")
     Observable<User> getUser();
 
-
     @GET("admin/park_spots")
     Observable<List<ParkPlace>> getParkingPlaces();
 
+    @FormUrlEncoded
+    @POST("cars")
+    Observable<Car> addCar(@Field("car") Car car);
 
     @FormUrlEncoded
     @POST("api/login")
