@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
@@ -15,6 +16,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
@@ -67,6 +69,10 @@ public class DrawerFragment extends BaseFragment {
     }
 
 
+    @OnClick(R.id.drawer_menu_your_cars)
+    void clickedYourCars(){
+        Toast.makeText(getContext(), "Clicked car", Toast.LENGTH_SHORT).show();
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_drawer;
