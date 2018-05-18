@@ -15,9 +15,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -37,16 +41,25 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+import com.gym.app.data.model.ParkPlace;
+import com.gym.app.di.InjectionHelper;
 import com.gym.app.fragments.DrawerFragment;
+import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -54,12 +67,25 @@ import timber.log.Timber;
  * @since 2017.08.29
  */
 
-public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
+
+    @Inject
+    ApiService mApiService;
 
     @BindView(R.id.home_drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.home_input)
     EditText mInput;
+
+    @BindView(R.id.home_bottom_card)
+    View mCardRoot;
+    @BindView(R.id.card_address)
+    TextView mCardAdress;
+    @BindView(R.id.card_title)
+    TextView mCardTitle;
+    @BindView(R.id.card_image)
+    ImageView mCardImage;
+
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerFragment mDrawerFragment;
 
@@ -71,10 +97,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     private RxLocation mRxLocation;
     private Marker mLocationMarker;
 
+    private List<ParkPlace> mParkPlaces;
+    private List<Marker> mParkPlacesMarkers = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        InjectionHelper.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
         mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.home_drawer_fragment);
         initDrawer();
@@ -83,6 +113,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mSupportMapFragment.getMapAsync(this);
 
         loadLocationStuff();
+        showCard(false);
     }
 
     private void loadLocationStuff() {
@@ -106,7 +137,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 
                     @Override
                     public void onNext(Address address) {
-                        Timber.d("Got new address: "+address.toString());
+                        Timber.d("Got new address: " + address.toString());
                         Prefs.Latitude.put(address.getLatitude());
                         Prefs.Longitude.put(address.getLongitude());
                         haveNewLocation(address.getLatitude(), address.getLongitude());
@@ -202,6 +233,32 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
                 .position(new LatLng(Prefs.Latitude.getDouble(0), Prefs.Longitude.getDouble(0)))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
         mLocationMarker = mMap.addMarker(locationMarkerOptions);
+        loadParkingPlaces();
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    private void loadParkingPlaces() {
+        mApiService.getParkingPlaces()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces, Throwable::printStackTrace);
+    }
+
+    private void gotParkPlaces(List<ParkPlace> parkPlaces) {
+        for (Marker marker : mParkPlacesMarkers) {
+            marker.remove();
+        }
+        mParkPlacesMarkers.clear();
+        mParkPlaces = parkPlaces;
+        for (ParkPlace parkPlace : parkPlaces) {
+            boolean available = Math.random() > .5;
+            MarkerOptions options = new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.fromResource(available ? R.drawable.ic_park_spot_green : R.drawable.ic_park_spot_red))
+                    .position(new LatLng(parkPlace.mLatitude, parkPlace.mLongitude));
+            Marker marker = mMap.addMarker(options);
+            marker.setTag(parkPlace);
+        }
+
     }
 
     private void moveCameraTo(double lat, double longi) {
@@ -240,5 +297,55 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         }
         mInput.setText(mLastPlace.getAddress());
         moveCameraTo(mLastPlace.getLatLng().latitude, mLastPlace.getLatLng().longitude);
+    }
+
+    @OnClick(R.id.card_image)
+    void cardImageClick() {
+        showCard(false);
+    }
+
+    private boolean mShowing = false;
+
+    private void showCard(boolean show) {
+        mShowing = show;
+        mCardRoot.post(() -> {
+            if (show) {
+                mCardRoot.setVisibility(View.VISIBLE);
+                TranslateAnimation animate = new TranslateAnimation(
+                        0,                 // fromXDelta
+                        0,                 // toXDelta
+                        mCardRoot.getHeight(),  // fromYDelta
+                        0);                // toYDelta
+                animate.setDuration(500);
+                animate.setFillAfter(true);
+                mCardRoot.startAnimation(animate);
+            } else {
+                TranslateAnimation animate = new TranslateAnimation(
+                        0,                 // fromXDelta
+                        0,                 // toXDelta
+                        0,                 // fromYDelta
+                        mCardRoot.getHeight()); // toYDelta
+                animate.setDuration(500);
+                animate.setFillAfter(true);
+                mCardRoot.startAnimation(animate);
+            }
+        });
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (marker.getTag() == null || !(marker.getTag() instanceof ParkPlace)) {
+            return true;
+        }
+        ParkPlace parkPlace = (ParkPlace) marker.getTag();
+        Glide.with(this).load(parkPlace.mUser.mAvatar).into(mCardImage);
+        mCardAdress.setText(parkPlace.mAddress);
+        mCardTitle.setText(parkPlace.mUser.mFirstName + " " + parkPlace.mUser.mLastName + " spot #" + parkPlace.mId);
+        showCard(true);
+        return true;
+    }
+
+    public void clickedFilter(View view) {
+        new TimeFilterDialogFragment().show(getSupportFragmentManager(), "tag");
     }
 }
