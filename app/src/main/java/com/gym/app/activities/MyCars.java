@@ -1,31 +1,24 @@
 package com.gym.app.activities;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.gym.app.R;
 import com.gym.app.data.model.Car;
-import com.gym.app.data.model.GymUser;
+import com.gym.app.data.model.CarBody;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.server.ApiService;
-import com.gym.app.utils.MvpObserver;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.schedulers.Schedulers;
 
 public class MyCars extends AppCompatActivity {
 
@@ -69,13 +62,13 @@ public class MyCars extends AppCompatActivity {
 
     public void addCar(View view) {
         Car toBeAddedCar = new Car();
-        toBeAddedCar.setPlate( mPlate.getText().toString() );
-        toBeAddedCar.setSize( mSize.getText().toString() );
-        toBeAddedCar.setModel( mModel.getText().toString() );
+        toBeAddedCar.setPlate(mPlate.getText().toString());
+        toBeAddedCar.setSize(mSize.getText().toString());
+        toBeAddedCar.setModel(mModel.getText().toString());
+        CarBody carBody = new CarBody(toBeAddedCar);
 
 
-
-        mApiService.addCar(toBeAddedCar).subscribe( car -> {
+        mApiService.addCar(carBody).subscribe( car -> {
             Toast.makeText(getBaseContext(),(String)car.getPlate(), Toast.LENGTH_SHORT).show();
         });
 
