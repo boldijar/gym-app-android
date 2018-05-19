@@ -261,7 +261,13 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     private void loadParkingPlaces() {
-        mApiService.getParkingPlaces()
+        mApiService.getParkingPlaces(
+                Prefs.Latitude.getDouble(0),
+                Prefs.Longitude.getDouble(0 ),
+                1000.0,
+                null,
+                null
+        )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::gotParkPlaces, Throwable::printStackTrace);
@@ -274,12 +280,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mParkPlacesMarkers.clear();
         mParkPlaces = parkPlaces;
         for (ParkPlace parkPlace : parkPlaces) {
-            boolean available = Math.random() > .5;
             MarkerOptions options = new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(available ? R.drawable.ic_park_spot_green : R.drawable.ic_park_spot_red))
+                    .icon(BitmapDescriptorFactory.fromResource( R.drawable.ic_park_spot_green ))
                     .position(new LatLng(parkPlace.mLatitude, parkPlace.mLongitude));
             Marker marker = mMap.addMarker(options);
             marker.setTag(parkPlace);
+            mParkPlacesMarkers.add(marker);
         }
 
     }
@@ -388,6 +394,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         int endingMonth = this.timeFilterDialogFragment.mDatePicker2.getMonth();
         int endingYear =this.timeFilterDialogFragment. mDatePicker2.getYear();
 
+
         // Goal: 2018-05-19 11:11:06 +0300
         StringBuilder start = new StringBuilder();
         start.append(startingYear); start.append("-");
@@ -401,10 +408,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         end.append(endingDay); end.append(" ");
         end.append(endingHour); end.append(":00:00 +0300");
 
-        mApiService.getParkingPlacesByCriterias(
-                Prefs.Latitude.get(),
-                Prefs.Longitude.get(),
-                100,
+
+
+        mApiService.getParkingPlaces(
+                Prefs.Latitude.getDouble(0),
+                Prefs.Longitude.getDouble(0),
+                1000.0,
                 start.toString(),
                 end.toString()
 

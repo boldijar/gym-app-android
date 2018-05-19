@@ -26,15 +26,19 @@ public interface ApiService {
     @GET("user")
     Observable<User> getUser();
 
-    @GET("admin/park_spots")
-    Observable<List<ParkPlace>> getParkingPlaces();
+    @GET("park_spots/available")
+    Observable<List<ParkPlace>> getParkingPlaces(@Query("latitude") Double latitude,
+                                                 @Query("longitude") Double longitude,
+                                                 @Query("radius") Double radius,
+                                                 @Query("start_datetime") String startDateTime,
+                                                 @Query("end_datetime") String endDateTime);
 
-    @GET("park_spots")
-    Observable<List<ParkPlace>> getParkingPlacesByCriterias(@Query("Latitude") String latitude,
-                                                            @Query("Longitude") String longitude,
-                                                            @Query("Radius") Integer radius,
-                                                            @Query("start_datetime") String startDateTime,
-                                                            @Query("end_datetime") String endDateTime);
+//    @GET("park_spots")
+//    Observable<List<ParkPlace>> getParkingPlacesByCriterias(@Query("latitude") String latitude,
+//                                                            @Query("longitude") String longitude,
+//                                                            @Query("radius") Integer radius,
+//                                                            @Query("start_datetime") String startDateTime,
+//                                                            @Query("end_datetime") String endDateTime);
 
     @GET("user/park_spots")
     Observable<List<ParkPlace>> getOwnParkingPlaces();

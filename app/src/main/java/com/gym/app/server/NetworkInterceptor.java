@@ -28,7 +28,7 @@ public class NetworkInterceptor implements Interceptor {
 
         Request.Builder builder = original.newBuilder();
         builder = builder.header("Authorization",
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjY3NDgwMzAsInN1YiI6NDV9.5lt4QSUIQzQM60yTGF31tLTjxuvueUrRrmFdKcj_zfI");
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjY4MjgzMDUsInN1YiI6M30.KJFjizpzUQ8hcQorXD3nPlB86WuiUP-C2ESujBMkxFI");
         Response response = chain.proceed(builder.build());
         return response;
     }

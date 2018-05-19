@@ -379,47 +379,6 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
         this.timeFilterDialogFragment.show(getSupportFragmentManager(), "tag");
     }
 
-    public void timeDialogDone(View view) {
-        // Close the time dialog
-        this.timeFilterDialogFragment.dismiss();
-
-        int startingHour = this.timeFilterDialogFragment.mTimePicker1.getCurrentHour();
-        int startingDay = this.timeFilterDialogFragment.mDatePicker1.getDayOfMonth();
-        int startingMonth = this.timeFilterDialogFragment.mDatePicker1.getMonth();
-        int startingYear = this.timeFilterDialogFragment.mDatePicker1.getYear();
-
-
-
-        int endingHour = this.timeFilterDialogFragment.mTimePicker2.getCurrentHour();
-        int endingDay = this.timeFilterDialogFragment.mDatePicker2.getDayOfMonth();
-        int endingMonth = this.timeFilterDialogFragment.mDatePicker2.getMonth();
-        int endingYear =this.timeFilterDialogFragment. mDatePicker2.getYear();
-
-        // Goal: 2018-05-19 11:11:06 +0300
-        StringBuilder start = new StringBuilder();
-        start.append(startingYear); start.append("-");
-        start.append(startingMonth); start.append("-");
-        start.append(startingDay); start.append(" ");
-        start.append(startingHour); start.append(":00:00 +0300");
-
-        StringBuilder end = new StringBuilder();
-        end.append(endingYear); end.append("-");
-        end.append(endingMonth); end.append("-");
-        end.append(endingDay); end.append(" ");
-        end.append(endingHour); end.append(":00:00 +0300");
-
-        mApiService.getParkingPlacesByCriterias(
-                Prefs.Latitude.get(),
-                Prefs.Longitude.get(),
-                100,
-                start.toString(),
-                end.toString()
-
-        ).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::gotParkPlaces);
-
-    }
 
     public void ownPlaceClicked(View view) {
         mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
