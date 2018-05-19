@@ -36,6 +36,9 @@ public interface ApiService {
                                                             @Query("start_datetime") String startDateTime,
                                                             @Query("end_datetime") String endDateTime);
 
+    @GET("user/park_spots")
+    Observable<List<ParkPlace>> getOwnParkingPlaces();
+
     @POST("cars")
     Observable<Car> addCar(@Body CarBody carBody);
 

@@ -55,7 +55,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar"></activity>
+            android:theme="@style/AppThemeNoActionbar" />
         <activity
             android:name=".parts.scan.ScanActivity"
             android:label="@string/scan"
@@ -83,6 +83,15 @@
         <activity
             android:name=".activities.MyCars"
             android:label="@string/title_activity_my_cars"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppThemeNoActionbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gym.app.activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AddParkingPlace"
+            android:label="@string/title_activity_add_parking_place"
             android:parentActivityName=".activities.HomeActivity"
             android:theme="@style/AppThemeNoActionbar">
             <meta-data

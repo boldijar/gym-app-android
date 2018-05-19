@@ -200,10 +200,23 @@
                         android:src="@drawable/fire"/>
 
                 </android.support.v7.widget.CardView>
+
             </FrameLayout>
 
-
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/cancelOwnParkingSpots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/places_ic_clear"
+                android:tint="@color/white"
+                android:visibility="invisible"
+                android:onClick="cancelOwnParkingSpots"
+                />
         </FrameLayout>
+
 
     </LinearLayout>
 
@@ -214,7 +227,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/white"
-
         />
 
 </android.support.v4.widget.DrawerLayout>

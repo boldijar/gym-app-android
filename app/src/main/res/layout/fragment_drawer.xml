@@ -140,7 +140,9 @@
         android:paddingTop="20dp"
         android:text="Own parking places"
         android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:onClick="ownPlaceClicked"
+        />
 
     <TextView
         android:layout_width="match_parent"

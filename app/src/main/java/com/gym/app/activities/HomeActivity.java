@@ -9,10 +9,12 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -67,7 +69,7 @@ import timber.log.Timber;
  * @since 2017.08.29
  */
 
-public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
+public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
 
     @Inject
     ApiService mApiService;
@@ -86,6 +88,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     @BindView(R.id.card_image)
     ImageView mCardImage;
 
+    @BindView(R.id.cancelOwnParkingSpots)
+    FloatingActionButton cancelOwnParkingSpotsButton;
+
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerFragment mDrawerFragment;
 
@@ -101,6 +106,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     private List<Marker> mParkPlacesMarkers = new ArrayList<>();
 
     private TimeFilterDialogFragment timeFilterDialogFragment;
+
+    private Boolean isShowingOwnParkingPlaces = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -239,6 +246,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mLocationMarker = mMap.addMarker(locationMarkerOptions);
         loadParkingPlaces();
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnMapLongClickListener(this);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        return super.onKeyLongPress(keyCode, event);
     }
 
     private void loadParkingPlaces() {
@@ -381,7 +394,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         end.append(endingMonth); end.append("-");
         end.append(endingDay); end.append(" ");
         end.append(endingHour); end.append(":00:00 +0300");
-        
+
         mApiService.getParkingPlacesByCriterias(
                 Prefs.Latitude.get(),
                 Prefs.Longitude.get(),
@@ -392,6 +405,37 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::gotParkPlaces);
+
+    }
+
+    public void ownPlaceClicked(View view) {
+        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces);
+
+        mDrawerLayout.closeDrawers();
+        cancelOwnParkingSpotsButton.setVisibility(View.VISIBLE);
+        isShowingOwnParkingPlaces = true;
+    }
+
+    public void cancelOwnParkingSpots(View view) {
+        // Make the button invisible
+        cancelOwnParkingSpotsButton.setVisibility(View.INVISIBLE);
+
+        // Load the default parking spaces
+        loadParkingPlaces();
+
+        isShowingOwnParkingPlaces = false;
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        if(isShowingOwnParkingPlaces) {
+            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
+            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
+            startActivity(goToAddParkingPlaces);
+        }
 
     }
 }
