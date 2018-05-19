@@ -7,6 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
     tools:ignore="MissingPrefix">
 
@@ -149,7 +151,9 @@
         android:paddingTop="20dp"
         android:text="Parking history"
         android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:onClick="goToParkingHistory"
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -160,7 +164,8 @@
         android:paddingTop="20dp"
         android:text="Profile"
         android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        />
 
     <TextView
         android:layout_width="match_parent"

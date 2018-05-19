@@ -353,4 +353,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     public void clickedFilter(View view) {
         new TimeFilterDialogFragment().show(getSupportFragmentManager(), "tag");
     }
+
+    public void goToParkingHistory(View view) {
+        Intent goToPArkingHistoy = new Intent(this, ParkingHistoryActivity.class);
+        startActivity(goToPArkingHistoy);
+    }
 }

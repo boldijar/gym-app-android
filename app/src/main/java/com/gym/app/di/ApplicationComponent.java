@@ -2,6 +2,7 @@ package com.gym.app.di;
 
 import com.gym.app.Shaorma;
 import com.gym.app.activities.HomeActivity;
+import com.gym.app.activities.ParkingHistoryActivity;
 import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.observables.SaveProductsObservable;
 import com.gym.app.data.observables.UpdateCourseObservable;
@@ -16,7 +17,6 @@ import com.gym.app.parts.mycourses.MyCoursesPresenter;
 import com.gym.app.parts.profile.ProfilePresenter;
 import com.gym.app.parts.settings.SettingsPresenter;
 import com.gym.app.parts.notes.NotesPresenter;
-import com.gym.app.parts.profile.ProfilePresenter;
 import com.gym.app.parts.shop.ShopPresenter;
 import com.gym.app.parts.trainedcourses.TrainedCoursesPresenter;
 import com.gym.app.parts.updatecourse.UpdateCoursePresenter;
@@ -63,4 +63,6 @@ public interface ApplicationComponent {
     void inject(UpdateCoursePresenter updateCoursePresenter);
 
     void inject(HomeActivity homeActivity);
+
+    void inject(ParkingHistoryActivity parkingHistoryActivity);
 }

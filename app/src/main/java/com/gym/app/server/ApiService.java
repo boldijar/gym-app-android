@@ -4,12 +4,16 @@ import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.ParkPlace;
+import com.gym.app.data.model.ParkingHistory;
+import com.gym.app.data.model.ParkingHistoryBody;
 import com.gym.app.data.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -25,6 +29,9 @@ public interface ApiService {
 
     @GET("admin/park_spots")
     Observable<List<ParkPlace>> getParkingPlaces();
+
+    @GET("/bookings")
+    Observable<ArrayList<ParkingHistory>> getParkingHistories();
 
 
     @FormUrlEncoded
@@ -44,6 +51,9 @@ public interface ApiService {
 
     @POST("api/newsletter/subscription")
     Completable subscribeToNewsLetter();
+
+    @POST("user/bookings")
+    Observable<ParkingHistory> addParkingHistory(@Body ParkingHistoryBody parkingHistoryBody);
 
     @DELETE("api/newsletter/subscription")
     Completable unSubscribeToNewsLetter();
