@@ -65,7 +65,7 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Availability availability = mAvailabilities.get(position);
-        holder.mTitle.setText(availability.mDescription + " from " + availability.mStartDatetime + " to " + availability.mEndDatetime);
+        holder.mTitle.setText(availability.mDescription + " from " + sFormat.format(availability.mStartDatetime.getTime()) + " to " + sFormat.format(availability.mEndDatetime));
         holder.mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

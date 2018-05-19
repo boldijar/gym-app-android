@@ -29,6 +29,7 @@ android {
         targetSdkVersion 26
         versionCode 3
         versionName "3.0"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -80,4 +81,6 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
     compile 'com.github.BlackBoxVision:datetimepicker-edittext:v0.3.3'
+    compile 'net.sf.biweekly:biweekly:0.6.2'
+    compile 'com.android.support:multidex:1.0.1'
 }

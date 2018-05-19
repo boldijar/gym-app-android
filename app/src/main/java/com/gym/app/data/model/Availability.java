@@ -3,6 +3,8 @@ package com.gym.app.data.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO: Class description
@@ -29,4 +31,12 @@ public class Availability {
     public int mParkSpotId;
     @SerializedName("park_spot")
     public ParkPlace mParkPlace;
+
+    public static Map createAvailabilityBody(String schedule) {
+        HashMap map = new HashMap();
+        HashMap availability = new HashMap();
+        availability.put("schedule", schedule);
+        map.put("availability", availability);
+        return map;
+    }
 }
