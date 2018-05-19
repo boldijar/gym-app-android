@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gym.app.R;
-import com.gym.app.activities.MyCars;
+import com.gym.app.activities.MyCarsActivity;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.server.ApiService;
 
@@ -74,7 +74,7 @@ public class ManagerDrawerFragment extends BaseFragment {
     @OnClick(R.id.drawer_menu_your_cars)
     void clickedYourCars(){
         Toast.makeText(getContext(), "Clicked car", Toast.LENGTH_SHORT).show();
-        Intent goToMyCars = new Intent(getContext(), MyCars.class);
+        Intent goToMyCars = new Intent(getContext(), MyCarsActivity.class);
         startActivity(goToMyCars);
     }
     @Override
