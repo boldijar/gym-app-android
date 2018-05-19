@@ -1,6 +1,7 @@
 package com.gym.app.parts.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public class CarsAdapter extends RecyclerView.Adapter<CarsAdapter.ViewHolder> {
         mCarsList = cars;
     }
 
-    public void setmCarsList(List<Car> mCarsList) {
+    public void setCarsList(List<Car> mCarsList) {
         this.mCarsList = mCarsList;
     }
 
@@ -45,7 +46,7 @@ public class CarsAdapter extends RecyclerView.Adapter<CarsAdapter.ViewHolder> {
     @Override
     public CarsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.cars_list_row, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cars_list_row, parent, false);
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -56,10 +57,9 @@ public class CarsAdapter extends RecyclerView.Adapter<CarsAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.carModelRowText.setText(mCarsList.get(position).getModel());
-        holder.carSizeRowText.setText(mCarsList.get(position).getSize());
-        holder.carPlateRowText.setText(mCarsList.get(position).getPlate());
-
+        holder.carModelRowText.setText(Html.fromHtml("Car model: <b>" + mCarsList.get(position).getModel() + "<b>"));
+        holder.carSizeRowText.setText(Html.fromHtml("Car size: <b>" + mCarsList.get(position).getSize() + "<b>"));
+        holder.carPlateRowText.setText(Html.fromHtml("Car plate: <b>" + mCarsList.get(position).getPlate() + "<b>"));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

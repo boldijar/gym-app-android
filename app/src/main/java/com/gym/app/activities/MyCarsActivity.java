@@ -1,19 +1,16 @@
 package com.gym.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.gym.app.R;
 import com.gym.app.data.model.Car;
-import com.gym.app.data.model.CarBody;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.parts.adapters.CarsAdapter;
 import com.gym.app.server.ApiService;
@@ -25,22 +22,16 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MyCars extends AppCompatActivity {
+public class MyCarsActivity extends AppCompatActivity {
 
+    private static final int REQUEST_ADD = 100;
     @Inject
     ApiService mApiService;
-
-    @BindView(R.id.modelText)
-    EditText mModel;
-
-    @BindView(R.id.plateText)
-    EditText mPlate;
-
-    @BindView(R.id.sizeText)
-    EditText mSize;
 
     @BindView(R.id.carsRecyclerView)
     RecyclerView carsRecyclerView;
@@ -51,10 +42,7 @@ public class MyCars extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_cars);
-
-        // Bind View
-        View rootView = getWindow().getDecorView().getRootView();
-        ButterKnife.bind(this, rootView);
+        ButterKnife.bind(this);
 
         // Inject service
         InjectionHelper.getApplicationComponent().inject(this);
@@ -62,12 +50,12 @@ public class MyCars extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.my_cars_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MyCarsActivity.this, AddCarActivity.class);
+                startActivityForResult(intent, REQUEST_ADD);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -81,31 +69,40 @@ public class MyCars extends AppCompatActivity {
         getCars();
     }
 
-    public void addCar(View view) {
-        Car toBeAddedCar = new Car();
-        toBeAddedCar.setPlate(mPlate.getText().toString());
-        toBeAddedCar.setSize(mSize.getText().toString());
-        toBeAddedCar.setModel(mModel.getText().toString());
-        CarBody carBody = new CarBody(toBeAddedCar);
-
-
-        mApiService.addCar(carBody)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( car -> {
-            getCars();
-        });
-    }
 
     public void getCars() {
         mApiService.getCars()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listOfCars -> {
+                .subscribe(new Observer<List<Car>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-                this.adapter.setmCarsList(listOfCars);
-                this.adapter.notifyDataSetChanged();
-        });
+                    }
+
+                    @Override
+                    public void onNext(List<Car> cars) {
+                        adapter.setCarsList(cars);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_ADD) {
+            getCars();
+        }
+    }
 }
