@@ -244,6 +244,9 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
             e.printStackTrace();
         }
         mMap = googleMap;
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(this, R.raw.managedstyle)
+        );
         moveCameraTo(Prefs.Latitude.getDouble(0), Prefs.Longitude.getDouble(0));
         MarkerOptions locationMarkerOptions = new MarkerOptions()
                 .position(new LatLng(Prefs.Latitude.getDouble(0), Prefs.Longitude.getDouble(0)))
