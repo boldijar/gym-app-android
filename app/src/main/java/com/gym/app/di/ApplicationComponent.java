@@ -70,6 +70,7 @@ public interface ApplicationComponent {
     void inject(MyCarsActivity myCarsActivity);
 
     void inject(AddCarActivity addCarActivity);
+
     void inject(ManageActivity manageActivity);
 
     void inject(ManagerDrawerFragment managerDrawerFragment);
