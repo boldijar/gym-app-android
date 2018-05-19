@@ -1,7 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:layout_marginLeft="16dp"
+              android:layout_marginRight="16dp"
+              android:orientation="vertical"
+              android:paddingTop="10dp">
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <io.blackbox_vision.datetimepickeredittext.view.DatePickerInputEditText
+            android:id="@+id/from_date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="From date"
+            android:nextFocusLeft="@id/from_date_picker"
+            android:nextFocusUp="@id/from_date_picker"
+            app:dateFormat="yyyy/MM/dd"
+            app:maxDate="01/01/2050"
+            app:minDate="01/01/1981"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <io.blackbox_vision.datetimepickeredittext.view.TimePickerInputEditText
+            android:id="@+id/from_time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="From time"
+            app:dateFormat="yyyy/MM/dd"
+            app:maxDate="01/01/2050"
+            app:minDate="01/01/1981"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <io.blackbox_vision.datetimepickeredittext.view.DatePickerInputEditText
+            android:id="@+id/to_date_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="To date"
+            app:dateFormat="yyyy/MM/dd"
+            app:maxDate="01/01/2050"
+            app:minDate="01/01/1981"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <io.blackbox_vision.datetimepickeredittext.view.TimePickerInputEditText
+            android:id="@+id/to_time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="To time"
+            app:dateFormat="yyyy/MM/dd"
+            app:maxDate="01/01/2050"
+            app:minDate="01/01/1981"/>
+    </android.support.design.widget.TextInputLayout>
 </LinearLayout>

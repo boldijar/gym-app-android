@@ -79,4 +79,5 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+    compile 'com.github.BlackBoxVision:datetimepicker-edittext:v0.3.3'
 }

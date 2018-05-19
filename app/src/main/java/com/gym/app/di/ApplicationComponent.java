@@ -1,6 +1,7 @@
 package com.gym.app.di;
 
 import com.gym.app.Shaorma;
+import com.gym.app.activities.AddAvailabilityActivity;
 import com.gym.app.activities.AddCarActivity;
 import com.gym.app.activities.AvailabilityActivity;
 import com.gym.app.activities.HomeActivity;
@@ -77,4 +78,6 @@ public interface ApplicationComponent {
     void inject(ManagerDrawerFragment managerDrawerFragment);
 
     void inject(AvailabilityActivity availabilityActivity);
+
+    void inject(AddAvailabilityActivity addAvailabilityActivity);
 }
