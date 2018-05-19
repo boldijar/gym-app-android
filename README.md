@@ -10,5 +10,73 @@ ex: mNameTextView instead of nameTextView. You can set in Android Studio that yo
 * If you see a style of a view that should be in 2 places or more, please create custom style in style.xml, to avoid redundancy.
 * Do not use hardcoded dimens, string, colors etc. Declare resources for that and use them for easier maintainability.
 
+# Byweekly iCal
+
+Custom Recurrence
+
+## Repeat every `x` `day/week/month`
+```Java
+# daily
+Recurrence recurDaily = new Recurrence.Builder(Frequency.DAILY)
+    .interval(x)
+    .build();
+# weekly
+Recurrence recur = new Recurrence.Builder(Frequency.WEEKLY)
+    .interval(x)
+    .build();
+# monthly
+Recurrence recur = new Recurrence.Builder(Frequency.MONTHLY)
+    .interval(x)
+    .build();
+```
+
+## Repeat every `x` `day/week/month` on `weekdays`
+```Java
+# Daily
+Recurrence recur = new Recurrence.Builder(Frequency.MONTHLY)
+    .interval(x)
+    .byDay(Collection.of(DayOfWeek.Monday, DayOfWeek.Sunday))
+    .build();
+```
+
+## Repeat every `x` `day/week/month` on `weekdays` ends
+```Java
+# End never
+# do not add anything
+Recurrence recur = new Recurrence.Builder(Frequency.MONTHLY)
+    .interval(x)
+    .byDay(Collection.of(DayOfWeek.Monday, DayOfWeek.Sunday))
+    .build();
+
+# Ends on date
+Recurrence recur = new Recurrence.Builder(Frequency.MONTHLY)
+    .interval(x)
+    .byDay(Collection.of(DayOfWeek.Monday, DayOfWeek.Sunday))
+    .until(untilDate)
+    .build();
+
+# Ends after y occurrences
+Recurrence recur = new Recurrence.Builder(Frequency.MONTHLY)
+    .interval(x)
+    .byDay(Collection.of(DayOfWeek.Monday, DayOfWeek.Sunday))
+    .count(integerCount)
+    .build();
+```
+
+Create the iCal to send to the server
+```Java
+  ICalendar ical = new ICalendar();
+  VEvent event = new VEvent();
+  Date start = ...
+  event.setDateStart(start);
+  Date end = ...
+  event.setDateEnd(end);
+  Recurrence recur = ... (see above)
+  event.setRecurrenceRule(recur);
+  ical.addEvent(event);
+
+  String str = Biweekly.write(ical).go();
+```
+
 # Contributing
 Please choose some intuitive commit names, and try to only add your own changes to the project. If you accidentally add new lines or change something that is not related to the ticket, don't commit that code.
