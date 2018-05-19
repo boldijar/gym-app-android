@@ -122,7 +122,8 @@ public class AvailabilityActivity extends BaseActivity implements AvailabilityAd
     }
 
     @Override
-    public void onEdit(int id) {
-
+    public void onEdit(Availability availability) {
+        Intent intent = AddAvailabilityActivity.createIntent(this, availability.mParkSpotId, availability.mSchedule, availability.mId);
+        startActivityForResult(intent, REQUEST_ADD);
     }
 }

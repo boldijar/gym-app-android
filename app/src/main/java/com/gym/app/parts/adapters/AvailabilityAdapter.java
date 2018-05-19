@@ -69,7 +69,7 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
         holder.mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAvailabilityListener.onEdit(availability.mId);
+                mAvailabilityListener.onEdit(availability);
             }
         });
         holder.mRemove.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +89,6 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
     public interface AvailabilityListener {
         void onDelete(int id);
 
-        void onEdit(int id);
+        void onEdit(Availability availability);
     }
 }

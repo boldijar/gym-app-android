@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gym.app.R;
@@ -16,8 +17,10 @@ import com.gym.app.data.model.Availability;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.server.ApiService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +28,7 @@ import javax.inject.Inject;
 import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
+import biweekly.util.ByDay;
 import biweekly.util.DayOfWeek;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
@@ -48,7 +52,14 @@ import io.reactivex.schedulers.Schedulers;
 public class AddAvailabilityActivity extends BaseActivity {
 
     private final static String ARG_SPOT = "spot";
+    private final static String ARG_SCHEDULE = "schedule";
+    private final static String ARG_AVAI = "avail";
     private int mSpotId;
+    private String mSchedule;
+    private int mAvaiId;
+
+    private final SimpleDateFormat sDayFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private final SimpleDateFormat sHourFormat = new SimpleDateFormat("HH:mm");
 
     @BindView(R.id.from_date_picker)
     DatePickerInputEditText mFromDate;
@@ -80,13 +91,22 @@ public class AddAvailabilityActivity extends BaseActivity {
     Spinner mRequencySpinner;
     @BindView(R.id.repeat_time)
     EditText mRepeatTimeCount;
-
+    @BindView(R.id.add_availability)
+    TextView mAddText;
     @Inject
     ApiService mApiService;
 
     public static Intent createIntent(Context context, int spotId) {
         Intent intent = new Intent(context, AddAvailabilityActivity.class);
         intent.putExtra(ARG_SPOT, spotId);
+        return intent;
+    }
+
+    public static Intent createIntent(Context context, int spotId, String schedule, int availabilityId) {
+        Intent intent = new Intent(context, AddAvailabilityActivity.class);
+        intent.putExtra(ARG_SPOT, spotId);
+        intent.putExtra(ARG_SCHEDULE, schedule);
+        intent.putExtra(ARG_AVAI, availabilityId);
         return intent;
     }
 
@@ -101,6 +121,89 @@ public class AddAvailabilityActivity extends BaseActivity {
         mToDate.setManager(getSupportFragmentManager());
         mToTime.setManager(getSupportFragmentManager());
         mSpotId = getIntent().getIntExtra(ARG_SPOT, -1);
+        mSchedule = getIntent().getStringExtra(ARG_SCHEDULE);
+        mAvaiId = getIntent().getIntExtra(ARG_AVAI, -1);
+        if (mSchedule != null) {
+            mAddText.setText("Save");
+        }
+        loadData();
+    }
+
+    private void loadData() {
+        if (mSchedule == null) {
+            return;
+        }
+        ICalendar calendar = null;
+        try {
+            calendar = Biweekly.parse(mSchedule).first();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        if (calendar.getEvents().size() == 0) {
+            return;
+        }
+        VEvent event = calendar.getEvents().get(0);
+        Date dateStart = event.getDateStart().getValue().getRawComponents().toDate();
+        Date dateEnd = event.getDateEnd().getValue().getRawComponents().toDate();
+        Calendar startCalendar = Calendar.getInstance();
+        Calendar endCalendar = Calendar.getInstance();
+        startCalendar.setTime(dateStart);
+        endCalendar.setTime(dateEnd);
+        mFromDate.setText(sDayFormat.format(dateStart));
+        mToDate.setText(sDayFormat.format(dateEnd));
+        mFromTime.setText(sHourFormat.format(dateStart));
+        mToTime.setText(sHourFormat.format(dateEnd));
+        mFromDate.setDate(startCalendar);
+        mToDate.setDate(endCalendar);
+        mFromTime.setTime(startCalendar);
+        mToTime.setTime(endCalendar);
+
+        if (event.getRecurrenceRule() == null) {
+            mRepeatCheck.setChecked(false);
+        } else {
+            mRepeatCheck.setChecked(true);
+            Recurrence recurrenceRule = event.getRecurrenceRule().getValue();
+            switch (recurrenceRule.getFrequency()) {
+                case DAILY:
+                    mRequencySpinner.setSelection(0);
+                    break;
+                case WEEKLY:
+                    mRequencySpinner.setSelection(1);
+                    break;
+                case MONTHLY:
+                    mRequencySpinner.setSelection(2);
+                    break;
+                case YEARLY:
+                    mRequencySpinner.setSelection(3);
+                    break;
+            }
+            mRepeatTimeCount.setText(recurrenceRule.getInterval() + "");
+            List<ByDay> byDays = recurrenceRule.getByDay();
+            for (ByDay day : byDays) {
+                if (day.getDay() == DayOfWeek.MONDAY) {
+                    mDay1.setChecked(true);
+                }
+                if (day.getDay() == DayOfWeek.TUESDAY) {
+                    mDay2.setChecked(true);
+                }
+                if (day.getDay() == DayOfWeek.WEDNESDAY) {
+                    mDay3.setChecked(true);
+                }
+                if (day.getDay() == DayOfWeek.THURSDAY) {
+                    mDay4.setChecked(true);
+                }
+                if (day.getDay() == DayOfWeek.FRIDAY) {
+                    mDay5.setChecked(true);
+                }
+                if (day.getDay() == DayOfWeek.SATURDAY) {
+                    mDay6.setChecked(true);
+                }
+                if (day.getDay() == DayOfWeek.SUNDAY) {
+                    mDay7.setChecked(true);
+                }
+            }
+        }
     }
 
     @OnCheckedChanged(R.id.repeating_event_checkbox)
@@ -191,28 +294,38 @@ public class AddAvailabilityActivity extends BaseActivity {
         }
         iCalendar.addEvent(vEvent);
         String icalFormat = Biweekly.write(iCalendar).go();
-        mApiService.addAvailability(Availability.createAvailabilityBody(icalFormat), mSpotId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        if (mSchedule == null) {
+            mApiService.addAvailability(Availability.createAvailabilityBody(icalFormat), mSpotId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getResultObserver());
+        } else {
+            mApiService.fixAvailability(Availability.createAvailabilityBody(icalFormat), mSpotId, mAvaiId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getResultObserver());
+        }
 
-                    }
+    }
 
-                    @Override
-                    public void onComplete() {
-                        setResult(RESULT_OK);
-                        finish();
-                    }
+    private CompletableObserver getResultObserver() {
+        return new CompletableObserver() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Toast.makeText(AddAvailabilityActivity.this, "Please check if your intervals are valid.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            }
 
+            @Override
+            public void onComplete() {
+                setResult(RESULT_OK);
+                finish();
+            }
 
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                Toast.makeText(AddAvailabilityActivity.this, "Please check if your intervals are valid.", Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 }
