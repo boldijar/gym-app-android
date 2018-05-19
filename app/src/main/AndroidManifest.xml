@@ -99,7 +99,7 @@
                 android:value="com.gym.app.activities.HomeActivity"/>
         </activity>
         <activity
-            android:name=".activities.AddParkingPlace"
+            android:name=".activities.AddParkingPlaceActivity"
             android:label="@string/title_activity_add_parking_place"
             android:parentActivityName=".activities.HomeActivity"
             android:theme="@style/AppThemeNoActionbar">

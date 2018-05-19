@@ -9,7 +9,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -46,7 +45,6 @@ import com.gym.app.data.Prefs;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.fragments.DrawerFragment;
-import com.gym.app.parts.authentication.AuthenticationActivity;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
@@ -446,7 +444,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     @Override
     public void onMapLongClick(LatLng latLng) {
         if(isShowingOwnParkingPlaces) {
-            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlaceActivity.class);
             goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
             goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
             startActivity(goToAddParkingPlaces);

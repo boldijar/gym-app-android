@@ -479,7 +479,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
         showCard(true);
 
 //        if(isShowingOwnParkingPlaces) {
-//            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+//            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlaceActivity.class);
 //            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
 //            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
 //            startActivity(goToAddParkingPlaces);
@@ -511,5 +511,13 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
     public void goToHomeClicked(View view) {
         Intent goToHome = new Intent(this, HomeActivity.class);
         startActivity(goToHome);
+    }
+
+    public void addParkingPlace(View view) {
+        LatLng current = lastAddedMarker.getPosition();
+        Intent goToAddParkingPlace = new Intent(this, AddParkingPlaceActivity.class);
+        goToAddParkingPlace.putExtra("Lat", current.latitude);
+        goToAddParkingPlace.putExtra("Lng", current.longitude);
+        startActivity(goToAddParkingPlace);
     }
 }

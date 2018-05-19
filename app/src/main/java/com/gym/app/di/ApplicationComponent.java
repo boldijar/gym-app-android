@@ -3,6 +3,7 @@ package com.gym.app.di;
 import com.gym.app.Shaorma;
 import com.gym.app.activities.AddAvailabilityActivity;
 import com.gym.app.activities.AddCarActivity;
+import com.gym.app.activities.AddParkingPlaceActivity;
 import com.gym.app.activities.AvailabilityActivity;
 import com.gym.app.activities.HomeActivity;
 import com.gym.app.activities.MyCarsActivity;
@@ -80,4 +81,6 @@ public interface ApplicationComponent {
     void inject(AvailabilityActivity availabilityActivity);
 
     void inject(AddAvailabilityActivity addAvailabilityActivity);
+
+    void inject(AddParkingPlaceActivity addParkingPlaceActivity);
 }
