@@ -2,6 +2,8 @@ package com.gym.app.server;
 
 import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
+import com.gym.app.data.model.Car;
+import com.gym.app.data.model.CarBody;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.data.model.Product;
@@ -10,6 +12,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -22,10 +25,14 @@ public interface ApiService {
     @GET("user")
     Observable<User> getUser();
 
-
     @GET("admin/park_spots")
     Observable<List<ParkPlace>> getParkingPlaces();
 
+    @POST("cars")
+    Observable<Car> addCar(@Body CarBody carBody);
+
+    @GET("cars")
+    Observable< List<Car> > getCars();
 
     @FormUrlEncoded
     @POST("api/login")
