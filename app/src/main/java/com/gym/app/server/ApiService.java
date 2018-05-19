@@ -28,8 +28,12 @@ public interface ApiService {
     @GET("user")
     Observable<User> getUser();
 
-    @GET("admin/park_spots")
-    Observable<List<ParkPlace>> getParkingPlaces();
+    @GET("park_spots/available")
+    Observable<List<ParkPlace>> getParkingPlaces(@Query("latitude") Double latitude,
+                                                 @Query("longitude") Double longitude,
+                                                 @Query("radius") Double radius,
+                                                 @Query("start_datetime") String startDateTime,
+                                                 @Query("end_datetime") String endDateTime);
 
     @GET("park_spots/{id}/availabilities")
     Observable<List<Availability>> getAvailabilities(@Path("id") int parkSpotId);
