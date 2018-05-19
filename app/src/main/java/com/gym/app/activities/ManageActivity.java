@@ -9,7 +9,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -69,7 +68,7 @@ import timber.log.Timber;
  * @since 2017.08.29
  */
 
-public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
+public class ManageActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
 
     @Inject
     ApiService mApiService;
@@ -118,7 +117,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_manage);
         InjectionHelper.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
         mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.home_drawer_fragment);
@@ -250,7 +249,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
                 .position(new LatLng(Prefs.Latitude.getDouble(0), Prefs.Longitude.getDouble(0)))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
         mLocationMarker = mMap.addMarker(locationMarkerOptions);
-        loadParkingPlaces();
+        loadOwnParkingPlaces();
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapLongClickListener(this);
     }
@@ -260,11 +259,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         return super.onKeyLongPress(keyCode, event);
     }
 
-    private void loadParkingPlaces() {
-        mApiService.getParkingPlaces()
-                .subscribeOn(Schedulers.io())
+    private void loadOwnParkingPlaces() {
+        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::gotParkPlaces, Throwable::printStackTrace);
+                .subscribe(this::gotParkPlaces);
     }
 
     private void gotParkPlaces(List<ParkPlace> parkPlaces) {
@@ -415,16 +413,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     public void ownPlaceClicked(View view) {
-        Intent goToManageActivity = new Intent(this, ManageActivity.class);
-        startActivity(goToManageActivity);
-//
-//        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::gotParkPlaces);
-//
-//        mDrawerLayout.closeDrawers();
+        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces);
+
+        mDrawerLayout.closeDrawers();
 //        cancelOwnParkingSpotsButton.setVisibility(View.VISIBLE);
-//        isShowingOwnParkingPlaces = true;
+        isShowingOwnParkingPlaces = true;
+//        manageParkingSpaceText.setVisibility(View.VISIBLE);
     }
     
 
@@ -444,9 +440,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     public void findParkingPlaces(View view) {
+//        manageParkingSpaceText.setVisibility(View.INVISIBLE);
 
         // Load the default parking spaces
-        loadParkingPlaces();
+        loadOwnParkingPlaces();
 
         isShowingOwnParkingPlaces = false;
     }
