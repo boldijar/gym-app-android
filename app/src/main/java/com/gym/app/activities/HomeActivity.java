@@ -9,10 +9,12 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -67,7 +69,7 @@ import timber.log.Timber;
  * @since 2017.08.29
  */
 
-public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
+public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
 
     @Inject
     ApiService mApiService;
@@ -79,12 +81,21 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 
     @BindView(R.id.home_bottom_card)
     View mCardRoot;
+
     @BindView(R.id.card_address)
     TextView mCardAdress;
+
     @BindView(R.id.card_title)
     TextView mCardTitle;
+
     @BindView(R.id.card_image)
     ImageView mCardImage;
+
+    @BindView(R.id.manageParkingSpacesText)
+    TextView manageParkingSpaceText;
+
+//    @BindView(R.id.cancelOwnParkingSpots)
+//    FloatingActionButton cancelOwnParkingSpotsButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerFragment mDrawerFragment;
@@ -100,6 +111,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     private List<ParkPlace> mParkPlaces;
     private List<Marker> mParkPlacesMarkers = new ArrayList<>();
 
+    private TimeFilterDialogFragment timeFilterDialogFragment;
+
+    private Boolean isShowingOwnParkingPlaces = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +126,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.home_map);
         mSupportMapFragment.getMapAsync(this);
+
+        timeFilterDialogFragment = new TimeFilterDialogFragment();
 
         loadLocationStuff();
         showCard(false);
@@ -235,6 +252,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mLocationMarker = mMap.addMarker(locationMarkerOptions);
         loadParkingPlaces();
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnMapLongClickListener(this);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        return super.onKeyLongPress(keyCode, event);
     }
 
     private void loadParkingPlaces() {
@@ -346,6 +369,84 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     public void clickedFilter(View view) {
-        new TimeFilterDialogFragment().show(getSupportFragmentManager(), "tag");
+        this.timeFilterDialogFragment.show(getSupportFragmentManager(), "tag");
+    }
+
+    public void timeDialogDone(View view) {
+        // Close the time dialog
+        this.timeFilterDialogFragment.dismiss();
+
+        int startingHour = this.timeFilterDialogFragment.mTimePicker1.getCurrentHour();
+        int startingDay = this.timeFilterDialogFragment.mDatePicker1.getDayOfMonth();
+        int startingMonth = this.timeFilterDialogFragment.mDatePicker1.getMonth();
+        int startingYear = this.timeFilterDialogFragment.mDatePicker1.getYear();
+
+
+
+        int endingHour = this.timeFilterDialogFragment.mTimePicker2.getCurrentHour();
+        int endingDay = this.timeFilterDialogFragment.mDatePicker2.getDayOfMonth();
+        int endingMonth = this.timeFilterDialogFragment.mDatePicker2.getMonth();
+        int endingYear =this.timeFilterDialogFragment. mDatePicker2.getYear();
+
+        // Goal: 2018-05-19 11:11:06 +0300
+        StringBuilder start = new StringBuilder();
+        start.append(startingYear); start.append("-");
+        start.append(startingMonth); start.append("-");
+        start.append(startingDay); start.append(" ");
+        start.append(startingHour); start.append(":00:00 +0300");
+
+        StringBuilder end = new StringBuilder();
+        end.append(endingYear); end.append("-");
+        end.append(endingMonth); end.append("-");
+        end.append(endingDay); end.append(" ");
+        end.append(endingHour); end.append(":00:00 +0300");
+
+        mApiService.getParkingPlacesByCriterias(
+                Prefs.Latitude.get(),
+                Prefs.Longitude.get(),
+                100,
+                start.toString(),
+                end.toString()
+
+        ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces);
+
+    }
+
+    public void ownPlaceClicked(View view) {
+        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces);
+
+        mDrawerLayout.closeDrawers();
+//        cancelOwnParkingSpotsButton.setVisibility(View.VISIBLE);
+        isShowingOwnParkingPlaces = true;
+        manageParkingSpaceText.setVisibility(View.VISIBLE);
+    }
+    
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        if(isShowingOwnParkingPlaces) {
+            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
+            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
+            startActivity(goToAddParkingPlaces);
+        }
+
+    }
+
+    public void cardCancel(View view) {
+        showCard(false);
+    }
+
+    public void findParkingPlaces(View view) {
+        manageParkingSpaceText.setVisibility(View.INVISIBLE);
+
+        // Load the default parking spaces
+        loadParkingPlaces();
+
+        isShowingOwnParkingPlaces = false;
     }
 }

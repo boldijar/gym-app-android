@@ -18,6 +18,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -28,11 +29,24 @@ public interface ApiService {
     @GET("admin/park_spots")
     Observable<List<ParkPlace>> getParkingPlaces();
 
+    @GET("park_spots")
+    Observable<List<ParkPlace>> getParkingPlacesByCriterias(@Query("Latitude") String latitude,
+                                                            @Query("Longitude") String longitude,
+                                                            @Query("Radius") Integer radius,
+                                                            @Query("start_datetime") String startDateTime,
+                                                            @Query("end_datetime") String endDateTime);
+
+    @GET("user/park_spots")
+    Observable<List<ParkPlace>> getOwnParkingPlaces();
+
     @POST("cars")
     Observable<Car> addCar(@Body CarBody carBody);
 
-    @GET("cars")
+    @GET("user/cars")
     Observable< List<Car> > getCars();
+
+
+
 
     @FormUrlEncoded
     @POST("api/login")

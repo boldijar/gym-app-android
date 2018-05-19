@@ -81,29 +81,14 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="2dp"
-            android:text="buy more"
+            android:text="Find Parking Places"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:onClick="findParkingPlaces"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight=".25"/>
 
-        <TextView
-            fontPath="fonts/Lato-Light.ttf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_white"
-            android:paddingBottom="2dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="2dp"
-            android:text="sell"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="12sp"/>
+
 
         <View
             android:layout_width="0dp"
@@ -140,7 +125,9 @@
         android:paddingTop="20dp"
         android:text="Own parking places"
         android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:onClick="ownPlaceClicked"
+        />
 
     <TextView
         android:layout_width="match_parent"
