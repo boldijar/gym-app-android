@@ -7,9 +7,11 @@ import java.io.Serializable;
 
 
 public class Car {
-//    @Expose
-//    @SerializedName("user_id")
-//    public int user_id;
+    @SerializedName("id")
+    private int id;
+
+    @SerializedName("user_id")
+    private int user_id;
 
     @Expose
     @SerializedName("model")
@@ -47,12 +49,24 @@ public class Car {
     public void setPlate(String plate) {
         this.plate = plate;
     }
-//    @Expose
-//    @SerializedName("id")
-//    public int id;
 
+    public int getId() {
+        return id;
+    }
 
-//    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "{" +
 //                " \"model\": \"" + model  + "\"" +

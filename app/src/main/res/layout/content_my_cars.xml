@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="23dp"
+            android:layout_marginTop="15dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="plate" />
@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="97dp"
+            android:layout_below="@+id/plateText"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="size" />
@@ -36,8 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="173dp"
+            android:layout_below="@+id/sizeText"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="model" />
@@ -45,11 +43,17 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="216dp"
+            android:layout_below="@+id/modelText"
             android:onClick="addCar"
             android:text="Add Car" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/carsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="266dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

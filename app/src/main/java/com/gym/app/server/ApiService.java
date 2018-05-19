@@ -31,6 +31,9 @@ public interface ApiService {
     @POST("cars")
     Observable<Car> addCar(@Body CarBody carBody);
 
+    @GET("cars")
+    Observable< List<Car> > getCars();
+
     @FormUrlEncoded
     @POST("api/login")
     Observable<LoginResponse> login(@Field("email") String email, @Field("password") String password);
