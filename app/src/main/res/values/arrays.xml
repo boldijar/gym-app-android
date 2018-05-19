@@ -7,4 +7,10 @@
         <item>large</item>
         <item>truck</item>
     </string-array>
+    <string-array name="repeattimes">
+        <item>days</item>
+        <item>weeks</item>
+        <item>months</item>
+        <item>years</item>
+    </string-array>
 </resources>

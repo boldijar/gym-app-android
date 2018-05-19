@@ -12,6 +12,7 @@ import com.gym.app.data.model.ParkPlace;
 import com.gym.app.data.model.Product;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -50,6 +51,9 @@ public interface ApiService {
 
     @GET("user/park_spots")
     Observable<List<ParkPlace>> getOwnParkingPlaces();
+
+    @POST("park_spots/{id}/availabilities")
+    Completable addAvailability(@Body Map body, @Path("id") int parkSpotId);
 
     @POST("cars")
     Observable<Car> addCar(@Body CarBody carBody);
