@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,8 +49,10 @@ import com.gym.app.fragments.DrawerFragment;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -429,12 +432,30 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        if(isShowingOwnParkingPlaces) {
-            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
-            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
-            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
-            startActivity(goToAddParkingPlaces);
+        mCardTitle.setText( "Add a new parking place" );
+        Geocoder geocoder;
+        List<Address> addresses = new ArrayList<>();
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        if(addresses.size() != 0) {
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            mCardAdress.setText( address );
+        }
+
+
+        showCard(true);
+
+//        if(isShowingOwnParkingPlaces) {
+//            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+//            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
+//            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
+//            startActivity(goToAddParkingPlaces);
+//        }
 
     }
 
