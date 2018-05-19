@@ -133,8 +133,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         loadLocationStuff();
         showCard(false);
 
-        Intent goToAuth = new Intent(this, AuthenticationActivity.class);
-        startActivity(goToAuth);
+//        Intent goToAuth = new Intent(this, AuthenticationActivity.class);
+//        startActivity(goToAuth);
     }
 
     private void loadLocationStuff() {
