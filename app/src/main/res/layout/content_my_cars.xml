@@ -1,59 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.MyCars"
-    tools:showIn="@layout/activity_my_cars">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+             tools:context=".activities.MyCarsActivity"
+             tools:showIn="@layout/activity_my_cars">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/carsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 
-        <EditText
-            android:id="@+id/plateText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="plate" />
-
-        <EditText
-            android:id="@+id/sizeText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/plateText"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="size" />
-
-        <EditText
-            android:id="@+id/modelText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/sizeText"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="model" />
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/modelText"
-            android:onClick="addCar"
-            android:text="Add Car" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/carsRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="266dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
-
-
-</RelativeLayout>
+</FrameLayout>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.gym.app">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.gym.app">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera"/>
 
     <application
         android:name=".Shaorma"
@@ -29,7 +29,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
 
         <activity
@@ -38,9 +38,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -53,50 +53,50 @@
             android:name=".parts.terms.TermsActivity"
             android:label="@string/terms_and_condition"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".parts.authentication.AuthenticationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AuthenticationTheme" />
+            android:theme="@style/AuthenticationTheme"/>
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar" />
+            android:theme="@style/AppThemeNoActionbar"/>
         <activity
             android:name=".parts.scan.ScanActivity"
             android:label="@string/scan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
 
         <receiver
             android:name=".parts.findcourses.day_courses.CoursesReceiver"
-            android:enabled="true" />
+            android:enabled="true"/>
 
         <activity
             android:name=".parts.updatecourse.UpdateCourseActivity"
             android:label="@string/update_course"
             android:parentActivityName=".activities.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"/>
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:resource="@array/preloaded_fonts"/>
 
         <activity
-            android:name=".activities.MyCars"
+            android:name=".activities.MyCarsActivity"
             android:label="@string/title_activity_my_cars"
             android:parentActivityName=".activities.HomeActivity"
             android:theme="@style/AppThemeNoActionbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gym.app.activities.HomeActivity" />
+                android:value="com.gym.app.activities.HomeActivity"/>
         </activity>
         <activity
             android:name=".activities.AddParkingPlace"
@@ -105,8 +105,13 @@
             android:theme="@style/AppThemeNoActionbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gym.app.activities.HomeActivity" />
+                android:value="com.gym.app.activities.HomeActivity"/>
         </activity>
+        <activity
+            android:name=".activities.AddCarActivity"
+            android:label="@string/title_activity_add_cars"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
