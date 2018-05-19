@@ -108,18 +108,9 @@
                                 android:id="@+id/card_image"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/launcher"/>
+                                android:src="@drawable/parked_car"/>
 
-                            <TextView
-                                android:id="@+id/card_rating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginTop="5dp"
-                                android:drawablePadding="8dp"
-                                android:drawableRight="@drawable/star"
-                                android:text="4.5"
-                                android:textColor="@color/black"/>
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -149,16 +140,6 @@
                                 android:textSize="12dp"/>
 
                             <TextView
-                                fontPath="fonts/Lato-Bold.ttf"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="16dp"
-                                android:layout_marginTop="4dp"
-                                android:text="$$"
-                                android:textColor="@color/black"
-                                android:textSize="14dp"/>
-
-                            <TextView
                                 android:id="@+id/card_next"
                                 fontPath="fonts/Lato-Light.ttf"
                                 android:layout_width="wrap_content"
@@ -172,7 +153,7 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 android:paddingTop="5dp"
-                                android:text="next step"
+                                android:text="Add"
                                 android:textAllCaps="true"
                                 android:textColor="@color/black"
                                 android:textSize="13dp"
@@ -222,8 +203,8 @@
     </LinearLayout>
 
     <fragment
-        android:id="@+id/home_drawer_fragment"
-        class="com.gym.app.fragments.DrawerFragment"
+        android:id="@+id/manager_drawer_fragment"
+        class="com.gym.app.fragments.ManagerDrawerFragment"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

@@ -8,6 +8,7 @@ import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.observables.SaveProductsObservable;
 import com.gym.app.data.observables.UpdateCourseObservable;
 import com.gym.app.fragments.DrawerFragment;
+import com.gym.app.fragments.ManagerDrawerFragment;
 import com.gym.app.parts.authentication.AuthenticationPresenter;
 import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.create_course.CreateCoursePresenter;
@@ -69,4 +70,6 @@ public interface ApplicationComponent {
     void inject(MyCars myCars);
 
     void inject(ManageActivity manageActivity);
+
+    void inject(ManagerDrawerFragment managerDrawerFragment);
 }

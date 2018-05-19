@@ -46,6 +46,7 @@ import com.gym.app.data.Prefs;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.fragments.DrawerFragment;
+import com.gym.app.fragments.ManagerDrawerFragment;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
@@ -100,7 +101,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
 //    FloatingActionButton cancelOwnParkingSpotsButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerFragment mDrawerFragment;
+    private ManagerDrawerFragment mDrawerFragment;
 
     SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap;
@@ -117,13 +118,15 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
 
     private Boolean isShowingOwnParkingPlaces = false;
 
+    private Marker lastAddedMarker;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
         InjectionHelper.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
-        mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.home_drawer_fragment);
+        mDrawerFragment = (ManagerDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.manager_drawer_fragment);
         initDrawer();
         mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.home_map);
@@ -432,6 +435,16 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
 
     @Override
     public void onMapLongClick(LatLng latLng) {
+        // Delete last added marker if exists
+        deleteLastAddedMarker();
+
+        // Add the marker
+        MarkerOptions lastAddedMarkerOptions = new MarkerOptions()
+                .position(new LatLng(latLng.latitude, latLng.longitude))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
+        this.lastAddedMarker = mMap.addMarker(lastAddedMarkerOptions);
+
+        // Populate the card with information & show it
         mCardTitle.setText( "Add a new parking place" );
         Geocoder geocoder;
         List<Address> addresses = new ArrayList<>();
@@ -446,8 +459,6 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
             String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             mCardAdress.setText( address );
         }
-
-
         showCard(true);
 
 //        if(isShowingOwnParkingPlaces) {
@@ -460,6 +471,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
     }
 
     public void cardCancel(View view) {
+        deleteLastAddedMarker();
         showCard(false);
     }
 
@@ -470,5 +482,17 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
         loadOwnParkingPlaces();
 
         isShowingOwnParkingPlaces = false;
+    }
+
+    public void deleteLastAddedMarker() {
+        if(this.lastAddedMarker != null) {
+            this.lastAddedMarker.remove();
+            this.lastAddedMarker = null;
+        }
+    }
+
+    public void goToHomeClicked(View view) {
+        Intent goToHome = new Intent(this, HomeActivity.class);
+        startActivity(goToHome);
     }
 }
