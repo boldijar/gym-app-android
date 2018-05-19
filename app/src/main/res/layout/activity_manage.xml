@@ -128,6 +128,7 @@
                                 android:text="John Doe parking spot #123"
                                 android:textColor="@color/black" />
 
+
                             <TextView
                                 android:id="@+id/card_address"
                                 fontPath="fonts/Lato-Light.ttf"
@@ -139,26 +140,49 @@
                                 android:textColor="@color/black"
                                 android:textSize="12dp"/>
 
-                            <TextView
-                                android:id="@+id/card_next"
-                                fontPath="fonts/Lato-Light.ttf"
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:layout_gravity="right"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginRight="16dp"
                                 android:layout_marginTop="4dp"
-                                android:background="@drawable/border_black"
-                                android:paddingBottom="5dp"
-                                android:paddingLeft="10dp"
-                                android:paddingRight="10dp"
-                                android:paddingTop="5dp"
-                                android:text="Add"
-                                android:textAllCaps="true"
-                                android:textColor="@color/black"
-                                android:textSize="13dp"
-                                />
 
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:paddingBottom="5dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingTop="5dp"
+                                    android:id="@+id/card_manage"
+                                    fontPath="fonts/Lato-Light.ttf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_black"
+                                    android:text="Manage"
+                                    android:layout_marginRight="10dp"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:visibility="invisible"
+                                    tools:visibility="visible"
+                                    android:textSize="13dp"
+                                    />
+                                <TextView
+                                    android:paddingBottom="5dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingTop="5dp"
+                                    android:id="@+id/card_next"
+                                    fontPath="fonts/Lato-Light.ttf"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/border_black"
+                                    android:text="Add"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/black"
+                                    android:textSize="13dp"
+                                    />
+                            </LinearLayout>
 
                         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.gym.app.server;
 
 import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
+import com.gym.app.data.model.Availability;
 import com.gym.app.data.model.Car;
 import com.gym.app.data.model.CarBody;
 import com.gym.app.data.model.LoginResponse;
@@ -18,6 +19,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -33,12 +35,16 @@ public interface ApiService {
                                                  @Query("start_datetime") String startDateTime,
                                                  @Query("end_datetime") String endDateTime);
 
-//    @GET("park_spots")
-//    Observable<List<ParkPlace>> getParkingPlacesByCriterias(@Query("latitude") String latitude,
-//                                                            @Query("longitude") String longitude,
-//                                                            @Query("radius") Integer radius,
-//                                                            @Query("start_datetime") String startDateTime,
-//                                                            @Query("end_datetime") String endDateTime);
+    @GET("park_spots/{id}/availabilities")
+    Observable<List<Availability>> getAvailabilities(@Path("id") int parkSpotId);
+
+
+    @GET("park_spots")
+    Observable<List<ParkPlace>> getParkingPlacesByCriterias(@Query("Latitude") String latitude,
+                                                            @Query("Longitude") String longitude,
+                                                            @Query("Radius") Integer radius,
+                                                            @Query("start_datetime") String startDateTime,
+                                                            @Query("end_datetime") String endDateTime);
 
     @GET("user/park_spots")
     Observable<List<ParkPlace>> getOwnParkingPlaces();

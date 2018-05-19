@@ -269,6 +269,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
                 null
         )
                 .subscribeOn(Schedulers.io())
+                .doOnError(Throwable::printStackTrace)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::gotParkPlaces, Throwable::printStackTrace);
     }
@@ -419,6 +420,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 
         ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(Throwable::printStackTrace)
                 .subscribe(this::gotParkPlaces);
 
     }
