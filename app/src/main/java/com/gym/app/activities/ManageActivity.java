@@ -6,10 +6,10 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -46,11 +46,14 @@ import com.gym.app.data.Prefs;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.fragments.DrawerFragment;
+import com.gym.app.fragments.ManagerDrawerFragment;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -69,7 +72,7 @@ import timber.log.Timber;
  * @since 2017.08.29
  */
 
-public class HomeActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
+public class ManageActivity extends BaseActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
 
     @Inject
     ApiService mApiService;
@@ -98,7 +101,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 //    FloatingActionButton cancelOwnParkingSpotsButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerFragment mDrawerFragment;
+    private ManagerDrawerFragment mDrawerFragment;
 
     SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap;
@@ -115,13 +118,15 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 
     private Boolean isShowingOwnParkingPlaces = false;
 
+    private Marker lastAddedMarker;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_manage);
         InjectionHelper.getApplicationComponent().inject(this);
         ButterKnife.bind(this);
-        mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.home_drawer_fragment);
+        mDrawerFragment = (ManagerDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.manager_drawer_fragment);
         initDrawer();
         mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.home_map);
@@ -245,12 +250,15 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
             e.printStackTrace();
         }
         mMap = googleMap;
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(this, R.raw.managedstyle)
+        );
         moveCameraTo(Prefs.Latitude.getDouble(0), Prefs.Longitude.getDouble(0));
         MarkerOptions locationMarkerOptions = new MarkerOptions()
                 .position(new LatLng(Prefs.Latitude.getDouble(0), Prefs.Longitude.getDouble(0)))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
         mLocationMarker = mMap.addMarker(locationMarkerOptions);
-        loadParkingPlaces();
+        loadOwnParkingPlaces();
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapLongClickListener(this);
     }
@@ -260,11 +268,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         return super.onKeyLongPress(keyCode, event);
     }
 
-    private void loadParkingPlaces() {
-        mApiService.getParkingPlaces()
-                .subscribeOn(Schedulers.io())
+    private void loadOwnParkingPlaces() {
+        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::gotParkPlaces, Throwable::printStackTrace);
+                .subscribe(this::gotParkPlaces);
     }
 
     private void gotParkPlaces(List<ParkPlace> parkPlaces) {
@@ -415,39 +422,77 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     public void ownPlaceClicked(View view) {
-        Intent goToManageActivity = new Intent(this, ManageActivity.class);
-        startActivity(goToManageActivity);
-//
-//        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::gotParkPlaces);
-//
-//        mDrawerLayout.closeDrawers();
+        mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces);
+
+        mDrawerLayout.closeDrawers();
 //        cancelOwnParkingSpotsButton.setVisibility(View.VISIBLE);
-//        isShowingOwnParkingPlaces = true;
+        isShowingOwnParkingPlaces = true;
+//        manageParkingSpaceText.setVisibility(View.VISIBLE);
     }
     
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        if(isShowingOwnParkingPlaces) {
-            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
-            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
-            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
-            startActivity(goToAddParkingPlaces);
+        // Delete last added marker if exists
+        deleteLastAddedMarker();
+
+        // Add the marker
+        MarkerOptions lastAddedMarkerOptions = new MarkerOptions()
+                .position(new LatLng(latLng.latitude, latLng.longitude))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
+        this.lastAddedMarker = mMap.addMarker(lastAddedMarkerOptions);
+
+        // Populate the card with information & show it
+        mCardTitle.setText( "Add a new parking place" );
+        Geocoder geocoder;
+        List<Address> addresses = new ArrayList<>();
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        if(addresses.size() != 0) {
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            mCardAdress.setText( address );
+        }
+        showCard(true);
+
+//        if(isShowingOwnParkingPlaces) {
+//            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+//            goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
+//            goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
+//            startActivity(goToAddParkingPlaces);
+//        }
 
     }
 
     public void cardCancel(View view) {
+        deleteLastAddedMarker();
         showCard(false);
     }
 
     public void findParkingPlaces(View view) {
+//        manageParkingSpaceText.setVisibility(View.INVISIBLE);
 
         // Load the default parking spaces
-        loadParkingPlaces();
+        loadOwnParkingPlaces();
 
         isShowingOwnParkingPlaces = false;
+    }
+
+    public void deleteLastAddedMarker() {
+        if(this.lastAddedMarker != null) {
+            this.lastAddedMarker.remove();
+            this.lastAddedMarker = null;
+        }
+    }
+
+    public void goToHomeClicked(View view) {
+        Intent goToHome = new Intent(this, HomeActivity.class);
+        startActivity(goToHome);
     }
 }

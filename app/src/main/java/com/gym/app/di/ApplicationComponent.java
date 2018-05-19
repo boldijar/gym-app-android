@@ -5,10 +5,12 @@ import com.gym.app.activities.AddCarActivity;
 import com.gym.app.activities.AvailabilityActivity;
 import com.gym.app.activities.HomeActivity;
 import com.gym.app.activities.MyCarsActivity;
+import com.gym.app.activities.ManageActivity;
 import com.gym.app.data.observables.SaveCoursesObservable;
 import com.gym.app.data.observables.SaveProductsObservable;
 import com.gym.app.data.observables.UpdateCourseObservable;
 import com.gym.app.fragments.DrawerFragment;
+import com.gym.app.fragments.ManagerDrawerFragment;
 import com.gym.app.parts.authentication.AuthenticationPresenter;
 import com.gym.app.parts.authentication.register.RegisterPresenter;
 import com.gym.app.parts.create_course.CreateCoursePresenter;
@@ -69,6 +71,10 @@ public interface ApplicationComponent {
     void inject(MyCarsActivity myCarsActivity);
 
     void inject(AddCarActivity addCarActivity);
+
+    void inject(ManageActivity manageActivity);
+
+    void inject(ManagerDrawerFragment managerDrawerFragment);
 
     void inject(AvailabilityActivity availabilityActivity);
 }
