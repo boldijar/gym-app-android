@@ -2,6 +2,7 @@ package com.gym.app.di;
 
 import com.gym.app.Shaorma;
 import com.gym.app.activities.AddCarActivity;
+import com.gym.app.activities.AvailabilityActivity;
 import com.gym.app.activities.HomeActivity;
 import com.gym.app.activities.MyCarsActivity;
 import com.gym.app.data.observables.SaveCoursesObservable;
@@ -68,4 +69,6 @@ public interface ApplicationComponent {
     void inject(MyCarsActivity myCarsActivity);
 
     void inject(AddCarActivity addCarActivity);
+
+    void inject(AvailabilityActivity availabilityActivity);
 }

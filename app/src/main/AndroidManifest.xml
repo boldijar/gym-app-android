@@ -106,6 +106,12 @@
             android:label="@string/title_activity_add_cars"
             android:parentActivityName=".activities.HomeActivity"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.AvailabilityActivity"
+            android:label="@string/title_activity_availability"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

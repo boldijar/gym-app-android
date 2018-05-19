@@ -120,5 +120,6 @@
     <string name="title_activity_my_cars">My cars</string>
     <string name="title_activity_add_cars">Add cars</string>
     <string name="title_activity_add_parking_place">AddParkingPlace</string>
+    <string name="title_activity_availability">Availability</string>
 
 </resources>
