@@ -22,8 +22,6 @@ public class AddParkingPlace extends AppCompatActivity {
         Double lat = Double.parseDouble( getIntent().getStringExtra("Lat") );
         Double lng = Double.parseDouble( getIntent().getStringExtra("Lng") );
 
-        int a = 3;
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

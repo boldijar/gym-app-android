@@ -81,15 +81,21 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 
     @BindView(R.id.home_bottom_card)
     View mCardRoot;
+
     @BindView(R.id.card_address)
     TextView mCardAdress;
+
     @BindView(R.id.card_title)
     TextView mCardTitle;
+
     @BindView(R.id.card_image)
     ImageView mCardImage;
 
-    @BindView(R.id.cancelOwnParkingSpots)
-    FloatingActionButton cancelOwnParkingSpotsButton;
+    @BindView(R.id.manageParkingSpacesText)
+    TextView manageParkingSpaceText;
+
+//    @BindView(R.id.cancelOwnParkingSpots)
+//    FloatingActionButton cancelOwnParkingSpotsButton;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerFragment mDrawerFragment;
@@ -414,19 +420,11 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
                 .subscribe(this::gotParkPlaces);
 
         mDrawerLayout.closeDrawers();
-        cancelOwnParkingSpotsButton.setVisibility(View.VISIBLE);
+//        cancelOwnParkingSpotsButton.setVisibility(View.VISIBLE);
         isShowingOwnParkingPlaces = true;
+        manageParkingSpaceText.setVisibility(View.VISIBLE);
     }
-
-    public void cancelOwnParkingSpots(View view) {
-        // Make the button invisible
-        cancelOwnParkingSpotsButton.setVisibility(View.INVISIBLE);
-
-        // Load the default parking spaces
-        loadParkingPlaces();
-
-        isShowingOwnParkingPlaces = false;
-    }
+    
 
     @Override
     public void onMapLongClick(LatLng latLng) {
@@ -437,5 +435,18 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
             startActivity(goToAddParkingPlaces);
         }
 
+    }
+
+    public void cardCancel(View view) {
+        showCard(false);
+    }
+
+    public void findParkingPlaces(View view) {
+        manageParkingSpaceText.setVisibility(View.INVISIBLE);
+
+        // Load the default parking spaces
+        loadParkingPlaces();
+
+        isShowingOwnParkingPlaces = false;
     }
 }

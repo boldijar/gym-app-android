@@ -42,7 +42,7 @@ public interface ApiService {
     @POST("cars")
     Observable<Car> addCar(@Body CarBody carBody);
 
-    @GET("cars")
+    @GET("user/cars")
     Observable< List<Car> > getCars();
 
 
