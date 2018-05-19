@@ -66,6 +66,18 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         Availability availability = mAvailabilities.get(position);
         holder.mTitle.setText(availability.mDescription + " from " + availability.mStartDatetime + " to " + availability.mEndDatetime);
+        holder.mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAvailabilityListener.onEdit(availability.mId);
+            }
+        });
+        holder.mRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAvailabilityListener.onDelete(availability.mId);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

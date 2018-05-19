@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.gym.app.R;
 import com.gym.app.data.model.Availability;
@@ -13,7 +15,6 @@ import com.gym.app.di.InjectionHelper;
 import com.gym.app.parts.adapters.AvailabilityAdapter;
 import com.gym.app.server.ApiService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ import io.reactivex.schedulers.Schedulers;
 public class AvailabilityActivity extends BaseActivity implements AvailabilityAdapter.AvailabilityListener {
 
     private static final String ARG_SPOT = "spot";
+    private static final int REQUEST_ADD = 122;
     @BindView(R.id.availability_recycler)
     RecyclerView mRecyclerView;
 
@@ -85,6 +87,21 @@ public class AvailabilityActivity extends BaseActivity implements AvailabilityAd
 
                     }
                 });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_availability, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add) {
+            Intent intent = AddAvailabilityActivity.createIntent(this, mSpotId);
+            startActivityForResult(intent, REQUEST_ADD);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void gotAvailabilities(List<Availability> availabilities) {

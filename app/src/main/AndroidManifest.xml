@@ -118,6 +118,12 @@
             android:parentActivityName=".activities.HomeActivity"
             android:theme="@style/AppTheme">
         </activity>
+        <activity
+            android:name=".activities.AddAvailabilityActivity"
+            android:label="Add new availability"
+            android:parentActivityName=".activities.AvailabilityActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

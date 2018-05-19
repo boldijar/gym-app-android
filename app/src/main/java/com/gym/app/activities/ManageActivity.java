@@ -45,7 +45,6 @@ import com.gym.app.R;
 import com.gym.app.data.Prefs;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.di.InjectionHelper;
-import com.gym.app.fragments.DrawerFragment;
 import com.gym.app.fragments.ManagerDrawerFragment;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
@@ -93,6 +92,8 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
 
     @BindView(R.id.card_image)
     ImageView mCardImage;
+    @BindView(R.id.card_manage)
+    View mManageView;
 
 //    @BindView(R.id.manageParkingSpacesText)
 //    TextView manageParkingSpaceText;
@@ -119,6 +120,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
     private Boolean isShowingOwnParkingPlaces = false;
 
     private Marker lastAddedMarker;
+    private ParkPlace mSelectedParkPlace;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -271,6 +273,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
     private void loadOwnParkingPlaces() {
         mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(Throwable::printStackTrace)
                 .subscribe(this::gotParkPlaces);
     }
 
@@ -368,6 +371,8 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
             return true;
         }
         ParkPlace parkPlace = (ParkPlace) marker.getTag();
+        mSelectedParkPlace=parkPlace;
+        mManageView.setVisibility(View.VISIBLE);
         Glide.with(this).load(parkPlace.mUser.mAvatar).into(mCardImage);
         mCardAdress.setText(parkPlace.mAddress);
         mCardTitle.setText(parkPlace.mUser.mFirstName + " " + parkPlace.mUser.mLastName + " spot #" + parkPlace.mId);
@@ -416,6 +421,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
                 end.toString()
 
         ).subscribeOn(Schedulers.io())
+                .doOnError(Throwable::printStackTrace)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::gotParkPlaces);
 
@@ -424,6 +430,7 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
     public void ownPlaceClicked(View view) {
         mApiService.getOwnParkingPlaces().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(Throwable::printStackTrace)
                 .subscribe(this::gotParkPlaces);
 
         mDrawerLayout.closeDrawers();
@@ -431,13 +438,23 @@ public class ManageActivity extends BaseActivity implements OnMapReadyCallback, 
         isShowingOwnParkingPlaces = true;
 //        manageParkingSpaceText.setVisibility(View.VISIBLE);
     }
-    
+
+    @OnClick(R.id.card_manage)
+    void cardManage(){
+        if (mSelectedParkPlace==null){
+            Toast.makeText(this, "Please select a parking spot!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = AvailabilityActivity.createIntent(this, mSelectedParkPlace.mId);
+        startActivity(intent);
+    }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
         // Delete last added marker if exists
         deleteLastAddedMarker();
-
+        mParkPlacesMarkers=null;
+        mManageView.setVisibility(View.INVISIBLE);
         // Add the marker
         MarkerOptions lastAddedMarkerOptions = new MarkerOptions()
                 .position(new LatLng(latLng.latitude, latLng.longitude))
