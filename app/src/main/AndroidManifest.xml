@@ -44,6 +44,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.ManageActivity"
+            android:label="Manage"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".parts.terms.TermsActivity"
             android:label="@string/terms_and_condition"
             android:screenOrientation="portrait"

@@ -88,6 +88,20 @@
         android:background="@color/light_gray"/>
 
     <TextView
+        android:id="@+id/drawer_menu_own_parking_places"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingBottom="20dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="20dp"
+        android:text="Home"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:onClick="goToHomeClicked"
+        />
+
+    <TextView
         android:id="@+id/drawer_menu_your_cars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,19 +113,6 @@
         android:textColor="@color/white"
         android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/drawer_menu_own_parking_places"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:paddingBottom="20dp"
-        android:paddingLeft="24dp"
-        android:paddingTop="20dp"
-        android:text="Own parking places"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:onClick="ownPlaceClicked"
-        />
 
     <TextView
         android:layout_width="match_parent"
