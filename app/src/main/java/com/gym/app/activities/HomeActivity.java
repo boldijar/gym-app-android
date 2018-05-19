@@ -46,6 +46,7 @@ import com.gym.app.data.Prefs;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.fragments.DrawerFragment;
+import com.gym.app.parts.authentication.AuthenticationActivity;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
@@ -131,6 +132,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
 
         loadLocationStuff();
         showCard(false);
+
+        Intent goToAuth = new Intent(this, AuthenticationActivity.class);
+        startActivity(goToAuth);
     }
 
     private void loadLocationStuff() {

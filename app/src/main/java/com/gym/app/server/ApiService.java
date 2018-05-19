@@ -2,9 +2,11 @@ package com.gym.app.server;
 
 import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
+import com.gym.app.data.model.AuthBody;
 import com.gym.app.data.model.Availability;
 import com.gym.app.data.model.Car;
 import com.gym.app.data.model.CarBody;
+import com.gym.app.data.model.JWT;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.data.model.Product;
@@ -56,11 +58,10 @@ public interface ApiService {
     Observable< List<Car> > getCars();
 
 
-
-
     @FormUrlEncoded
-    @POST("api/login")
-    Observable<LoginResponse> login(@Field("email") String email, @Field("password") String password);
+    @POST("login")
+    Observable<JWT> login(@Body AuthBody authBody);
+
 
     @GET("api/products")
     Observable<List<Product>> getProducts();
