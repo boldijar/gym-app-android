@@ -100,6 +100,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     private List<ParkPlace> mParkPlaces;
     private List<Marker> mParkPlacesMarkers = new ArrayList<>();
 
+    private TimeFilterDialogFragment timeFilterDialogFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +113,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.home_map);
         mSupportMapFragment.getMapAsync(this);
+
+        timeFilterDialogFragment = new TimeFilterDialogFragment();
 
         loadLocationStuff();
         showCard(false);
@@ -346,6 +350,48 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     public void clickedFilter(View view) {
-        new TimeFilterDialogFragment().show(getSupportFragmentManager(), "tag");
+        this.timeFilterDialogFragment.show(getSupportFragmentManager(), "tag");
+    }
+
+    public void timeDialogDone(View view) {
+        // Close the time dialog
+        this.timeFilterDialogFragment.dismiss();
+
+        int startingHour = this.timeFilterDialogFragment.mTimePicker1.getCurrentHour();
+        int startingDay = this.timeFilterDialogFragment.mDatePicker1.getDayOfMonth();
+        int startingMonth = this.timeFilterDialogFragment.mDatePicker1.getMonth();
+        int startingYear = this.timeFilterDialogFragment.mDatePicker1.getYear();
+
+
+
+        int endingHour = this.timeFilterDialogFragment.mTimePicker2.getCurrentHour();
+        int endingDay = this.timeFilterDialogFragment.mDatePicker2.getDayOfMonth();
+        int endingMonth = this.timeFilterDialogFragment.mDatePicker2.getMonth();
+        int endingYear =this.timeFilterDialogFragment. mDatePicker2.getYear();
+
+        // Goal: 2018-05-19 11:11:06 +0300
+        StringBuilder start = new StringBuilder();
+        start.append(startingYear); start.append("-");
+        start.append(startingMonth); start.append("-");
+        start.append(startingDay); start.append(" ");
+        start.append(startingHour); start.append(":00:00 +0300");
+
+        StringBuilder end = new StringBuilder();
+        end.append(endingYear); end.append("-");
+        end.append(endingMonth); end.append("-");
+        end.append(endingDay); end.append(" ");
+        end.append(endingHour); end.append(":00:00 +0300");
+        
+        mApiService.getParkingPlacesByCriterias(
+                Prefs.Latitude.get(),
+                Prefs.Longitude.get(),
+                100,
+                start.toString(),
+                end.toString()
+
+        ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::gotParkPlaces);
+
     }
 }

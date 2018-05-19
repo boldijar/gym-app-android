@@ -102,9 +102,10 @@ public class MyCars extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(listOfCars -> {
-                    
+
                 this.adapter.setmCarsList(listOfCars);
                 this.adapter.notifyDataSetChanged();
         });
     }
+
 }
