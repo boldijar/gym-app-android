@@ -43,6 +43,7 @@ public class ApiModule {
     @Provides
     static Gson provideGson() {
         return new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
                 .create();
     }
 
