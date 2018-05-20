@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sizeTypes">
+        <item>small</item>
+        <item>medium</item>
+        <item>compact</item>
+        <item>large</item>
+        <item>truck</item>
+    </string-array>
+    <string-array name="repeattimes">
+        <item>days</item>
+        <item>weeks</item>
+        <item>months</item>
+        <item>years</item>
+    </string-array>
+</resources>

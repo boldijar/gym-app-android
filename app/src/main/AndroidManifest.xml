@@ -20,8 +20,9 @@
         android:icon="@drawable/launcher"
         android:label="@string/nameofapp"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeNoActionbar"
-        tools:replace="android:label">
+        android:theme="@style/AppThemeNoActionbar">
+
+
         <provider
             android:name=".GenericFileProvider"
             android:authorities="com.gym.app.com.gym.app.provider"
@@ -44,6 +45,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.ManageActivity"
+            android:label="Manage"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".parts.terms.TermsActivity"
             android:label="@string/terms_and_condition"
             android:screenOrientation="portrait"
@@ -55,30 +62,69 @@
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionbar"></activity>
+            android:theme="@style/AppThemeNoActionbar"/>
         <activity
             android:name=".parts.scan.ScanActivity"
             android:label="@string/scan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
 
         <receiver
             android:name=".parts.findcourses.day_courses.CoursesReceiver"
-            android:enabled="true" />
+            android:enabled="true"/>
 
         <activity
             android:name=".parts.updatecourse.UpdateCourseActivity"
             android:label="@string/update_course"
             android:parentActivityName=".activities.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"/>
+
+        <activity
+            android:name=".activities.MyCarsActivity"
+            android:label="@string/title_activity_my_cars"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppThemeNoActionbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gym.app.activities.HomeActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.AddParkingPlaceActivity"
+            android:label="@string/title_activity_add_parking_place"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppThemeNoActionbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gym.app.activities.HomeActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.AddCarActivity"
+            android:label="@string/title_activity_add_cars"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.AvailabilityActivity"
+            android:label="@string/title_activity_availability"
+            android:parentActivityName=".activities.HomeActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activities.AddAvailabilityActivity"
+            android:label="Add new availability"
+            android:parentActivityName=".activities.AvailabilityActivity"
+            android:theme="@style/AppTheme">
+        </activity>
 
         <activity
             android:name=".activities.ParkingHistoryActivity"

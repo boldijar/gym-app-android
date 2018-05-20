@@ -1,5 +1,8 @@
 package com.gym.app.parts.authentication;
 
+import com.gym.app.data.model.Auth;
+import com.gym.app.data.model.AuthBody;
+import com.gym.app.data.model.JWT;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.presenter.Presenter;
@@ -27,16 +30,12 @@ public class AuthenticationPresenter extends Presenter<AuthenticationView> {
     }
 
     void login(String email, String password) {
-        mApiService.login(email, password)
+        mApiService.login(new AuthBody(new Auth(email, password)))
                 .subscribeOn(Schedulers.io()) // where the request should be done
                 .observeOn(AndroidSchedulers.mainThread()) // where the response should be handled
-                .subscribe(new MvpObserver<LoginResponse>(this) { // this is a cool class to help disposing observables
+                .subscribe(new MvpObserver<JWT>(this) { // this is a cool class to help disposing observables
                     @Override
-                    public void onNext(LoginResponse value) {
-                        if (value.hasError()) {
-                            getView().showError(new IllegalStateException(value.mError));
-                            return;
-                        }
+                    public void onNext(JWT value) {
                         getView().showLoginResponse(value);
                     }
 

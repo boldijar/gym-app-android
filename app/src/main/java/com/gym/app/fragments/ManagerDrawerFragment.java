@@ -28,7 +28,7 @@ import timber.log.Timber;
  * @since 2017.10.23
  */
 
-public class DrawerFragment extends BaseFragment {
+public class ManagerDrawerFragment extends BaseFragment {
 
 
     @BindView(R.id.drawer_image)
@@ -73,11 +73,12 @@ public class DrawerFragment extends BaseFragment {
 
     @OnClick(R.id.drawer_menu_your_cars)
     void clickedYourCars(){
+        Toast.makeText(getContext(), "Clicked car", Toast.LENGTH_SHORT).show();
         Intent goToMyCars = new Intent(getContext(), MyCarsActivity.class);
         startActivity(goToMyCars);
     }
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_drawer;
+        return R.layout.fragment_manager_drawer;
     }
 }

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <io.blackbox_vision.datetimepickeredittext.view.DatePickerInputEditText
+                        android:id="@+id/from_date_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="From date"
+                        android:nextFocusLeft="@id/from_date_picker"
+                        android:nextFocusUp="@id/from_date_picker"
+                        app:dateFormat="yyyy/MM/dd"
+                        app:maxDate="01/01/2050"
+                        app:minDate="01/01/1981"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <io.blackbox_vision.datetimepickeredittext.view.TimePickerInputEditText
+                        android:id="@+id/from_time_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="From time"
+                        app:dateFormat="yyyy/MM/dd"
+                        app:maxDate="01/01/2050"
+                        app:minDate="01/01/1981"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <io.blackbox_vision.datetimepickeredittext.view.DatePickerInputEditText
+                        android:id="@+id/to_date_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="To date"
+                        app:dateFormat="yyyy/MM/dd"
+                        app:maxDate="01/01/2050"
+                        app:minDate="01/01/1981"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <io.blackbox_vision.datetimepickeredittext.view.TimePickerInputEditText
+                        android:id="@+id/to_time_picker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="To time"
+                        app:dateFormat="yyyy/MM/dd"
+                        app:maxDate="01/01/2050"
+                        app:minDate="01/01/1981"/>
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:animateLayoutChanges="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/repeating_event_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Repeating event"/>
+
+                <LinearLayout
+                    android:id="@+id/repeating_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Repeat every"
+                            android:textColor="@color/black"/>
+
+                        <EditText
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/repeat_time"
+                            android:inputType="numberSigned"
+                            android:text="1"/>
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/repeat_frequency"
+                            android:layout_marginLeft="10dp"
+                            android:entries="@array/repeattimes"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="M"
+                            android:textColor="@color/white"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="T"
+                            android:textColor="@color/white"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="W"
+                            android:textColor="@color/white"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="T"
+                            android:textColor="@color/white"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day5"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="S"
+                            android:textColor="@color/white"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day6"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="S"
+                            android:textColor="@color/white"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/day7"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/circle_selector"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="S"
+                            android:textColor="@color/white"/>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/add_availability"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Add"/>
+    </LinearLayout>
+</ScrollView>

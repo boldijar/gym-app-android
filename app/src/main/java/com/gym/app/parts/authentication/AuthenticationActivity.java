@@ -11,6 +11,7 @@ import com.gym.app.R;
 import com.gym.app.activities.BaseActivity;
 import com.gym.app.activities.HomeActivity;
 import com.gym.app.data.Prefs;
+import com.gym.app.data.model.JWT;
 import com.gym.app.data.model.LoginResponse;
 import com.gym.app.parts.terms.TermsActivity;
 
@@ -100,9 +101,8 @@ public class AuthenticationActivity extends BaseActivity implements Authenticati
     }
 
     @Override
-    public void showLoginResponse(LoginResponse loginResponse) {
-        Prefs.Token.put(loginResponse.mToken);
-        Prefs.Role.put(loginResponse.mRole);
+    public void showLoginResponse(JWT loginResponse) {
+        Prefs.Token.put(loginResponse.getJwt());
         finish();
     }
 

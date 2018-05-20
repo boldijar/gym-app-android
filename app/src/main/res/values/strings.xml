@@ -117,6 +117,10 @@
     <string name="update_course">Update course</string>
     <string name="update_course_error">Could not update course</string>
     <string name="nameofapp">ParkParkGo</string>
+    <string name="title_activity_my_cars">My cars</string>
+    <string name="title_activity_add_cars">Add cars</string>
+    <string name="title_activity_add_parking_place">AddParkingPlace</string>
+    <string name="title_activity_availability">Availability</string>
     <string name="title_activity_parking_history">ParkingHistoryActivity</string>
 
 </resources>
