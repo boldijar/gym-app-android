@@ -180,10 +180,11 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 android:paddingTop="5dp"
-                                android:text="next step"
+                                android:text="Book"
                                 android:textAllCaps="true"
                                 android:textColor="@color/black"
                                 android:textSize="13dp"
+                                android:onClick="bookParking"
                                 />
 
 

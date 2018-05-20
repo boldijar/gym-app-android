@@ -4,6 +4,7 @@ import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
 import com.gym.app.data.model.AuthBody;
 import com.gym.app.data.model.Availability;
+import com.gym.app.data.model.BookParking;
 import com.gym.app.data.model.Car;
 import com.gym.app.data.model.CarBody;
 import com.gym.app.data.model.ParkPlaceBody;
@@ -63,6 +64,9 @@ public interface ApiService {
 
     @GET("user/cars")
     Observable< List<Car> > getCars();
+
+    @POST("park_spots/{id}/book")
+    Completable bookParking(@Body BookParking bookParking, @Path("id") int parkSpotId);
 
 
     @FormUrlEncoded
