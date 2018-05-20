@@ -72,7 +72,8 @@
                     android:maxLines="1"
                     android:paddingLeft="16dp"
                     android:paddingRight="8dp"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    />
             </android.support.v7.widget.CardView>
 
             <FrameLayout
@@ -181,6 +182,7 @@
                                     android:textAllCaps="true"
                                     android:textColor="@color/black"
                                     android:textSize="13dp"
+                                    android:onClick="addParkingPlace"
                                     />
                             </LinearLayout>
 

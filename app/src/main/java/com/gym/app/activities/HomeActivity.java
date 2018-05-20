@@ -9,7 +9,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -43,10 +42,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gym.app.R;
 import com.gym.app.data.Prefs;
+import com.gym.app.data.model.BookParking;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.di.InjectionHelper;
 import com.gym.app.fragments.DrawerFragment;
-import com.gym.app.parts.authentication.AuthenticationActivity;
 import com.gym.app.server.ApiService;
 import com.patloew.rxlocation.RxLocation;
 
@@ -115,6 +114,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     private TimeFilterDialogFragment timeFilterDialogFragment;
 
     private Boolean isShowingOwnParkingPlaces = false;
+
+    ParkPlace mLastParkPlace;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -371,10 +372,11 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         if (marker.getTag() == null || !(marker.getTag() instanceof ParkPlace)) {
             return true;
         }
-        ParkPlace parkPlace = (ParkPlace) marker.getTag();
-        Glide.with(this).load(parkPlace.mUser.mAvatar).into(mCardImage);
-        mCardAdress.setText(parkPlace.mAddress);
-        mCardTitle.setText(parkPlace.mUser.mFirstName + " " + parkPlace.mUser.mLastName + " spot #" + parkPlace.mId);
+        this.mLastParkPlace = (ParkPlace) marker.getTag();
+        mLastParkPlace = mLastParkPlace;
+        Glide.with(this).load(mLastParkPlace.mUser.mAvatar).into(mCardImage);
+        mCardAdress.setText(mLastParkPlace.mAddress);
+        mCardTitle.setText(mLastParkPlace.mUser.mFirstName + " " + mLastParkPlace.mUser.mLastName + " spot #" + mLastParkPlace.mId);
         showCard(true);
         return true;
     }
@@ -446,7 +448,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     @Override
     public void onMapLongClick(LatLng latLng) {
         if(isShowingOwnParkingPlaces) {
-            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlace.class);
+            Intent goToAddParkingPlaces = new Intent(this, AddParkingPlaceActivity.class);
             goToAddParkingPlaces.putExtra("Lat", String.valueOf(latLng.latitude));
             goToAddParkingPlaces.putExtra("Lng", String.valueOf(latLng.longitude));
             startActivity(goToAddParkingPlaces);
@@ -464,5 +466,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         loadParkingPlaces();
 
         isShowingOwnParkingPlaces = false;
+    }
+
+    public void bookParking(View view) {
+        BookParking toBeAddedBookPArking = new BookParking();
+        toBeAddedBookPArking.setEnd_datetime();
+        toBeAddedBookPArking.setStart_datetime();
+        mApiService.bookParking(toBeAddedBookPArking).sub
     }
 }

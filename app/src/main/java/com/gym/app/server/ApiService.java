@@ -4,10 +4,11 @@ import com.gym.app.data.inovmodel.User;
 import com.gym.app.data.model.AtTheGym;
 import com.gym.app.data.model.AuthBody;
 import com.gym.app.data.model.Availability;
+import com.gym.app.data.model.BookParking;
 import com.gym.app.data.model.Car;
 import com.gym.app.data.model.CarBody;
+import com.gym.app.data.model.ParkPlaceBody;
 import com.gym.app.data.model.JWT;
-import com.gym.app.data.model.LoginResponse;
 import com.gym.app.data.model.ParkPlace;
 import com.gym.app.data.model.Product;
 
@@ -50,6 +51,9 @@ public interface ApiService {
                                                             @Query("start_datetime") String startDateTime,
                                                             @Query("end_datetime") String endDateTime);
 
+    @POST("park_spots")
+    Observable< ParkPlace > addParkingSpot(@Body ParkPlaceBody parkPlaceBody);
+
     @GET("user/park_spots")
     Observable<List<ParkPlace>> getOwnParkingPlaces();
 
@@ -64,6 +68,9 @@ public interface ApiService {
 
     @GET("user/cars")
     Observable< List<Car> > getCars();
+
+    @POST("park_spots/{id}/book")
+    Completable bookParking(@Body BookParking bookParking, @Path("id") int parkSpotId);
 
 
     @FormUrlEncoded
