@@ -130,7 +130,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
         mSupportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.home_map);
         mSupportMapFragment.getMapAsync(this);
-
+        timeFilterDialogFragment=new TimeFilterDialogFragment();
 //        Intent history = new Intent(this, ParkingHistory.class);
 //        startActivity(history);
 
@@ -471,10 +471,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     public void bookParking(View view) {
-        BookParking toBeAddedBookPArking = new BookParking();
-        toBeAddedBookPArking.setEnd_datetime();
-        toBeAddedBookPArking.setStart_datetime();
-        mApiService.bookParking(toBeAddedBookPArking).sub
+       
     }
 
     public void goToParkingHistory(View view) {
