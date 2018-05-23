@@ -6,6 +6,7 @@ apply plugin: 'com.android.application'
 
 repositories {
     maven { url 'https://maven.google.com' }
+    maven { url 'https://jitpack.io' }
 }
 
 ext {
@@ -21,13 +22,14 @@ ext {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.gym.app"
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 3
         versionName "3.0"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -48,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     compile "com.android.support:appcompat-v7:$androidLibraryVersion"
     compile "com.android.support:cardview-v7:$androidLibraryVersion"
     compile "com.android.support:design:$androidLibraryVersion"
@@ -69,9 +72,15 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$glideVersion"
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'id.zelory:compressor:2.1.0'
+    compile 'com.google.android.gms:play-services-places:10.2.1'
     compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
+    compile 'com.patloew.rxlocation:rxlocation:1.0.4'
+    compile 'com.google.android.gms:play-services-maps:10.2.1'
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+    compile 'com.github.BlackBoxVision:datetimepicker-edittext:v0.3.3'
+    compile 'net.sf.biweekly:biweekly:0.6.2'
+    compile 'com.android.support:multidex:1.0.1'
 }

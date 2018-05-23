@@ -1,5 +1,6 @@
 package com.gym.app.parts.authentication;
 
+import com.gym.app.data.model.JWT;
 import com.gym.app.data.model.LoginResponse;
 
 /**
@@ -11,7 +12,7 @@ import com.gym.app.data.model.LoginResponse;
 
 interface AuthenticationView {
 
-    void showLoginResponse(LoginResponse loginResponse);
+    void showLoginResponse(JWT loginResponse);
 
     void showError(Throwable throwable);
 }

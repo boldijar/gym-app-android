@@ -3,9 +3,6 @@ package com.gym.app.server;
 
 import android.app.Application;
 
-import com.gym.app.data.Prefs;
-import com.gym.app.parts.authentication.AuthenticationActivity;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -30,20 +27,9 @@ public class NetworkInterceptor implements Interceptor {
         final Request original = chain.request();
 
         Request.Builder builder = original.newBuilder();
-        String token = Prefs.Token.get();
-        if (token != null) {
-            builder = builder.header("Authorization", "Bearer " + Prefs.Token.get());
-        }
-
+        builder = builder.header("Authorization",
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MjY3NDgwMzAsInN1YiI6NDV9.5lt4QSUIQzQM60yTGF31tLTjxuvueUrRrmFdKcj_zfI");
         Response response = chain.proceed(builder.build());
-        if (response.code() == 401) {
-            Prefs.Token.put(null);
-            Prefs.Role.put(null);
-            mApplication.startActivity(AuthenticationActivity.createExpiredTokenIntent(mApplication));
-        }
-        if (!response.isSuccessful()) {
-            throw new ServerException(response.message(), response.code());
-        }
         return response;
     }
 }

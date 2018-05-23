@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 public enum Prefs {
 
-    Token, Role, IsAtGym, ScannedSuccessfully, NotificationsEnabled, SubscribedToNewsLetter;
+    Token, Role, IsAtGym, ScannedSuccessfully, NotificationsEnabled, SubscribedToNewsLetter, Latitude("46.7730533"), Longitude("23.589607");
 
     Prefs(String defaultValue) {
         mDefaultValue = defaultValue;
@@ -71,5 +71,13 @@ public enum Prefs {
             return defaultValue;
         }
         return Integer.valueOf(value);
+    }
+
+    public double getDouble(double defaultValue) {
+        String value = get();
+        if (value == null) {
+            return defaultValue;
+        }
+        return Double.valueOf(value);
     }
 }
